@@ -96,7 +96,7 @@ export default {
   }
 }
 ```
-## gridRoll
+## grid-roll
 
 > Prop
 

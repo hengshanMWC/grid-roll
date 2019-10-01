@@ -63,13 +63,6 @@ module.exports = merge(baseConfig, {
         options: {
           sourceMap: false
         }
-      }, {
-        loader: 'sass-resources-loader',
-        options: {
-          resources: [
-            resolve('/src/styles/mixin.scss')
-          ]
-        }
       }
       ]
     }]
