@@ -15,7 +15,7 @@ import { gridRoll, gridStart, gridPrize } from 'dial-sudoku'
 ```
 # demo
 
-### [在线demo page预览](https://github.com/hengshanMWC/dial-sudoku/dist/index.html#/index)
+### [在线demo page预览](https://hengshanmwc.github.io/dial-sudoku/dist/index.html)
 
 ```html
 <template>
