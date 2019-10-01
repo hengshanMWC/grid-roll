@@ -1,18 +1,18 @@
-# linaUi
+# dial-sudoku
 宫格抽奖(目前只能是9个)
 
-# 安装
+<!-- # 安装
 ```bash
 npm i dial-sudoku -S
 yarn add dial-sudoku
-```
+``` -->
 
-# 引入
+<!-- # 引入
 ```javascript
 /** 引入 */
 import { gridRoll, gridStart, gridPrize } from 'dial-sudoku'
 
-```
+``` -->
 # demo
 
 ### [在线demo page预览](https://hengshanmwc.github.io/dial-sudoku/dist/index.html)
