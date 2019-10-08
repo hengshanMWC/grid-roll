@@ -11,7 +11,7 @@ yarn add grid-roll
 ```javascript
 /** 引入 */
 import { gridRoll, gridStart, gridPrize } from 'grid-roll'
-
+import 'grid-roll/dist/grid-roll.min.css'
 ```
 # demo
 
