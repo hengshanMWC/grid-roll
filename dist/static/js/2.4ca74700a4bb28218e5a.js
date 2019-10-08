@@ -57,6 +57,12 @@ module.exports = _defineProperty;
 
 /***/ }),
 /* 17 */
+/***/ (function(module) {
+
+module.exports = JSON.parse("{\"a\":\"0.0.4\"}");
+
+/***/ }),
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -66,7 +72,7 @@ module.exports = _defineProperty;
  /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_roll_vue_vue_type_style_index_0_id_6b94f2ce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76,7 +82,7 @@ module.exports = _defineProperty;
  /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_start_vue_vue_type_style_index_0_id_3f904714_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -86,7 +92,7 @@ module.exports = _defineProperty;
  /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_prize_vue_vue_type_style_index_0_id_07ad7426_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -96,7 +102,7 @@ module.exports = _defineProperty;
  /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_a83bd3b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -179,6 +185,9 @@ var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerat
 var defineProperty = __webpack_require__(16);
 var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
 
+// EXTERNAL MODULE: ./package.json
+var package_0 = __webpack_require__(17);
+
 // CONCATENATED MODULE: ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./src/components/grid-roll/grid-roll.vue?vue&type=template&id=6b94f2ce&scoped=true&
 var grid_rollvue_type_template_id_6b94f2ce_scoped_true_render = function() {
   var _vm = this
@@ -212,8 +221,6 @@ grid_rollvue_type_template_id_6b94f2ce_scoped_true_render._withStripped = true
 //
 //
 //
-var NUM = 9;
-var BUTTONINDEX = 4;
 var time;
 /* harmony default export */ var grid_rollvue_type_script_lang_js_ = ({
   name: 'grid-roll',
@@ -259,7 +266,7 @@ var time;
       return this.direction === 'r' ? [0, 1, 2, 4, 7, 6, 5, 3] : [0, 3, 5, 6, 7, 4, 2, 1];
     },
     changeNum: function changeNum() {
-      return this.circle * 8 + 1;
+      return this.circle * this.prizes.length + 1;
     }
   },
   mounted: function mounted() {
@@ -274,12 +281,11 @@ var time;
       var _this = this;
 
       this.$nextTick(function () {
-        _this.filterDom();
+        _this.filterDom(); // if (!(this.prizes.length === NUM - 1 && this.start)) {
+        //   console.warn('九宫格的children没有准备好')
+        //   return
+        // }
 
-        if (!(_this.prizes.length === NUM - 1 && _this.start)) {
-          console.warn('九宫格的children没有准备好');
-          return;
-        }
 
         _this.setContainerSize();
 
@@ -311,7 +317,7 @@ var time;
     insertContainer: function insertContainer() {
       var fragment = document.createDocumentFragment();
 
-      for (var i = 0; i < NUM - 1; i++) {
+      for (var i = 0; i < this.prizes.length; i++) {
         var v = this.prizes[i];
         var el = void 0;
 
@@ -322,7 +328,7 @@ var time;
         fragment.appendChild(el);
       }
 
-      fragment.insertBefore(this.start.$el, fragment.childNodes[BUTTONINDEX]);
+      fragment.insertBefore(this.start.$el, fragment.childNodes[this.prizes.length / 2]);
       this.$refs.container.appendChild(fragment);
     },
 
@@ -397,7 +403,7 @@ var time;
 // CONCATENATED MODULE: ./src/components/grid-roll/grid-roll.vue?vue&type=script&lang=js&
  /* harmony default export */ var grid_roll_grid_rollvue_type_script_lang_js_ = (grid_rollvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./src/components/grid-roll/grid-roll.vue?vue&type=style&index=0&id=6b94f2ce&lang=scss&scoped=true&
-var grid_rollvue_type_style_index_0_id_6b94f2ce_lang_scss_scoped_true_ = __webpack_require__(17);
+var grid_rollvue_type_style_index_0_id_6b94f2ce_lang_scss_scoped_true_ = __webpack_require__(18);
 
 // EXTERNAL MODULE: ./node_modules/vue-loader/lib/runtime/componentNormalizer.js
 var componentNormalizer = __webpack_require__(4);
@@ -453,7 +459,7 @@ grid_startvue_type_template_id_3f904714_scoped_true_render._withStripped = true
 // CONCATENATED MODULE: ./src/components/grid-roll/grid-start.vue?vue&type=script&lang=js&
  /* harmony default export */ var grid_roll_grid_startvue_type_script_lang_js_ = (grid_startvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./src/components/grid-roll/grid-start.vue?vue&type=style&index=0&id=3f904714&lang=scss&scoped=true&
-var grid_startvue_type_style_index_0_id_3f904714_lang_scss_scoped_true_ = __webpack_require__(18);
+var grid_startvue_type_style_index_0_id_3f904714_lang_scss_scoped_true_ = __webpack_require__(19);
 
 // CONCATENATED MODULE: ./src/components/grid-roll/grid-start.vue
 
@@ -486,7 +492,10 @@ var grid_prizevue_type_template_id_07ad7426_scoped_true_render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "prize", style: { boxShadow: _vm.shadow } },
+    {
+      staticClass: "prize",
+      style: { boxShadow: _vm.shadow, zIndex: _vm.zIndex }
+    },
     [_vm._t("default")],
     2
   )
@@ -526,6 +535,9 @@ grid_prizevue_type_template_id_07ad7426_scoped_true_render._withStripped = true
   computed: {
     shadow: function shadow() {
       return this.isSel ? this.boxShadow : '';
+    },
+    zIndex: function zIndex() {
+      return this.isSel ? 10000 : '';
     }
   },
   methods: {
@@ -537,7 +549,7 @@ grid_prizevue_type_template_id_07ad7426_scoped_true_render._withStripped = true
 // CONCATENATED MODULE: ./src/components/grid-roll/grid-prize.vue?vue&type=script&lang=js&
  /* harmony default export */ var grid_roll_grid_prizevue_type_script_lang_js_ = (grid_prizevue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./src/components/grid-roll/grid-prize.vue?vue&type=style&index=0&id=07ad7426&lang=scss&scoped=true&
-var grid_prizevue_type_style_index_0_id_07ad7426_lang_scss_scoped_true_ = __webpack_require__(19);
+var grid_prizevue_type_style_index_0_id_07ad7426_lang_scss_scoped_true_ = __webpack_require__(20);
 
 // CONCATENATED MODULE: ./src/components/grid-roll/grid-prize.vue
 
@@ -574,6 +586,21 @@ grid_prize_component.options.__file = "src/components/grid-roll/grid-prize.vue"
   gridStart: grid_start,
   gridPrize: grid_prize
 });
+// CONCATENATED MODULE: ./src/index.js
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+
+
+/* harmony default export */ var src = (_objectSpread({
+  version: package_0["a" /* version */]
+}, components_grid_roll));
+var gridRoll = components_grid_roll.gridRoll;
+var gridStart = components_grid_roll.gridStart;
+var gridPrize = components_grid_roll.gridPrize;
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--1!./node_modules/vue-loader/lib??vue-loader-options!./src/views/index.vue?vue&type=script&lang=js&
 
 
@@ -633,7 +660,7 @@ var _components;
       }]
     };
   },
-  components: (_components = {}, defineProperty_default()(_components, grid_roll.name, grid_roll), defineProperty_default()(_components, grid_start.name, grid_start), defineProperty_default()(_components, grid_prize.name, grid_prize), _components),
+  components: (_components = {}, defineProperty_default()(_components, gridRoll.name, gridRoll), defineProperty_default()(_components, gridStart.name, gridStart), defineProperty_default()(_components, gridPrize.name, gridPrize), _components),
   methods: {
     handleStart: function () {
       var _handleStart = asyncToGenerator_default()(
@@ -677,7 +704,7 @@ var _components;
 // CONCATENATED MODULE: ./src/views/index.vue?vue&type=script&lang=js&
  /* harmony default export */ var src_viewsvue_type_script_lang_js_ = (viewsvue_type_script_lang_js_); 
 // EXTERNAL MODULE: ./src/views/index.vue?vue&type=style&index=0&id=a83bd3b0&lang=scss&scoped=true&
-var viewsvue_type_style_index_0_id_a83bd3b0_lang_scss_scoped_true_ = __webpack_require__(20);
+var viewsvue_type_style_index_0_id_a83bd3b0_lang_scss_scoped_true_ = __webpack_require__(21);
 
 // CONCATENATED MODULE: ./src/views/index.vue
 

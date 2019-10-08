@@ -15324,7 +15324,7 @@ if (inBrowser && window.Vue) {
   path: '/index',
   name: '首页',
   component: function component(resolve) {
-    __webpack_require__.e(/* AMD require */ 2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(21)]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
+    __webpack_require__.e(/* AMD require */ 2).then(function() { var __WEBPACK_AMD_REQUIRE_ARRAY__ = [__webpack_require__(22)]; (resolve).apply(null, __WEBPACK_AMD_REQUIRE_ARRAY__);}.bind(this)).catch(__webpack_require__.oe);
   }
 }]);
 // CONCATENATED MODULE: ./src/router/index.js
