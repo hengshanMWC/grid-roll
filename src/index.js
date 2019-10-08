@@ -1,8 +1,10 @@
 import { version } from '../package.json'
 
-import gridRoll from '@/components/grid-roll'
-
+import gridRollIndex from '@/components/grid-roll'
 export default {
   version,
-  ...gridRoll
+  ...gridRollIndex
 }
+export let gridRoll = gridRollIndex.gridRoll
+export let gridStart = gridRollIndex.gridStart
+export let gridPrize = gridRollIndex.gridPrize

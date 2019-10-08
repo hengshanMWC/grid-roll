@@ -1,8 +1,8 @@
 {
-  "name": "dial-sudoku",
-  "version": "0.0.1",
+  "name": "grid-roll",
+  "version": "0.0.4",
   "description": "宫格抽奖(目前只能是9个)",
-  "main": "dist/dial-sudoku.min.js",
+  "main": "dist/grid-roll.min.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "build": "webpack --progress --config build/webpack.prod.conf.js",
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hengshanMWC/dial-sudoku"
+    "url": "git+https://github.com/hengshanMWC/grid-roll"
   },
   "author": "mwc",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/guanlinwu/dial-sudoku.git/issues"
+    "url": "https://github.com/guanlinwu/grid-roll.git/issues"
   },
-  "homepage": "https://github.com/guanlinwu/dial-sudoku.git#readme",
+  "homepage": "https://github.com/guanlinwu/grid-roll.git#readme",
   "dependencies": {
     "vue": "^2.6.8",
     "vue-router": "^3.0.6"

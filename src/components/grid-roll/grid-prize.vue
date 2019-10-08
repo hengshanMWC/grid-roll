@@ -1,5 +1,5 @@
 <template>
-  <div class="prize" :style="{boxShadow: shadow}">
+  <div class="prize" :style="{boxShadow: shadow, zIndex: zIndex}">
     <slot></slot>
   </div>
 </template>
@@ -27,6 +27,9 @@ export default {
   computed: {
     shadow () {
       return this.isSel ? this.boxShadow : ''
+    },
+    zIndex () {
+      return this.isSel ? 10000 : ''
     }
   },
   methods: {

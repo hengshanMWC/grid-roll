@@ -1,21 +1,21 @@
-# dial-sudoku
+# grid-roll
 宫格抽奖(目前只能是9个)
 
-<!-- # 安装
+# 安装
 ```bash
-npm i dial-sudoku -S
-yarn add dial-sudoku
-``` -->
+npm i grid-roll -S
+yarn add grid-roll
+```
 
-<!-- # 引入
+# 引入
 ```javascript
 /** 引入 */
-import { gridRoll, gridStart, gridPrize } from 'dial-sudoku'
-
-``` -->
+import { gridRoll, gridStart, gridPrize } from 'grid-roll'
+import 'grid-roll/dist/grid-roll.min.css'
+```
 # demo
 
-### [在线demo page预览](https://hengshanmwc.github.io/dial-sudoku/dist/index.html)
+### [在线demo page预览](https://hengshanmwc.github.io/grid-roll/dist/index.html)
 
 ```html
 <template>
@@ -86,9 +86,12 @@ export default {
     [gridPrize.name]: gridPrize
   },
   methods: {
-    async handleStart () {
+     async handleStart () {
       let b = await this.$refs.dial.startRoll(14)
-      alert('恭喜你抽了个奖')
+      console.log(b)
+      if (b) {
+        alert('恭喜你抽了个奖')
+      }
     },
     handleUnderway (index) {
       console.log('进行中到' + index)
@@ -118,7 +121,8 @@ export default {
 
 | 名称        |  说明   |  参数  |  回调参数  |
 | --------   |  :----:  | :-----:  | :----:  |
-| startRoll     |  抽奖	 | 九宫格奖品下标，如果有grid-prize设置了pid则按根据id来索引 |true表示完成, false表示进行中  |
+| startRoll     |  抽奖	 | 宫格奖品下标，如果有grid-prize设置了pid则按根据id来索引 |true表示完成, false表示进行中  |
+| initDom     |  初始化抽奖格局	 | 内部会自动调用一次，但如果碰到一些意外的情况，例如屏幕尺寸变化，可以再次调用 | - |
 
 ## grid-prize
 
@@ -126,5 +130,5 @@ export default {
 
 | 名称        | 说明   |  类型  | 默认值 |
 | --------   | -----:  | :----:  | :----:  |
-| boxShadow     | 滚动的box-shadow |   String  | #eaa665 0 0 8px 2px |
+| boxShadow     | 滚动选中的box-shadow |   String  | #eaa665 0 0 8px 2px |
 | pid   |    唯一标识，startRoll会根据这个去选择结束目标	  |  any  | - |
