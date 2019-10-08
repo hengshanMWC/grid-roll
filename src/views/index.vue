@@ -100,6 +100,7 @@ export default {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    background: #fff;
     p {
       flex: 1 1 200px;
     }

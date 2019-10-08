@@ -9,8 +9,6 @@
 </template>
 
 <script>
-const NUM = 9
-const BUTTONINDEX = 4
 let time
 export default {
   name: 'grid-roll',
@@ -53,7 +51,7 @@ export default {
       ]
     },
     changeNum () {
-      return this.circle * 8 + 1
+      return this.circle * this.prizes.length + 1
     }
   },
   mounted () {
@@ -67,10 +65,10 @@ export default {
     initDom () {
       this.$nextTick(() => {
         this.filterDom()
-        if (!(this.prizes.length === NUM - 1 && this.start)) {
-          console.warn('九宫格的children没有准备好')
-          return
-        }
+        // if (!(this.prizes.length === NUM - 1 && this.start)) {
+        //   console.warn('九宫格的children没有准备好')
+        //   return
+        // }
         this.setContainerSize()
         this.insertContainer()
       })
@@ -95,7 +93,7 @@ export default {
     // 插入dom
     insertContainer () {
       const fragment = document.createDocumentFragment()
-      for (let i = 0; i < NUM - 1; i++) {
+      for (let i = 0; i < this.prizes.length; i++) {
         let v = this.prizes[i]
         let el
         if (v.$options.componentName === 'grid-prize') {
@@ -103,7 +101,7 @@ export default {
         }
         fragment.appendChild(el)
       }
-      fragment.insertBefore(this.start.$el, fragment.childNodes[BUTTONINDEX])
+      fragment.insertBefore(this.start.$el, fragment.childNodes[this.prizes.length / 2])
       this.$refs.container.appendChild(fragment)
     },
     /**
