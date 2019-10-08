@@ -1,21 +1,21 @@
-# dial-sudoku
+# grid-roll
 宫格抽奖(目前只能是9个)
 
 <!-- # 安装
 ```bash
-npm i dial-sudoku -S
-yarn add dial-sudoku
+npm i grid-roll -S
+yarn add grid-roll
 ``` -->
 
 <!-- # 引入
 ```javascript
 /** 引入 */
-import { gridRoll, gridStart, gridPrize } from 'dial-sudoku'
+import { gridRoll, gridStart, gridPrize } from 'grid-roll'
 
 ``` -->
 # demo
 
-### [在线demo page预览](https://hengshanmwc.github.io/dial-sudoku/dist/index.html)
+### [在线demo page预览](https://hengshanmwc.github.io/grid-roll/dist/index.html)
 
 ```html
 <template>
