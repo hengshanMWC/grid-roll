@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { gridRoll, gridStart, gridPrize } from '@/components/grid-roll'
+import { gridRoll, gridStart, gridPrize } from '@/index'
 export default {
   name: 'demo-dialSudoku',
   data () {
