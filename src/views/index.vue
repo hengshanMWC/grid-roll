@@ -86,14 +86,14 @@ export default {
   padding: 0;
 }
 .demo-dialSudoku {
-  margin-top: 20px;
+  margin-top: 20px; // 40
   display: flex;
   justify-content: center;
   .demo-box {
     width: 200px;
     height: 200px;
-    text-align: center;
     font-size: 42px;
+    text-align: center;
     font-weight: 600;
     border: 5px solid #ddd;
     display: flex;
