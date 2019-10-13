@@ -12,9 +12,24 @@
 /* 10 */,
 /* 11 */,
 /* 12 */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-// extracted by mini-css-extract-plugin
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
+module.exports = _defineProperty;
 
 /***/ }),
 /* 13 */
@@ -36,24 +51,9 @@
 
 /***/ }),
 /* 16 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-module.exports = _defineProperty;
+// extracted by mini-css-extract-plugin
 
 /***/ }),
 /* 17 */
@@ -66,7 +66,7 @@ module.exports = JSON.parse("{\"a\":\"0.0.4\"}");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_roll_vue_vue_type_style_index_0_id_6b94f2ce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(12);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_roll_vue_vue_type_style_index_0_id_6b94f2ce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
 /* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_roll_vue_vue_type_style_index_0_id_6b94f2ce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_roll_vue_vue_type_style_index_0_id_6b94f2ce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
  /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_roll_vue_vue_type_style_index_0_id_6b94f2ce_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
@@ -76,7 +76,7 @@ module.exports = JSON.parse("{\"a\":\"0.0.4\"}");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_start_vue_vue_type_style_index_0_id_3f904714_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(13);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_start_vue_vue_type_style_index_0_id_3f904714_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
 /* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_start_vue_vue_type_style_index_0_id_3f904714_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_start_vue_vue_type_style_index_0_id_3f904714_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
  /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_start_vue_vue_type_style_index_0_id_3f904714_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
@@ -86,7 +86,7 @@ module.exports = JSON.parse("{\"a\":\"0.0.4\"}");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_prize_vue_vue_type_style_index_0_id_07ad7426_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(14);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_prize_vue_vue_type_style_index_0_id_07ad7426_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
 /* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_prize_vue_vue_type_style_index_0_id_07ad7426_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_prize_vue_vue_type_style_index_0_id_07ad7426_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
  /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_grid_prize_vue_vue_type_style_index_0_id_07ad7426_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
@@ -96,7 +96,7 @@ module.exports = JSON.parse("{\"a\":\"0.0.4\"}");
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_a83bd3b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(15);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_a83bd3b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(16);
 /* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_a83bd3b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_a83bd3b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
 /* unused harmony reexport * */
  /* unused harmony default export */ var _unused_webpack_default_export = (_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ref_5_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_5_2_node_modules_sass_loader_dist_cjs_js_ref_5_3_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_a83bd3b0_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default.a); 
@@ -119,6 +119,7 @@ var render = function() {
     [
       _c("grid-roll", {
         ref: "dial",
+        attrs: { direction: "l" },
         on: { underway: _vm.handleUnderway },
         scopedSlots: _vm._u([
           {
@@ -182,7 +183,7 @@ var asyncToGenerator = __webpack_require__(5);
 var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerator);
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/defineProperty.js
-var defineProperty = __webpack_require__(16);
+var defineProperty = __webpack_require__(12);
 var defineProperty_default = /*#__PURE__*/__webpack_require__.n(defineProperty);
 
 // EXTERNAL MODULE: ./package.json
@@ -211,6 +212,12 @@ grid_rollvue_type_template_id_6b94f2ce_scoped_true_render._withStripped = true
 // CONCATENATED MODULE: ./src/components/grid-roll/grid-roll.vue?vue&type=template&id=6b94f2ce&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--1!./node_modules/vue-loader/lib??vue-loader-options!./src/components/grid-roll/grid-roll.vue?vue&type=script&lang=js&
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 //
 //
 //
@@ -226,6 +233,10 @@ var time;
   name: 'grid-roll',
   componentName: 'grid-roll',
   props: {
+    coord: {
+      type: String,
+      default: '3*3'
+    },
     interval: {
       type: String,
       default: '12px' // 间隔
@@ -261,16 +272,95 @@ var time;
     };
   },
   computed: {
+    xy: function xy() {
+      return this.coord;
+    },
+    x: function x() {
+      return Number(this.xy.split('*')[0]);
+    },
+    y: function y() {
+      return Number(this.xy.split('*')[1]);
+    },
     // 滚动方向， 是因为九宫格排序不是0,1,2,3.。这样
+    // sudokuArrayIndex () {
+    //   return this.direction === 'r' ? [
+    //     0, 1, 2, 4, 7, 6, 5, 3
+    //   ] : [
+    //     0, 3, 5, 6, 7, 4, 2, 1
+    //   ]
+    // },
+    brim: function brim() {
+      return this.direction === 'r' ? [{
+        direction: 'x',
+        value: 1
+      }, {
+        direction: 'y',
+        value: 1
+      }, {
+        direction: 'x',
+        value: -1
+      }, {
+        direction: 'y',
+        value: -1
+      }] : [{
+        direction: 'y',
+        value: 1
+      }, {
+        direction: 'x',
+        value: 1
+      }, {
+        direction: 'y',
+        value: -1
+      }, {
+        direction: 'x',
+        value: -1
+      }];
+    },
+    advances: function advances() {
+      var _this = this;
+
+      var obj = {
+        x: 0,
+        y: 0
+      };
+      var i = 0;
+      var reverse = this.brim[i];
+      var value = this[reverse.direction];
+      return this.prizes.map(function (prize, index) {
+        if (index !== 0) {
+          obj[reverse.direction] += reverse.value;
+        }
+
+        value--;
+
+        if (value === 0) {
+          i++;
+          reverse = _this.brim[i];
+          value = _this[reverse.direction] - 1;
+        }
+
+        return _objectSpread({}, obj);
+      });
+    },
     sudokuArrayIndex: function sudokuArrayIndex() {
-      return this.direction === 'r' ? [0, 1, 2, 4, 7, 6, 5, 3] : [0, 3, 5, 6, 7, 4, 2, 1];
+      var _this2 = this;
+
+      return this.prizes.map(function (prize, index) {
+        var advance = _this2.advances[index];
+        return _this2.prizes.findIndex(function (prize) {
+          return prize.$options.x === advance.x && prize.$options.y === advance.y;
+        });
+      });
     },
     changeNum: function changeNum() {
       return this.circle * this.prizes.length + 1;
     }
   },
   mounted: function mounted() {
-    this.initDom();
+    this.$watch('coord', this.initDom, {
+      immediate: true
+    });
+    window.a = this;
   },
   beforeDestroy: function beforeDestroy() {
     clearTimeout(time);
@@ -278,18 +368,16 @@ var time;
   methods: {
     // 初始化布局
     initDom: function initDom() {
-      var _this = this;
+      var _this3 = this;
 
       this.$nextTick(function () {
-        _this.filterDom(); // if (!(this.prizes.length === NUM - 1 && this.start)) {
-        //   console.warn('九宫格的children没有准备好')
-        //   return
-        // }
+        _this3.filterDom();
 
+        _this3.setCoordinates();
 
-        _this.setContainerSize();
+        _this3.setContainerSize();
 
-        _this.insertContainer();
+        _this3.insertContainer();
       });
     },
     // 筛选好dom
@@ -301,17 +389,39 @@ var time;
         return children.$options.componentName === 'grid-start';
       });
     },
+    // 设置坐标
+    setCoordinates: function setCoordinates() {
+      var _this4 = this;
+
+      var startxy = {
+        x: Math.floor(this.x / 2),
+        y: Math.floor(this.y / 2)
+      };
+      this.start.$options.x = startxy.x;
+      this.start.$options.y = startxy.y;
+      var x = 0;
+      var y = 0;
+      this.prizes.forEach(function (prize) {
+        if (x === startxy.x && y === startxy.y) {
+          x++;
+        }
+
+        prize.$options.x = x++;
+        prize.$options.y = y;
+
+        if (x === _this4.x) {
+          x = 0;
+          y++;
+        }
+      });
+    },
     // 修改width和height
     setContainerSize: function setContainerSize() {
-      var offsetWidth = this.getCalc('offsetWidth');
-      var offsetHeight = this.getCalc('offsetHeight');
+      var offsetWidth = this.getCalc('offsetWidth', this.x);
+      var offsetHeight = this.getCalc('offsetHeight', this.y);
       var container = this.$refs.container;
       container.style.width = offsetWidth;
       container.style.height = offsetHeight;
-    },
-    // 获得size
-    getCalc: function getCalc(size) {
-      return "calc(".concat(this.prizes[0].$el[size] * 3, "px + ").concat(this.interval, ")");
     },
     // 插入dom
     insertContainer: function insertContainer() {
@@ -331,13 +441,17 @@ var time;
       fragment.insertBefore(this.start.$el, fragment.childNodes[this.prizes.length / 2]);
       this.$refs.container.appendChild(fragment);
     },
+    // 获得size
+    getCalc: function getCalc(size, num) {
+      return "calc(".concat(this.prizes[0].$el[size] * num, "px + ").concat(this.interval, ")");
+    },
 
     /**
      * 开始滚动
      * @param {Number} 滚动到的目标
      */
     startRoll: function startRoll(index) {
-      var _this2 = this;
+      var _this5 = this;
 
       if (this.resolve) {
         this.$emit('underway', this.currentIndex);
@@ -345,10 +459,42 @@ var time;
       }
 
       return new Promise(function (resolve) {
-        _this2.resolve = resolve;
+        _this5.resolve = resolve;
+        console.log(_this5.getIndex(index));
 
-        _this2.underway(_this2.changeNum + _this2.getIndex(index));
+        _this5.underway(_this5.changeNum + _this5.getIndex(index));
       });
+    },
+
+    /**
+     * 核心内容
+     * @param {Number} 次数
+    */
+    underway: function underway(number) {
+      var _this6 = this;
+
+      clearTimeout(time);
+
+      if (number <= 0) {
+        this.resolve(true);
+        this.resolve = null;
+        this.currentIndex = this.startIndex;
+        return;
+      }
+
+      if (this.currentIndex > this.prizes.length - 1) {
+        this.currentIndex = 0;
+      }
+
+      var target = this.sudokuArrayIndex[this.currentIndex++];
+      var dom = this.prizes[target];
+      dom.setIsSel(true);
+      --number;
+      time = setTimeout(function () {
+        dom.setIsSel(false);
+
+        _this6.underway(number);
+      }, this.velocity / number);
     },
 
     /**
@@ -363,40 +509,9 @@ var time;
         });
       }
 
-      return this.sudokuArrayIndex.find(function (i) {
+      return this.sudokuArrayIndex.findIndex(function (i) {
         return i === index;
       });
-    },
-
-    /**
-     * 核心内容
-     * @param {Number} 次数
-    */
-    underway: function underway(number) {
-      var _this3 = this;
-
-      clearTimeout(time);
-
-      if (number <= 0) {
-        this.resolve(true);
-        this.resolve = null;
-        this.currentIndex = this.startIndex;
-        return;
-      }
-
-      if (this.currentIndex > 7) {
-        this.currentIndex = 0;
-      }
-
-      var target = this.sudokuArrayIndex[this.currentIndex++];
-      var dom = this.prizes[target];
-      dom.setIsSel(true);
-      --number;
-      time = setTimeout(function () {
-        dom.setIsSel(false);
-
-        _this3.underway(number);
-      }, this.velocity / number);
     }
   }
 });
@@ -589,13 +704,13 @@ grid_prize_component.options.__file = "src/components/grid-roll/grid-prize.vue"
 // CONCATENATED MODULE: ./src/index.js
 
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+function src_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function src_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { src_ownKeys(source, true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { src_ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 
 
-/* harmony default export */ var src = (_objectSpread({
+/* harmony default export */ var src = (src_objectSpread({
   version: package_0["a" /* version */]
 }, components_grid_roll));
 var gridRoll = components_grid_roll.gridRoll;
