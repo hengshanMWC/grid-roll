@@ -1,6 +1,6 @@
 <template>
   <div class="demo-dialSudoku">
-    <grid-roll ref="dial" @underway="handleUnderway">
+    <grid-roll ref="dial" @underway="handleUnderway" direction="l">
       <template #button>
         <grid-start>
           <div @click="handleStart" class="demo-box button-box">按钮</div>
