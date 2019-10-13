@@ -14,6 +14,10 @@ export default {
   name: 'grid-roll',
   componentName: 'grid-roll',
   props: {
+    coord: {
+      type: String,
+      default: '3*3'
+    },
     interval: {
       type: String,
       default: '12px' // 间隔
@@ -38,24 +42,91 @@ export default {
   data () {
     return {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
-      currentIndex: this.startIndex // 当前转动的下标
+      currentIndex: this.startIndex, // 当前转动的下标
+      sudokuArrayIndex: []
     }
   },
   computed: {
+    brim () {
+      return this.direction === 'r'
+        ? [
+          {
+            direction: 'x',
+            value: 1
+          }, {
+            direction: 'y',
+            value: 1
+          }, {
+            direction: 'x',
+            value: -1
+          }, {
+            direction: 'y',
+            value: -1
+          }]
+        : [
+          {
+            direction: 'y',
+            value: 1
+          }, {
+            direction: 'x',
+            value: 1
+          }, {
+            direction: 'y',
+            value: -1
+          }, {
+            direction: 'x',
+            value: -1
+          }]
+    },
+    xy () {
+      return this.coord
+    },
+    x () {
+      return Number(this.xy.split('*')[0])
+    },
+    y () {
+      return Number(this.xy.split('*')[1])
+    },
     // 滚动方向， 是因为九宫格排序不是0,1,2,3.。这样
-    sudokuArrayIndex () {
-      return this.direction === 'r' ? [
-        0, 1, 2, 4, 7, 6, 5, 3
-      ] : [
-        0, 3, 5, 6, 7, 4, 2, 1
-      ]
+    // sudokuArrayIndex () {
+    //   return this.direction === 'r' ? [
+    //     0, 1, 2, 4, 7, 6, 5, 3
+    //   ] : [
+    //     0, 3, 5, 6, 7, 4, 2, 1
+    //   ]
+    // },
+    advances () {
+      let obj = {
+        x: 0,
+        y: 0
+      }
+      let i = 0
+      let reverse = this.brim[i]
+      let value = this[reverse.direction]
+      return this.prizes.map((prize, index) => {
+        if (index !== 0) {
+          obj[reverse.direction] += reverse.value
+        }
+        value--
+        if (value === 0) {
+          i++
+          reverse = this.brim[i]
+          value = this[reverse.direction] - 1
+        }
+        return {
+          ...obj
+        }
+      })
     },
     changeNum () {
       return this.circle * this.prizes.length + 1
     }
   },
   mounted () {
-    this.initDom()
+    this.$watch('coord', this.initDom, {
+      immediate: true
+    })
+    window.a = this
   },
   beforeDestroy () {
     clearTimeout(time)
@@ -65,10 +136,8 @@ export default {
     initDom () {
       this.$nextTick(() => {
         this.filterDom()
-        // if (!(this.prizes.length === NUM - 1 && this.start)) {
-        //   console.warn('九宫格的children没有准备好')
-        //   return
-        // }
+        this.setCoordinates()
+        this.createSudokuArrayIndex()
         this.setContainerSize()
         this.insertContainer()
       })
@@ -78,17 +147,41 @@ export default {
       this.prizes = this.$children.filter(children => children.$options.componentName === 'grid-prize')
       this.start = this.$children.find(children => children.$options.componentName === 'grid-start')
     },
+    // 设置坐标
+    setCoordinates () {
+      let startxy = {
+        x: Math.floor(this.x / 2),
+        y: Math.floor(this.y / 2)
+      }
+      this.start.$options.x = startxy.x
+      this.start.$options.y = startxy.y
+      let x = 0
+      let y = 0
+      this.prizes.forEach(prize => {
+        if (x === startxy.x && y === startxy.y) {
+          x++
+        }
+        prize.$options.x = x++
+        prize.$options.y = y
+        if (x === this.x) {
+          x = 0
+          y++
+        }
+      })
+    },
+    createSudokuArrayIndex () {
+      this.sudokuArrayIndex = this.prizes.map((prize, index) => {
+        let advance = this.advances[index]
+        return this.prizes.findIndex(prize => prize.$options.x === advance.x && prize.$options.y === advance.y)
+      })
+    },
     // 修改width和height
     setContainerSize () {
-      let offsetWidth = this.getCalc('offsetWidth')
-      let offsetHeight = this.getCalc('offsetHeight')
+      let offsetWidth = this.getCalc('offsetWidth', this.x)
+      let offsetHeight = this.getCalc('offsetHeight', this.y)
       let container = this.$refs.container
       container.style.width = offsetWidth
       container.style.height = offsetHeight
-    },
-    // 获得size
-    getCalc (size) {
-      return `calc(${this.prizes[0].$el[size] * 3}px + ${this.interval})`
     },
     // 插入dom
     insertContainer () {
@@ -103,6 +196,10 @@ export default {
       }
       fragment.insertBefore(this.start.$el, fragment.childNodes[this.prizes.length / 2])
       this.$refs.container.appendChild(fragment)
+    },
+    // 获得size
+    getCalc (size, num) {
+      return `calc(${this.prizes[0].$el[size] * num}px + ${this.interval})`
     },
     /**
      * 开始滚动
@@ -119,17 +216,6 @@ export default {
       })
     },
     /**
-     * 获取宫格下标
-     * @param {any} index 宫格下标或者标识符
-     * @returns {Number} 宫格下标
-     */
-    getIndex (index) {
-      if (this.prizes[0].pid !== undefined) {
-        index = this.prizes.findIndex(prize => prize.pid === index)
-      }
-      return this.sudokuArrayIndex.find(i => i === index)
-    },
-    /**
      * 核心内容
      * @param {Number} 次数
     */
@@ -141,7 +227,7 @@ export default {
         this.currentIndex = this.startIndex
         return
       }
-      if (this.currentIndex > 7) {
+      if (this.currentIndex > this.prizes.length - 1) {
         this.currentIndex = 0
       }
       let target = this.sudokuArrayIndex[this.currentIndex++]
@@ -152,6 +238,17 @@ export default {
         dom.setIsSel(false)
         this.underway(number)
       }, this.velocity / number)
+    },
+    /**
+     * 获取宫格下标
+     * @param {any} index 宫格下标或者标识符
+     * @returns {Number} 宫格下标
+     */
+    getIndex (index) {
+      if (this.prizes[0].pid !== undefined) {
+        index = this.prizes.findIndex(prize => prize.pid === index)
+      }
+      return this.sudokuArrayIndex.find(i => i === index)
     }
   }
 }
