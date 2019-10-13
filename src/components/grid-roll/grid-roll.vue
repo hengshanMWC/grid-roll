@@ -42,11 +42,27 @@ export default {
   data () {
     return {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
-      currentIndex: this.startIndex, // 当前转动的下标
-      sudokuArrayIndex: []
+      currentIndex: this.startIndex // 当前转动的下标
     }
   },
   computed: {
+    xy () {
+      return this.coord
+    },
+    x () {
+      return Number(this.xy.split('*')[0])
+    },
+    y () {
+      return Number(this.xy.split('*')[1])
+    },
+    // 滚动方向， 是因为九宫格排序不是0,1,2,3.。这样
+    // sudokuArrayIndex () {
+    //   return this.direction === 'r' ? [
+    //     0, 1, 2, 4, 7, 6, 5, 3
+    //   ] : [
+    //     0, 3, 5, 6, 7, 4, 2, 1
+    //   ]
+    // },
     brim () {
       return this.direction === 'r'
         ? [
@@ -78,23 +94,6 @@ export default {
             value: -1
           }]
     },
-    xy () {
-      return this.coord
-    },
-    x () {
-      return Number(this.xy.split('*')[0])
-    },
-    y () {
-      return Number(this.xy.split('*')[1])
-    },
-    // 滚动方向， 是因为九宫格排序不是0,1,2,3.。这样
-    // sudokuArrayIndex () {
-    //   return this.direction === 'r' ? [
-    //     0, 1, 2, 4, 7, 6, 5, 3
-    //   ] : [
-    //     0, 3, 5, 6, 7, 4, 2, 1
-    //   ]
-    // },
     advances () {
       let obj = {
         x: 0,
@@ -118,6 +117,12 @@ export default {
         }
       })
     },
+    sudokuArrayIndex () {
+      return this.prizes.map((prize, index) => {
+        let advance = this.advances[index]
+        return this.prizes.findIndex(prize => prize.$options.x === advance.x && prize.$options.y === advance.y)
+      })
+    },
     changeNum () {
       return this.circle * this.prizes.length + 1
     }
@@ -137,7 +142,6 @@ export default {
       this.$nextTick(() => {
         this.filterDom()
         this.setCoordinates()
-        this.createSudokuArrayIndex()
         this.setContainerSize()
         this.insertContainer()
       })
@@ -167,12 +171,6 @@ export default {
           x = 0
           y++
         }
-      })
-    },
-    createSudokuArrayIndex () {
-      this.sudokuArrayIndex = this.prizes.map((prize, index) => {
-        let advance = this.advances[index]
-        return this.prizes.findIndex(prize => prize.$options.x === advance.x && prize.$options.y === advance.y)
       })
     },
     // 修改width和height
@@ -212,6 +210,7 @@ export default {
       }
       return new Promise(resolve => {
         this.resolve = resolve
+        console.log(this.getIndex(index))
         this.underway(this.changeNum + this.getIndex(index))
       })
     },
@@ -248,7 +247,7 @@ export default {
       if (this.prizes[0].pid !== undefined) {
         index = this.prizes.findIndex(prize => prize.pid === index)
       }
-      return this.sudokuArrayIndex.find(i => i === index)
+      return this.sudokuArrayIndex.findIndex(i => i === index)
     }
   }
 }
