@@ -1,20 +1,37 @@
 <template>
   <div class="demo-dialSudoku">
-    <grid-roll ref="dial" @underway="handleUnderway" direction="l" :x="4" :y="4">
-      <template #button>
-        <grid-start>
-          <div @click="handleStart" class="demo-box button-box">按钮</div>
-        </grid-start>
-      </template>
-      <template #prize>
-        <grid-prize v-for="(item, index) in items" :key="index" boxShadow="red 0 0 12px 4px" :pid="item.id">
-          <div class="demo-box">
-            <p>id：{{item.id}}</p>
-            <p>text：{{item.text}}</p>
-          </div>
-        </grid-prize>
-      </template>
-    </grid-roll>
+    <div>
+      <grid-roll ref="dial" @underway="handleUnderway" class="box" :startIndex="1">
+        <template #button>
+          <grid-start>
+            <div @click="handleStart" class="demo-box button-box">按钮</div>
+          </grid-start>
+        </template>
+        <template #prize>
+          <grid-prize v-for="(item, index) in items" :key="index">
+            <div class="demo-box">
+              <p>id：{{item.id}}</p>
+              <p>text：{{item.text}}</p>
+            </div>
+          </grid-prize>
+        </template>
+      </grid-roll>
+      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="5*4" class="box" :startIndex="10">
+        <template #button>
+          <grid-start>
+            <div @click="handleStart2" class="demo-box2 button-box2">按钮</div>
+          </grid-start>
+        </template>
+        <template #prize>
+          <grid-prize v-for="(item, index) in items2" :key="index" boxShadow="#eaa665 0 0 8px 2px" :pid="item.id">
+            <div class="demo-box2">
+              <p>id：{{item.id}}</p>
+              <p>text：{{item.text}}</p>
+            </div>
+          </grid-prize>
+        </template>
+      </grid-roll>
+    </div>
   </div>
 </template>
 
@@ -24,7 +41,8 @@ export default {
   name: 'demo-dialSudoku',
   data () {
     return {
-      items: []
+      items: [],
+      items2: []
     }
   },
   components: {
@@ -34,23 +52,41 @@ export default {
   },
   created () {
     let arr = []
-    for (let i = 0; i < 12; i++) {
+    for (let i = 0; i < 8; i++) {
       arr.push({
         id: i,
         text: i
       })
     }
     this.items = arr
+    arr = []
+    for (let i = 0; i < 14; i++) {
+      arr.push({
+        id: i,
+        text: i
+      })
+    }
+    this.items2 = arr
   },
   methods: {
     async handleStart () {
-      let b = await this.$refs.dial.startRoll(7)
+      let b = await this.$refs.dial.startRoll(3)
       console.log(b)
       if (b) {
         alert('恭喜你抽了个奖')
       }
     },
     handleUnderway (index) {
+      console.log('进行中到' + index)
+    },
+    async handleStart2 () {
+      let b = await this.$refs.dial2.startRoll(7)
+      console.log(b)
+      if (b) {
+        alert('恭喜你抽了个奖')
+      }
+    },
+    handleUnderway2 (index) {
       console.log('进行中到' + index)
     }
   }
@@ -65,10 +101,33 @@ $size: 200px * $zoom;
   padding: 0;
 }
 .demo-dialSudoku {
-  margin-top: 20px * $zoom; // 40
-  display: flex;
-  justify-content: center;
+  .box {
+    margin-top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
   .demo-box {
+    width: 150px;
+    height: 150px;
+    font-size: 32px;
+    text-align: center;
+    font-weight: 600;
+    border: 5px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #fff;
+    p {
+      flex: 1 1 150px;
+    }
+  }
+  .button-box {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+  }
+  .demo-box2 {
     width: $size;
     height: $size;
     font-size: 42px * $zoom;
@@ -84,9 +143,9 @@ $size: 200px * $zoom;
       flex: 1 1 $size;
     }
   }
-  .button-box {
+  .button-box2 {
     border-radius: 50%;
-    width: 200px;
+    width: 300px;
     height: 200px;
   }
 }

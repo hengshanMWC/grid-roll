@@ -10,21 +10,18 @@
 
 <script>
 let time
+let startIndex = () => {}
 export default {
   name: 'grid-roll',
   componentName: 'grid-roll',
   props: {
-    x: {
-      type: Number,
-      default: 3
-    },
-    y: {
-      type: Number,
-      default: 3
+    xy: {
+      type: String,
+      default: '3*3'
     },
     interval: {
       type: String,
-      default: '12px' // 间隔
+      default: '8px' // 间隔
     },
     startIndex: {
       type: Number,
@@ -46,10 +43,19 @@ export default {
   data () {
     return {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
-      currentIndex: this.startIndex // 当前转动的下标
+      currentIndex: 0 // 当前转动的下标
     }
   },
   computed: {
+    x () {
+      return Number(this.xy.split('*')[0])
+    },
+    y () {
+      return Number(this.xy.split('*')[1])
+    },
+    isPid () {
+      return this.prizes[0] && this.prizes[0].pid !== undefined
+    },
     buttonxy () {
       return {
         maxX: this.x - 2,
@@ -129,7 +135,7 @@ export default {
     }
   },
   mounted () {
-    this.$watch('coord', this.initDom, {
+    this.$watch('xy', this.initDom, {
       immediate: true
     })
   },
@@ -143,7 +149,13 @@ export default {
         this.filterDom()
         this.setCoordinates()
         this.setContainerSize()
-        this.insertContainer()
+        startIndex()
+        startIndex = this.$watch('startIndex', function (startIndex) {
+          this.currentIndex = this.getIndex(startIndex)
+        }, {
+          immediate: true
+        })
+        // this.insertContainer()
       })
     },
     // 筛选好dom
@@ -159,9 +171,11 @@ export default {
         if (this.buttonInside(x, y)) {
           x += this.buttonxy.maxX
         }
-        prize.$options.x = x++
+        prize.$options.x = x
         prize.$options.y = y
-        if (x === this.x) {
+        prize.$el.style.left = this.getCalc('offsetWidth', x, x)
+        prize.$el.style.top = this.getCalc('offsetHeight', y, y)
+        if (++x === this.x) {
           x = 0
           y++
         }
@@ -169,29 +183,29 @@ export default {
     },
     // 修改width和height
     setContainerSize () {
-      let offsetWidth = this.getCalc('offsetWidth', this.x)
-      let offsetHeight = this.getCalc('offsetHeight', this.y)
+      let offsetWidth = this.getCalc('offsetWidth', this.x, this.x - 1)
+      let offsetHeight = this.getCalc('offsetHeight', this.y, this.y - 1)
       let container = this.$refs.container
       container.style.width = offsetWidth
       container.style.height = offsetHeight
     },
     // 插入dom
-    insertContainer () {
-      const fragment = document.createDocumentFragment()
-      for (let i = 0; i < this.prizes.length; i++) {
-        let v = this.prizes[i]
-        let el
-        if (v.$options.componentName === 'grid-prize') {
-          el = v.$el
-        }
-        fragment.appendChild(el)
-      }
-      fragment.insertBefore(this.start.$el, fragment.childNodes[this.x + 1])
-      this.$refs.container.appendChild(fragment)
-    },
+    // insertContainer () {
+    //   const fragment = document.createDocumentFragment()
+    //   for (let i = 0; i < this.prizes.length; i++) {
+    //     let v = this.prizes[i]
+    //     let el
+    //     if (v.$options.componentName === 'grid-prize') {
+    //       el = v.$el
+    //     }
+    //     fragment.appendChild(el)
+    //   }
+    //   fragment.insertBefore(this.start.$el, fragment.childNodes[this.x + 1])
+    //   this.$refs.container.appendChild(fragment)
+    // },
     // 获得size
-    getCalc (size, num) {
-      return `calc(${this.prizes[0].$el[size] * num}px + ${this.interval})`
+    getCalc (size, num, intervalNum) {
+      return `calc(${this.prizes[0].$el[size] * num}px + ${this.interval} * ${intervalNum})`
     },
     buttonInside (x, y) {
       return (x > 0 && x <= this.buttonxy.maxX) && (y > 0 && y <= this.buttonxy.maxY)
@@ -207,7 +221,8 @@ export default {
       }
       return new Promise(resolve => {
         this.resolve = resolve
-        this.underway(this.changeNum + this.getIndex(index))
+        let num = this.isPid ? this.currentIndex : 0
+        this.underway(this.changeNum + this.getIndex(index) - num)
       })
     },
     /**
@@ -240,10 +255,11 @@ export default {
      * @returns {Number} 宫格下标
      */
     getIndex (index) {
-      if (this.prizes[0].pid !== undefined) {
+      if (this.isPid) {
         index = this.prizes.findIndex(prize => prize.pid === index)
+        index = this.sudokuArrayIndex.findIndex(i => i === index)
       }
-      return this.sudokuArrayIndex.findIndex(i => i === index)
+      return index
     }
   }
 }
@@ -252,11 +268,12 @@ export default {
 <style lang="scss" scoped>
 .dialSudoku {
   display: inline-block;
+  position: relative;
   .dialSudoku-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
+    // display: flex;
+    // flex-wrap: wrap;
+    // justify-content: space-between;
+    // align-items: center;
   }
 }
 </style>
