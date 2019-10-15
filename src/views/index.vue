@@ -1,6 +1,6 @@
 <template>
   <div class="demo-dialSudoku">
-    <grid-roll ref="dial" @underway="handleUnderway" direction="l">
+    <grid-roll ref="dial" @underway="handleUnderway" direction="l" :x="4" :y="4">
       <template #button>
         <grid-start>
           <div @click="handleStart" class="demo-box button-box">按钮</div>
@@ -24,40 +24,7 @@ export default {
   name: 'demo-dialSudoku',
   data () {
     return {
-      items: [
-        {
-          id: 0,
-          text: '0'
-        },
-        {
-          id: 1,
-          text: '1'
-        },
-        {
-          id: 14,
-          text: '2'
-        },
-        {
-          id: 10,
-          text: '3'
-        },
-        {
-          id: 20,
-          text: '4'
-        },
-        {
-          id: 21,
-          text: '5'
-        },
-        {
-          id: 19,
-          text: '6'
-        },
-        {
-          id: 22,
-          text: '7'
-        }
-      ]
+      items: []
     }
   },
   components: {
@@ -65,9 +32,19 @@ export default {
     [gridStart.name]: gridStart,
     [gridPrize.name]: gridPrize
   },
+  created () {
+    let arr = []
+    for (let i = 0; i < 12; i++) {
+      arr.push({
+        id: i,
+        text: i
+      })
+    }
+    this.items = arr
+  },
   methods: {
     async handleStart () {
-      let b = await this.$refs.dial.startRoll(14)
+      let b = await this.$refs.dial.startRoll(7)
       console.log(b)
       if (b) {
         alert('恭喜你抽了个奖')
@@ -81,32 +58,36 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$zoom: .5;
+$size: 200px * $zoom;
 * {
   margin: 0;
   padding: 0;
 }
 .demo-dialSudoku {
-  margin-top: 20px; // 40
+  margin-top: 20px * $zoom; // 40
   display: flex;
   justify-content: center;
   .demo-box {
-    width: 200px;
-    height: 200px;
-    font-size: 42px;
+    width: $size;
+    height: $size;
+    font-size: 42px * $zoom;
     text-align: center;
     font-weight: 600;
-    border: 5px solid #ddd;
+    border: 5px * $zoom solid #ddd;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     background: #fff;
     p {
-      flex: 1 1 200px;
+      flex: 1 1 $size;
     }
   }
   .button-box {
     border-radius: 50%;
+    width: 200px;
+    height: 200px;
   }
 }
 </style>

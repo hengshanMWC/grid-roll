@@ -14,9 +14,13 @@ export default {
   name: 'grid-roll',
   componentName: 'grid-roll',
   props: {
-    coord: {
-      type: String,
-      default: '3*3'
+    x: {
+      type: Number,
+      default: 3
+    },
+    y: {
+      type: Number,
+      default: 3
     },
     interval: {
       type: String,
@@ -24,7 +28,7 @@ export default {
     },
     startIndex: {
       type: Number,
-      default: 0 // 开始的下标
+      default: 0 // 开始的下标或者
     },
     direction: {
       type: String,
@@ -46,14 +50,11 @@ export default {
     }
   },
   computed: {
-    xy () {
-      return this.coord
-    },
-    x () {
-      return Number(this.xy.split('*')[0])
-    },
-    y () {
-      return Number(this.xy.split('*')[1])
+    buttonxy () {
+      return {
+        maxX: this.x - 2,
+        maxY: this.y - 2
+      }
     },
     // 滚动方向， 是因为九宫格排序不是0,1,2,3.。这样
     // sudokuArrayIndex () {
@@ -131,7 +132,6 @@ export default {
     this.$watch('coord', this.initDom, {
       immediate: true
     })
-    window.a = this
   },
   beforeDestroy () {
     clearTimeout(time)
@@ -153,17 +153,11 @@ export default {
     },
     // 设置坐标
     setCoordinates () {
-      let startxy = {
-        x: Math.floor(this.x / 2),
-        y: Math.floor(this.y / 2)
-      }
-      this.start.$options.x = startxy.x
-      this.start.$options.y = startxy.y
       let x = 0
       let y = 0
       this.prizes.forEach(prize => {
-        if (x === startxy.x && y === startxy.y) {
-          x++
+        if (this.buttonInside(x, y)) {
+          x += this.buttonxy.maxX
         }
         prize.$options.x = x++
         prize.$options.y = y
@@ -192,12 +186,15 @@ export default {
         }
         fragment.appendChild(el)
       }
-      fragment.insertBefore(this.start.$el, fragment.childNodes[this.prizes.length / 2])
+      fragment.insertBefore(this.start.$el, fragment.childNodes[this.x + 1])
       this.$refs.container.appendChild(fragment)
     },
     // 获得size
     getCalc (size, num) {
       return `calc(${this.prizes[0].$el[size] * num}px + ${this.interval})`
+    },
+    buttonInside (x, y) {
+      return (x > 0 && x <= this.buttonxy.maxX) && (y > 0 && y <= this.buttonxy.maxY)
     },
     /**
      * 开始滚动
@@ -210,7 +207,6 @@ export default {
       }
       return new Promise(resolve => {
         this.resolve = resolve
-        console.log(this.getIndex(index))
         this.underway(this.changeNum + this.getIndex(index))
       })
     },
