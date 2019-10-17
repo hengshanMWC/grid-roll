@@ -59,7 +59,7 @@ module.exports = _defineProperty;
 /* 17 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"a\":\"1.0.1\"}");
+module.exports = JSON.parse("{\"a\":\"1.0.2\"}");
 
 /***/ }),
 /* 18 */
@@ -275,8 +275,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 //
 //
 //
-var time;
-
 var startIndex = function startIndex() {};
 
 /* harmony default export */ var grid_rollvue_type_script_lang_js_ = ({
@@ -317,8 +315,9 @@ var startIndex = function startIndex() {};
     return {
       resolve: null,
       // 用来储存Promise的resolve，并进行判断是否进行中
-      currentIndex: 0 // 当前转动的下标
-
+      currentIndex: 0,
+      // 当前转动的下标
+      $time: null
     };
   },
   computed: {
@@ -410,7 +409,7 @@ var startIndex = function startIndex() {};
     });
   },
   beforeDestroy: function beforeDestroy() {
-    clearTimeout(time);
+    clearTimeout(this.$time);
   },
   methods: {
     // 初始化布局
@@ -506,7 +505,7 @@ var startIndex = function startIndex() {};
     underway: function underway(number) {
       var _this6 = this;
 
-      clearTimeout(time);
+      clearTimeout(this.$time);
 
       if (number <= 0) {
         this.resolve(true);
@@ -523,7 +522,7 @@ var startIndex = function startIndex() {};
       var dom = this.prizes[target];
       dom.setIsSel(true);
       --number;
-      time = setTimeout(function () {
+      this.$time = setTimeout(function () {
         dom.setIsSel(false);
 
         _this6.underway(number);
