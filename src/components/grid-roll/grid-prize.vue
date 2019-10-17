@@ -11,7 +11,7 @@ export default {
   props: {
     boxShadow: {
       type: String,
-      default: '#eaa665 0 0 8px 2px'
+      default: 'red 0 0 12px 4px'
     },
     pid: {
       validator () {
@@ -29,7 +29,7 @@ export default {
       return this.isSel ? this.boxShadow : ''
     },
     zIndex () {
-      return this.isSel ? 10000 : ''
+      return this.isSel ? 10 : ''
     }
   },
   methods: {
@@ -44,5 +44,6 @@ export default {
 .prize {
   z-index: 1;
   display: inline-block;
+  position: absolute;
 }
 </style>
