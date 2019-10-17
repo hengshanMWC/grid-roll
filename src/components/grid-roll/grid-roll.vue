@@ -9,7 +9,6 @@
 </template>
 
 <script>
-let time
 let startIndex = () => {}
 export default {
   name: 'grid-roll',
@@ -43,7 +42,8 @@ export default {
   data () {
     return {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
-      currentIndex: 0 // 当前转动的下标
+      currentIndex: 0, // 当前转动的下标
+      $time: null
     }
   },
   computed: {
@@ -132,7 +132,7 @@ export default {
     })
   },
   beforeDestroy () {
-    clearTimeout(time)
+    clearTimeout(this.$time)
   },
   methods: {
     // 初始化布局
@@ -207,7 +207,7 @@ export default {
      * @param {Number} 次数
     */
     underway (number) {
-      clearTimeout(time)
+      clearTimeout(this.$time)
       if (number <= 0) {
         this.resolve(true)
         this.resolve = null
@@ -221,7 +221,7 @@ export default {
       let dom = this.prizes[target]
       dom.setIsSel(true)
       --number
-      time = setTimeout(() => {
+      this.$time = setTimeout(() => {
         dom.setIsSel(false)
         this.underway(number)
       }, this.velocity / number)
