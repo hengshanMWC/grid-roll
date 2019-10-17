@@ -59,7 +59,7 @@ module.exports = _defineProperty;
 /* 17 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"a\":\"0.0.4\"}");
+module.exports = JSON.parse("{\"a\":\"1.0.1\"}");
 
 /***/ }),
 /* 18 */
@@ -113,60 +113,107 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "demo-dialSudoku" },
-    [
-      _c("grid-roll", {
-        ref: "dial",
-        attrs: { direction: "l" },
-        on: { underway: _vm.handleUnderway },
-        scopedSlots: _vm._u([
-          {
-            key: "button",
-            fn: function() {
-              return [
-                _c("grid-start", [
-                  _c(
-                    "div",
-                    {
-                      staticClass: "demo-box button-box",
-                      on: { click: _vm.handleStart }
-                    },
-                    [_vm._v("按钮")]
-                  )
-                ])
-              ]
+  return _c("div", { staticClass: "demo-dialSudoku" }, [
+    _c(
+      "div",
+      [
+        _c("grid-roll", {
+          ref: "dial",
+          staticClass: "box",
+          on: { underway: _vm.handleUnderway },
+          scopedSlots: _vm._u([
+            {
+              key: "button",
+              fn: function() {
+                return [
+                  _c("grid-start", [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "demo-box button-box",
+                        on: { click: _vm.handleStart }
+                      },
+                      [_vm._v("按钮")]
+                    )
+                  ])
+                ]
+              },
+              proxy: true
             },
-            proxy: true
-          },
-          {
-            key: "prize",
-            fn: function() {
-              return _vm._l(_vm.items, function(item, index) {
-                return _c(
-                  "grid-prize",
-                  {
-                    key: index,
-                    attrs: { boxShadow: "red 0 0 12px 4px", pid: item.id }
-                  },
-                  [
+            {
+              key: "prize",
+              fn: function() {
+                return _vm._l(_vm.items, function(item, index) {
+                  return _c("grid-prize", { key: index }, [
                     _c("div", { staticClass: "demo-box" }, [
                       _c("p", [_vm._v("id：" + _vm._s(item.id))]),
                       _vm._v(" "),
                       _c("p", [_vm._v("text：" + _vm._s(item.text))])
                     ])
-                  ]
-                )
-              })
+                  ])
+                })
+              },
+              proxy: true
+            }
+          ])
+        }),
+        _vm._v(" "),
+        _c("p", [_vm._v("基本九宫格")]),
+        _vm._v(" "),
+        _c("grid-roll", {
+          ref: "dial2",
+          staticClass: "box",
+          attrs: { direction: "l", xy: "6*5", startIndex: 10 },
+          on: { underway: _vm.handleUnderway2 },
+          scopedSlots: _vm._u([
+            {
+              key: "button",
+              fn: function() {
+                return [
+                  _c("grid-start", [
+                    _c(
+                      "div",
+                      {
+                        staticClass: "demo-box2 button-box2",
+                        on: { click: _vm.handleStart2 }
+                      },
+                      [_vm._v("按钮")]
+                    )
+                  ])
+                ]
+              },
+              proxy: true
             },
-            proxy: true
-          }
-        ])
-      })
-    ],
-    1
-  )
+            {
+              key: "prize",
+              fn: function() {
+                return _vm._l(_vm.items2, function(item, index) {
+                  return _c(
+                    "grid-prize",
+                    {
+                      key: index,
+                      attrs: { boxShadow: "#eaa665 0 0 8px 2px", pid: item.id }
+                    },
+                    [
+                      _c("div", { staticClass: "demo-box2" }, [
+                        _c("p", [_vm._v("id：" + _vm._s(item.id))]),
+                        _vm._v(" "),
+                        _c("p", [_vm._v("text：" + _vm._s(item.text))])
+                      ])
+                    ]
+                  )
+                })
+              },
+              proxy: true
+            }
+          ])
+        }),
+        _vm._v(" "),
+        _c("p", [_vm._v("自定义宫格：6*5")])
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -229,22 +276,25 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 //
 //
 var time;
+
+var startIndex = function startIndex() {};
+
 /* harmony default export */ var grid_rollvue_type_script_lang_js_ = ({
   name: 'grid-roll',
   componentName: 'grid-roll',
   props: {
-    coord: {
+    xy: {
       type: String,
       default: '3*3'
     },
     interval: {
       type: String,
-      default: '12px' // 间隔
+      default: '8px' // 间隔
 
     },
     startIndex: {
       type: Number,
-      default: 0 // 开始的下标
+      default: 0 // 开始的下标或者
 
     },
     direction: {
@@ -267,28 +317,26 @@ var time;
     return {
       resolve: null,
       // 用来储存Promise的resolve，并进行判断是否进行中
-      currentIndex: this.startIndex // 当前转动的下标
+      currentIndex: 0 // 当前转动的下标
 
     };
   },
   computed: {
-    xy: function xy() {
-      return this.coord;
-    },
     x: function x() {
       return Number(this.xy.split('*')[0]);
     },
     y: function y() {
       return Number(this.xy.split('*')[1]);
     },
-    // 滚动方向， 是因为九宫格排序不是0,1,2,3.。这样
-    // sudokuArrayIndex () {
-    //   return this.direction === 'r' ? [
-    //     0, 1, 2, 4, 7, 6, 5, 3
-    //   ] : [
-    //     0, 3, 5, 6, 7, 4, 2, 1
-    //   ]
-    // },
+    isPid: function isPid() {
+      return this.prizes[0] && this.prizes[0].pid !== undefined;
+    },
+    buttonxy: function buttonxy() {
+      return {
+        maxX: this.x - 2,
+        maxY: this.y - 2
+      };
+    },
     brim: function brim() {
       return this.direction === 'r' ? [{
         direction: 'x',
@@ -357,10 +405,9 @@ var time;
     }
   },
   mounted: function mounted() {
-    this.$watch('coord', this.initDom, {
+    this.$watch('xy', this.initDom, {
       immediate: true
     });
-    window.a = this;
   },
   beforeDestroy: function beforeDestroy() {
     clearTimeout(time);
@@ -377,7 +424,12 @@ var time;
 
         _this3.setContainerSize();
 
-        _this3.insertContainer();
+        startIndex();
+        startIndex = _this3.$watch('startIndex', function (startIndex) {
+          this.currentIndex = this.getIndex(startIndex);
+        }, {
+          immediate: true
+        });
       });
     },
     // 筛选好dom
@@ -393,23 +445,19 @@ var time;
     setCoordinates: function setCoordinates() {
       var _this4 = this;
 
-      var startxy = {
-        x: Math.floor(this.x / 2),
-        y: Math.floor(this.y / 2)
-      };
-      this.start.$options.x = startxy.x;
-      this.start.$options.y = startxy.y;
       var x = 0;
       var y = 0;
       this.prizes.forEach(function (prize) {
-        if (x === startxy.x && y === startxy.y) {
-          x++;
+        if (_this4.buttonInside(x, y)) {
+          x += _this4.buttonxy.maxX;
         }
 
-        prize.$options.x = x++;
+        prize.$options.x = x;
         prize.$options.y = y;
+        prize.$el.style.left = _this4.getCalc('offsetWidth', x, x);
+        prize.$el.style.top = _this4.getCalc('offsetHeight', y, y);
 
-        if (x === _this4.x) {
+        if (++x === _this4.x) {
           x = 0;
           y++;
         }
@@ -417,33 +465,18 @@ var time;
     },
     // 修改width和height
     setContainerSize: function setContainerSize() {
-      var offsetWidth = this.getCalc('offsetWidth', this.x);
-      var offsetHeight = this.getCalc('offsetHeight', this.y);
+      var offsetWidth = this.getCalc('offsetWidth', this.x, this.x - 1);
+      var offsetHeight = this.getCalc('offsetHeight', this.y, this.y - 1);
       var container = this.$refs.container;
       container.style.width = offsetWidth;
       container.style.height = offsetHeight;
     },
-    // 插入dom
-    insertContainer: function insertContainer() {
-      var fragment = document.createDocumentFragment();
-
-      for (var i = 0; i < this.prizes.length; i++) {
-        var v = this.prizes[i];
-        var el = void 0;
-
-        if (v.$options.componentName === 'grid-prize') {
-          el = v.$el;
-        }
-
-        fragment.appendChild(el);
-      }
-
-      fragment.insertBefore(this.start.$el, fragment.childNodes[this.prizes.length / 2]);
-      this.$refs.container.appendChild(fragment);
-    },
     // 获得size
-    getCalc: function getCalc(size, num) {
-      return "calc(".concat(this.prizes[0].$el[size] * num, "px + ").concat(this.interval, ")");
+    getCalc: function getCalc(size, num, intervalNum) {
+      return "calc(".concat(this.prizes[0].$el[size] * num, "px + ").concat(this.interval, " * ").concat(intervalNum, ")");
+    },
+    buttonInside: function buttonInside(x, y) {
+      return x > 0 && x <= this.buttonxy.maxX && y > 0 && y <= this.buttonxy.maxY;
     },
 
     /**
@@ -454,15 +487,15 @@ var time;
       var _this5 = this;
 
       if (this.resolve) {
-        this.$emit('underway', this.currentIndex);
+        this.$emit('underway');
         return false;
       }
 
       return new Promise(function (resolve) {
         _this5.resolve = resolve;
-        console.log(_this5.getIndex(index));
+        var num = _this5.isPid ? _this5.currentIndex : 0;
 
-        _this5.underway(_this5.changeNum + _this5.getIndex(index));
+        _this5.underway(_this5.changeNum + _this5.getIndex(index) - num);
       });
     },
 
@@ -503,15 +536,16 @@ var time;
      * @returns {Number} 宫格下标
      */
     getIndex: function getIndex(index) {
-      if (this.prizes[0].pid !== undefined) {
+      if (this.isPid) {
         index = this.prizes.findIndex(function (prize) {
           return prize.pid === index;
         });
+        index = this.sudokuArrayIndex.findIndex(function (i) {
+          return i === index;
+        });
       }
 
-      return this.sudokuArrayIndex.findIndex(function (i) {
-        return i === index;
-      });
+      return index;
     }
   }
 });
@@ -634,7 +668,7 @@ grid_prizevue_type_template_id_07ad7426_scoped_true_render._withStripped = true
   props: {
     boxShadow: {
       type: String,
-      default: '#eaa665 0 0 8px 2px'
+      default: 'red 0 0 12px 4px'
     },
     pid: {
       validator: function validator() {
@@ -652,7 +686,7 @@ grid_prizevue_type_template_id_07ad7426_scoped_true_render._withStripped = true
       return this.isSel ? this.boxShadow : '';
     },
     zIndex: function zIndex() {
-      return this.isSel ? 10000 : '';
+      return this.isSel ? 10 : '';
     }
   },
   methods: {
@@ -743,39 +777,57 @@ var _components;
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ var viewsvue_type_script_lang_js_ = ({
   name: 'demo-dialSudoku',
   data: function data() {
     return {
-      items: [{
-        id: 0,
-        text: '0'
-      }, {
-        id: 1,
-        text: '1'
-      }, {
-        id: 14,
-        text: '2'
-      }, {
-        id: 10,
-        text: '3'
-      }, {
-        id: 20,
-        text: '4'
-      }, {
-        id: 21,
-        text: '5'
-      }, {
-        id: 19,
-        text: '6'
-      }, {
-        id: 22,
-        text: '7'
-      }]
+      items: [],
+      items2: []
     };
   },
   components: (_components = {}, defineProperty_default()(_components, gridRoll.name, gridRoll), defineProperty_default()(_components, gridStart.name, gridStart), defineProperty_default()(_components, gridPrize.name, gridPrize), _components),
+  created: function created() {
+    var arr = [];
+
+    for (var i = 0; i < 8; i++) {
+      arr.push({
+        id: i,
+        text: i
+      });
+    }
+
+    this.items = arr;
+    arr = [];
+
+    for (var _i = 0; _i < 18; _i++) {
+      arr.push({
+        id: _i,
+        text: _i
+      });
+    }
+
+    this.items2 = arr;
+  },
   methods: {
     handleStart: function () {
       var _handleStart = asyncToGenerator_default()(
@@ -787,7 +839,7 @@ var _components;
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return this.$refs.dial.startRoll(14);
+                return this.$refs.dial.startRoll(3);
 
               case 2:
                 b = _context.sent;
@@ -811,8 +863,45 @@ var _components;
 
       return handleStart;
     }(),
-    handleUnderway: function handleUnderway(index) {
-      console.log('进行中到' + index);
+    handleUnderway: function handleUnderway() {
+      console.log('进行中');
+    },
+    handleStart2: function () {
+      var _handleStart2 = asyncToGenerator_default()(
+      /*#__PURE__*/
+      regenerator_default.a.mark(function _callee2() {
+        var b;
+        return regenerator_default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.$refs.dial2.startRoll(7);
+
+              case 2:
+                b = _context2.sent;
+                console.log(b);
+
+                if (b) {
+                  alert('恭喜你抽了个奖');
+                }
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function handleStart2() {
+        return _handleStart2.apply(this, arguments);
+      }
+
+      return handleStart2;
+    }(),
+    handleUnderway2: function handleUnderway2() {
+      console.log('进行中');
     }
   }
 });
