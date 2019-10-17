@@ -104,8 +104,8 @@ export default {
         alert('恭喜你抽了个奖')
       }
     },
-    handleUnderway (index) {
-      console.log('进行中到' + index)
+    handleUnderway () {
+      console.log('进行中')
     },
     async handleStart2 () {
       let b = await this.$refs.dial2.startRoll(7)
@@ -114,8 +114,8 @@ export default {
         alert('恭喜你抽了个奖')
       }
     },
-    handleUnderway2 (index) {
-      console.log('进行中到' + index)
+    handleUnderway2 () {
+      console.log('进行中')
     }
   }
 }
