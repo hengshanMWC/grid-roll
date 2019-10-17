@@ -10,21 +10,22 @@
 
 <script>
 let time
+let startIndex = () => {}
 export default {
   name: 'grid-roll',
   componentName: 'grid-roll',
   props: {
-    coord: {
+    xy: {
       type: String,
       default: '3*3'
     },
     interval: {
       type: String,
-      default: '12px' // 间隔
+      default: '8px' // 间隔
     },
     startIndex: {
       type: Number,
-      default: 0 // 开始的下标
+      default: 0 // 开始的下标或者
     },
     direction: {
       type: String,
@@ -42,27 +43,25 @@ export default {
   data () {
     return {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
-      currentIndex: this.startIndex // 当前转动的下标
+      currentIndex: 0 // 当前转动的下标
     }
   },
   computed: {
-    xy () {
-      return this.coord
-    },
     x () {
       return Number(this.xy.split('*')[0])
     },
     y () {
       return Number(this.xy.split('*')[1])
     },
-    // 滚动方向， 是因为九宫格排序不是0,1,2,3.。这样
-    // sudokuArrayIndex () {
-    //   return this.direction === 'r' ? [
-    //     0, 1, 2, 4, 7, 6, 5, 3
-    //   ] : [
-    //     0, 3, 5, 6, 7, 4, 2, 1
-    //   ]
-    // },
+    isPid () {
+      return this.prizes[0] && this.prizes[0].pid !== undefined
+    },
+    buttonxy () {
+      return {
+        maxX: this.x - 2,
+        maxY: this.y - 2
+      }
+    },
     brim () {
       return this.direction === 'r'
         ? [
@@ -128,10 +127,9 @@ export default {
     }
   },
   mounted () {
-    this.$watch('coord', this.initDom, {
+    this.$watch('xy', this.initDom, {
       immediate: true
     })
-    window.a = this
   },
   beforeDestroy () {
     clearTimeout(time)
@@ -143,7 +141,12 @@ export default {
         this.filterDom()
         this.setCoordinates()
         this.setContainerSize()
-        this.insertContainer()
+        startIndex()
+        startIndex = this.$watch('startIndex', function (startIndex) {
+          this.currentIndex = this.getIndex(startIndex)
+        }, {
+          immediate: true
+        })
       })
     },
     // 筛选好dom
@@ -153,21 +156,17 @@ export default {
     },
     // 设置坐标
     setCoordinates () {
-      let startxy = {
-        x: Math.floor(this.x / 2),
-        y: Math.floor(this.y / 2)
-      }
-      this.start.$options.x = startxy.x
-      this.start.$options.y = startxy.y
       let x = 0
       let y = 0
       this.prizes.forEach(prize => {
-        if (x === startxy.x && y === startxy.y) {
-          x++
+        if (this.buttonInside(x, y)) {
+          x += this.buttonxy.maxX
         }
-        prize.$options.x = x++
+        prize.$options.x = x
         prize.$options.y = y
-        if (x === this.x) {
+        prize.$el.style.left = this.getCalc('offsetWidth', x, x)
+        prize.$el.style.top = this.getCalc('offsetHeight', y, y)
+        if (++x === this.x) {
           x = 0
           y++
         }
@@ -175,29 +174,18 @@ export default {
     },
     // 修改width和height
     setContainerSize () {
-      let offsetWidth = this.getCalc('offsetWidth', this.x)
-      let offsetHeight = this.getCalc('offsetHeight', this.y)
+      let offsetWidth = this.getCalc('offsetWidth', this.x, this.x - 1)
+      let offsetHeight = this.getCalc('offsetHeight', this.y, this.y - 1)
       let container = this.$refs.container
       container.style.width = offsetWidth
       container.style.height = offsetHeight
     },
-    // 插入dom
-    insertContainer () {
-      const fragment = document.createDocumentFragment()
-      for (let i = 0; i < this.prizes.length; i++) {
-        let v = this.prizes[i]
-        let el
-        if (v.$options.componentName === 'grid-prize') {
-          el = v.$el
-        }
-        fragment.appendChild(el)
-      }
-      fragment.insertBefore(this.start.$el, fragment.childNodes[this.prizes.length / 2])
-      this.$refs.container.appendChild(fragment)
-    },
     // 获得size
-    getCalc (size, num) {
-      return `calc(${this.prizes[0].$el[size] * num}px + ${this.interval})`
+    getCalc (size, num, intervalNum) {
+      return `calc(${this.prizes[0].$el[size] * num}px + ${this.interval} * ${intervalNum})`
+    },
+    buttonInside (x, y) {
+      return (x > 0 && x <= this.buttonxy.maxX) && (y > 0 && y <= this.buttonxy.maxY)
     },
     /**
      * 开始滚动
@@ -205,13 +193,13 @@ export default {
      */
     startRoll (index) {
       if (this.resolve) {
-        this.$emit('underway', this.currentIndex)
+        this.$emit('underway')
         return false
       }
       return new Promise(resolve => {
         this.resolve = resolve
-        console.log(this.getIndex(index))
-        this.underway(this.changeNum + this.getIndex(index))
+        let num = this.isPid ? this.currentIndex : 0
+        this.underway(this.changeNum + this.getIndex(index) - num)
       })
     },
     /**
@@ -244,10 +232,11 @@ export default {
      * @returns {Number} 宫格下标
      */
     getIndex (index) {
-      if (this.prizes[0].pid !== undefined) {
+      if (this.isPid) {
         index = this.prizes.findIndex(prize => prize.pid === index)
+        index = this.sudokuArrayIndex.findIndex(i => i === index)
       }
-      return this.sudokuArrayIndex.findIndex(i => i === index)
+      return index
     }
   }
 }
@@ -256,11 +245,6 @@ export default {
 <style lang="scss" scoped>
 .dialSudoku {
   display: inline-block;
-  .dialSudoku-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-  }
+  position: relative;
 }
 </style>
