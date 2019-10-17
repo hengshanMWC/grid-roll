@@ -1,7 +1,7 @@
 <template>
   <div class="demo-dialSudoku">
     <div>
-      <grid-roll ref="dial" @underway="handleUnderway" class="box" :startIndex="1">
+      <grid-roll ref="dial" @underway="handleUnderway" class="box">
         <template #button>
           <grid-start>
             <div @click="handleStart" class="demo-box button-box">按钮</div>
@@ -78,8 +78,8 @@ export default {
         alert('恭喜你抽了个奖')
       }
     },
-    handleUnderway (index) {
-      console.log('进行中到' + index)
+    handleUnderway () {
+      console.log('进行中')
     },
     async handleStart2 () {
       let b = await this.$refs.dial2.startRoll(7)
@@ -88,8 +88,8 @@ export default {
         alert('恭喜你抽了个奖')
       }
     },
-    handleUnderway2 (index) {
-      console.log('进行中到' + index)
+    handleUnderway2 () {
+      console.log('进行中')
     }
   }
 }

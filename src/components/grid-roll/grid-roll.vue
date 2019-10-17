@@ -62,14 +62,6 @@ export default {
         maxY: this.y - 2
       }
     },
-    // 滚动方向， 是因为九宫格排序不是0,1,2,3.。这样
-    // sudokuArrayIndex () {
-    //   return this.direction === 'r' ? [
-    //     0, 1, 2, 4, 7, 6, 5, 3
-    //   ] : [
-    //     0, 3, 5, 6, 7, 4, 2, 1
-    //   ]
-    // },
     brim () {
       return this.direction === 'r'
         ? [
@@ -155,7 +147,6 @@ export default {
         }, {
           immediate: true
         })
-        // this.insertContainer()
       })
     },
     // 筛选好dom
@@ -189,20 +180,6 @@ export default {
       container.style.width = offsetWidth
       container.style.height = offsetHeight
     },
-    // 插入dom
-    // insertContainer () {
-    //   const fragment = document.createDocumentFragment()
-    //   for (let i = 0; i < this.prizes.length; i++) {
-    //     let v = this.prizes[i]
-    //     let el
-    //     if (v.$options.componentName === 'grid-prize') {
-    //       el = v.$el
-    //     }
-    //     fragment.appendChild(el)
-    //   }
-    //   fragment.insertBefore(this.start.$el, fragment.childNodes[this.x + 1])
-    //   this.$refs.container.appendChild(fragment)
-    // },
     // 获得size
     getCalc (size, num, intervalNum) {
       return `calc(${this.prizes[0].$el[size] * num}px + ${this.interval} * ${intervalNum})`
@@ -216,7 +193,7 @@ export default {
      */
     startRoll (index) {
       if (this.resolve) {
-        this.$emit('underway', this.currentIndex)
+        this.$emit('underway')
         return false
       }
       return new Promise(resolve => {
@@ -269,11 +246,5 @@ export default {
 .dialSudoku {
   display: inline-block;
   position: relative;
-  .dialSudoku-container {
-    // display: flex;
-    // flex-wrap: wrap;
-    // justify-content: space-between;
-    // align-items: center;
-  }
 }
 </style>
