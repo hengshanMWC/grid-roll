@@ -1,6 +1,6 @@
 {
   "name": "grid-roll",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "宫格抽奖(目前只能是9个)",
   "main": "dist/grid-roll.min.js",
   "scripts": {
