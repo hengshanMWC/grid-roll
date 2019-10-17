@@ -59,7 +59,7 @@ module.exports = _defineProperty;
 /* 17 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"a\":\"1.0.2\"}");
+module.exports = JSON.parse("{\"a\":\"1.0.3\"}");
 
 /***/ }),
 /* 18 */
