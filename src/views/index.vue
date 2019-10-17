@@ -16,7 +16,8 @@
           </grid-prize>
         </template>
       </grid-roll>
-      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="5*4" class="box" :startIndex="10">
+      <p>基本九宫格</p>
+      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="6*5" class="box" :startIndex="10">
         <template #button>
           <grid-start>
             <div @click="handleStart2" class="demo-box2 button-box2">按钮</div>
@@ -31,6 +32,7 @@
           </grid-prize>
         </template>
       </grid-roll>
+      <p>自定义宫格：6*5</p>
     </div>
   </div>
 </template>
@@ -60,7 +62,7 @@ export default {
     }
     this.items = arr
     arr = []
-    for (let i = 0; i < 14; i++) {
+    for (let i = 0; i < 18; i++) {
       arr.push({
         id: i,
         text: i
@@ -101,8 +103,12 @@ $size: 200px * $zoom;
   padding: 0;
 }
 .demo-dialSudoku {
+  p {
+    font-size: 24px;
+    text-align: center;
+  }
   .box {
-    margin-top: 50px;
+    margin-top: 30px;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -145,8 +151,8 @@ $size: 200px * $zoom;
   }
   .button-box2 {
     border-radius: 50%;
-    width: 300px;
-    height: 200px;
+    width: 400px;
+    height: 300px;
   }
 }
 </style>
