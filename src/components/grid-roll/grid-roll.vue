@@ -193,7 +193,7 @@ export default {
      */
     startRoll (index) {
       if (this.resolve) {
-        this.$emit('underway')
+        this.$emit('underway', this.currentIndex)
         return false
       }
       return new Promise(resolve => {
@@ -211,7 +211,7 @@ export default {
       if (number <= 0) {
         this.resolve(true)
         this.resolve = null
-        this.currentIndex = this.startIndex
+        this.currentIndex = this.getIndex(this.startIndex)
         return
       }
       if (this.currentIndex > this.prizes.length - 1) {
