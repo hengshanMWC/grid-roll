@@ -1,7 +1,7 @@
 {
   "name": "grid-roll",
-  "version": "1.0.3",
-  "description": "宫格抽奖(目前只能是9个)",
+  "version": "1.1.0",
+  "description": "宫格抽奖",
   "main": "dist/grid-roll.min.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
