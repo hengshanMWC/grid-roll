@@ -1,5 +1,5 @@
 <template>
-  <div class="prize" :style="{boxShadow: shadow, zIndex: zIndex}">
+  <div class="prize" :style="style">
     <slot></slot>
   </div>
 </template>
@@ -9,9 +9,13 @@ export default {
   name: 'grid-prize',
   componentName: 'grid-prize',
   props: {
-    boxShadow: {
-      type: String,
-      default: 'red 0 0 12px 4px'
+    selStyle: {
+      type: Object,
+      default () {
+        return {
+          boxShadow: 'red 0 0 12px 4px'
+        }
+      }
     },
     pid: {
       validator () {
@@ -25,8 +29,11 @@ export default {
     }
   },
   computed: {
-    shadow () {
-      return this.isSel ? this.boxShadow : ''
+    style () {
+      return this.isSel ? {
+        zIndex: this.zIndex,
+        ...this.selStyle
+      } : {}
     },
     zIndex () {
       return this.isSel ? 10 : ''

@@ -24,7 +24,7 @@
           </grid-start>
         </template>
         <template #prize>
-          <grid-prize v-for="(item, index) in items2" :key="index" boxShadow="#eaa665 0 0 8px 2px" :pid="item.id">
+          <grid-prize v-for="(item, index) in items2" :key="index" :selStyle="{opacity: 0.4}" :pid="item.id">
             <div class="demo-box2">
               <p>id：{{item.id}}</p>
               <p>text：{{item.text}}</p>
