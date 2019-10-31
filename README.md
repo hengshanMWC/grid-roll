@@ -22,11 +22,48 @@ import 'grid-roll/dist/grid-roll.min.css'
 
 ### [在线demo page预览](https://hengshanmwc.github.io/grid-roll/dist/index.html)
 
+## grid-roll
+
+抽奖有两种模式，一种是index,另外一种是pid
+
+> Prop
+
+| 名称        | 说明   |  类型  | 默认值 |
+| --------   | -----:  | :----:  | :----:  |
+| xy     | 宫格 |   String  | 3*3 |
+| interval     | 格子左右上下间隔|   String  | 8px |
+| startIndex   |    开始的奖品下标或者pid	  |  Number  | 0 |
+| direction        |    方向，r为顺时针，l为逆时针	    |  String  | r|
+| circle        |    圈数    |  Number  | 6 |
+| velocity        |    速度，相当于定时器	    | Number  | 650 |
+
+> Event
+
+| 名称        | 说明   |  回调参数  |
+| --------   | -----:  | :----:  |
+| underway     | 抽奖进行中	 |  index或者pid  |
+
+> function
+
+| 名称        |  说明   |  参数  |  回调参数  |
+| --------   |  :----:  | :-----:  | :----:  |
+| startRoll     |  抽奖	 | 下标或者pid |true表示完成, false表示进行中  |
+| initDom     |  初始化抽奖格局，内部会自动调用一次，但如果碰到一些意外的情况，例如屏幕尺寸变化，可以再次调用	 | - | - |
+
+## grid-prize
+
+> Prop
+
+| 名称        | 说明   |  类型  | 默认值 |
+| --------   | -----:  | :----:  | :----:  |
+| selStyle     | 滚动选中的样式 |   String  | {box-shadow: red 0 0 12px 4px} |
+| pid   |    使用pid模式	  |  any  | - |
+
 ```html
 <template>
   <div class="demo-dialSudoku">
     <div>
-      <grid-roll ref="dial" @underway="handleUnderway" class="box" :startIndex="1">
+      <grid-roll ref="dial" @underway="handleUnderway" class="box">
         <template #button>
           <grid-start>
             <div @click="handleStart" class="demo-box button-box">按钮</div>
@@ -42,14 +79,14 @@ import 'grid-roll/dist/grid-roll.min.css'
         </template>
       </grid-roll>
       <p>基本九宫格</p>
-      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="6*5" class="box" :startIndex="10">
+      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="6*5" class="box" :startIndex="1">
         <template #button>
           <grid-start>
             <div @click="handleStart2" class="demo-box2 button-box2">按钮</div>
           </grid-start>
         </template>
         <template #prize>
-          <grid-prize v-for="(item, index) in items2" :key="index" boxShadow="#eaa665 0 0 8px 2px" :pid="item.id">
+          <grid-prize v-for="(item, index) in items2" :key="index" :selStyle="{opacity: 0.4}" :pid="item.id">
             <div class="demo-box2">
               <p>id：{{item.id}}</p>
               <p>text：{{item.text}}</p>
@@ -104,8 +141,8 @@ export default {
         alert('恭喜你抽了个奖')
       }
     },
-    handleUnderway () {
-      console.log('进行中')
+    handleUnderway (index) {
+      console.log('进行中,index=' + index)
     },
     async handleStart2 () {
       let b = await this.$refs.dial2.startRoll(7)
@@ -114,8 +151,8 @@ export default {
         alert('恭喜你抽了个奖')
       }
     },
-    handleUnderway2 () {
-      console.log('进行中')
+    handleUnderway2 (id) {
+      console.log('进行中,id=' + id)
     }
   }
 }
@@ -183,39 +220,3 @@ $size: 200px * $zoom;
 }
 </style>
 ```
-## grid-roll
-
-抽奖有两种模式，一种是
-
-> Prop
-
-| 名称        | 说明   |  类型  | 默认值 |
-| --------   | -----:  | :----:  | :----:  |
-| xy     | 宫格 |   String  | 3*3 |
-| interval     | 格子左右上下间隔|   String  | 8px |
-| startIndex   |    开始的奖品下标或者pid	  |  Number  | 0 |
-| direction        |    方向，r为顺时针，l为逆时针	    |  String  | r|
-| circle        |    圈数    |  Number  | 6 |
-| velocity        |    速度，相当于定时器	    | Number  | 650 |
-
-> Event
-
-| 名称        | 说明   |  回调参数  |
-| --------   | -----:  | :----:  |
-| underway     | 抽奖进行中	 |  -   |
-
-> function
-
-| 名称        |  说明   |  参数  |  回调参数  |
-| --------   |  :----:  | :-----:  | :----:  |
-| startRoll     |  抽奖	 | 下标或者pid |true表示完成, false表示进行中  |
-| initDom     |  初始化抽奖格局，内部会自动调用一次，但如果碰到一些意外的情况，例如屏幕尺寸变化，可以再次调用	 | - | - |
-
-## grid-prize
-
-> Prop
-
-| 名称        | 说明   |  类型  | 默认值 |
-| --------   | -----:  | :----:  | :----:  |
-| boxShadow     | 滚动选中的box-shadow |   String  | red 0 0 12px 4px |
-| pid   |    使用pid模式	  |  any  | - |
