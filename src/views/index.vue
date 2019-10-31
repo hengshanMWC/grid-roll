@@ -17,7 +17,7 @@
         </template>
       </grid-roll>
       <p>基本九宫格</p>
-      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="6*5" class="box" :startIndex="1"  :circle="1">
+      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="6*5" class="box" :startIndex="1" :circle="1">
         <template #button>
           <grid-start>
             <div @click="handleStart2" class="demo-box2 button-box2">按钮</div>
@@ -78,8 +78,8 @@ export default {
         alert('恭喜你抽了个奖')
       }
     },
-    handleUnderway () {
-      console.log('进行中')
+    handleUnderway (index) {
+      console.log('进行中,index=' + index)
     },
     async handleStart2 () {
       let b = await this.$refs.dial2.startRoll(7)
@@ -88,8 +88,8 @@ export default {
         alert('恭喜你抽了个奖')
       }
     },
-    handleUnderway2 () {
-      console.log('进行中')
+    handleUnderway2 (id) {
+      console.log('进行中,id=' + id)
     }
   }
 }

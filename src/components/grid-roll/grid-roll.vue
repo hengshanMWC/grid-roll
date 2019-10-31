@@ -193,7 +193,7 @@ export default {
      */
     startRoll (index) {
       if (this.resolve) {
-        this.$emit('underway', this.currentIndex)
+        this.$emit('underway', this.getId(this.currentIndex))
         return false
       }
       return new Promise(resolve => {
@@ -235,6 +235,12 @@ export default {
       if (this.isPid) {
         index = this.prizes.findIndex(prize => prize.pid === index)
         index = this.sudokuArrayIndex.findIndex(i => i === index)
+      }
+      return index
+    },
+    getId (index) {
+      if (this.isPid) {
+        return this.sudokuArrayIndex[index]
       }
       return index
     }
