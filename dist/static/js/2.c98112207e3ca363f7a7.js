@@ -59,7 +59,7 @@ module.exports = _defineProperty;
 /* 17 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"a\":\"1.0.3\"}");
+module.exports = JSON.parse("{\"a\":\"1.1.0\"}");
 
 /***/ }),
 /* 18 */
@@ -163,7 +163,7 @@ var render = function() {
         _c("grid-roll", {
           ref: "dial2",
           staticClass: "box",
-          attrs: { direction: "l", xy: "6*5", startIndex: 10 },
+          attrs: { direction: "l", xy: "6*5", startIndex: 1 },
           on: { underway: _vm.handleUnderway2 },
           scopedSlots: _vm._u([
             {
@@ -192,7 +192,7 @@ var render = function() {
                     "grid-prize",
                     {
                       key: index,
-                      attrs: { boxShadow: "#eaa665 0 0 8px 2px", pid: item.id }
+                      attrs: { selStyle: { opacity: 0.4 }, pid: item.id }
                     },
                     [
                       _c("div", { staticClass: "demo-box2" }, [
@@ -486,7 +486,7 @@ var startIndex = function startIndex() {};
       var _this5 = this;
 
       if (this.resolve) {
-        this.$emit('underway');
+        this.$emit('underway', this.getId(this.currentIndex));
         return false;
       }
 
@@ -510,7 +510,7 @@ var startIndex = function startIndex() {};
       if (number <= 0) {
         this.resolve(true);
         this.resolve = null;
-        this.currentIndex = this.startIndex;
+        this.currentIndex = this.getIndex(this.startIndex);
         return;
       }
 
@@ -542,6 +542,13 @@ var startIndex = function startIndex() {};
         index = this.sudokuArrayIndex.findIndex(function (i) {
           return i === index;
         });
+      }
+
+      return index;
+    },
+    getId: function getId(index) {
+      if (this.isPid) {
+        return this.sudokuArrayIndex[index];
       }
 
       return index;
@@ -640,10 +647,7 @@ var grid_prizevue_type_template_id_07ad7426_scoped_true_render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      staticClass: "prize",
-      style: { boxShadow: _vm.shadow, zIndex: _vm.zIndex }
-    },
+    { staticClass: "prize", style: _vm.style },
     [_vm._t("default")],
     2
   )
@@ -655,6 +659,12 @@ grid_prizevue_type_template_id_07ad7426_scoped_true_render._withStripped = true
 // CONCATENATED MODULE: ./src/components/grid-roll/grid-prize.vue?vue&type=template&id=07ad7426&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--1!./node_modules/vue-loader/lib??vue-loader-options!./src/components/grid-roll/grid-prize.vue?vue&type=script&lang=js&
+
+
+function grid_prizevue_type_script_lang_js_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function grid_prizevue_type_script_lang_js_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { grid_prizevue_type_script_lang_js_ownKeys(source, true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { grid_prizevue_type_script_lang_js_ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 //
 //
 //
@@ -665,9 +675,13 @@ grid_prizevue_type_template_id_07ad7426_scoped_true_render._withStripped = true
   name: 'grid-prize',
   componentName: 'grid-prize',
   props: {
-    boxShadow: {
-      type: String,
-      default: 'red 0 0 12px 4px'
+    selStyle: {
+      type: Object,
+      default: function _default() {
+        return {
+          boxShadow: 'red 0 0 12px 4px'
+        };
+      }
     },
     pid: {
       validator: function validator() {
@@ -681,8 +695,10 @@ grid_prizevue_type_template_id_07ad7426_scoped_true_render._withStripped = true
     };
   },
   computed: {
-    shadow: function shadow() {
-      return this.isSel ? this.boxShadow : '';
+    style: function style() {
+      return this.isSel ? grid_prizevue_type_script_lang_js_objectSpread({
+        zIndex: this.zIndex
+      }, this.selStyle) : {};
     },
     zIndex: function zIndex() {
       return this.isSel ? 10 : '';
@@ -862,8 +878,8 @@ var _components;
 
       return handleStart;
     }(),
-    handleUnderway: function handleUnderway() {
-      console.log('进行中');
+    handleUnderway: function handleUnderway(index) {
+      console.log('进行中,index=' + index);
     },
     handleStart2: function () {
       var _handleStart2 = asyncToGenerator_default()(
@@ -899,8 +915,8 @@ var _components;
 
       return handleStart2;
     }(),
-    handleUnderway2: function handleUnderway2() {
-      console.log('进行中');
+    handleUnderway2: function handleUnderway2(id) {
+      console.log('进行中,id=' + id);
     }
   }
 });
