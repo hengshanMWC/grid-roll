@@ -3,8 +3,8 @@
 
 # 介绍
 ui和逻辑分离，组件封装了逻辑和宫格布局，让开发者只关注奖品和按钮的ui部分。grid-roll有两种抽奖模式。
-1. 默认模式为**下标**，startRoll方法和startIndex属性会按下标进行相应逻辑
-2. 还有一种是**pid**模式，在grid-prize传入pid,startRoll方法和startIndex属性会根据pid进行相应的逻辑
+1. 默认模式为**下标**，startRoll方法和startIndex属性会按下标进行索引和输出
+2. 还有一种是**pid**模式，在grid-prize传入pid,startRoll方法和startIndex属性会根据pid进行索引和输出
 
 # 安装
 ```bash
@@ -32,7 +32,7 @@ import 'grid-roll/dist/grid-roll.min.css'
 | --------   | -----:  | :----:  | :----:  |
 | xy     | 宫格 |   String  | 3*3 |
 | interval     | 格子左右上下间隔|   String  | 8px |
-| startIndex   |    开始的奖品下标或者pid	  |  Number  | 0 |
+| startIndex   |    开始的奖品下标或者pid。如果启用了pid模式，请务必设置该值	  |  Number  | 0 |
 | direction        |    方向，r为顺时针，l为逆时针	    |  String  | r|
 | circle        |    圈数    |  Number  | 6 |
 | velocity        |    速度，相当于定时器	    | Number  | 650 |
