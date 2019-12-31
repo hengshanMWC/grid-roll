@@ -43,7 +43,8 @@ export default {
     return {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
       currentIndex: 0, // 当前转动的下标
-      $time: null
+      $time: null,
+      dom: null
     }
   },
   computed: {
@@ -202,6 +203,9 @@ export default {
         this.underway(this.changeNum + this.getIndex(index) - num)
       })
     },
+    lamplight (b = false) {
+      if (this.dom) this.dom.setIsSel(b)
+    },
     /**
      * 核心内容
      * @param {Number} 次数
@@ -214,16 +218,16 @@ export default {
         this.currentIndex = this.getIndex(this.startIndex)
         return
       }
+      this.lamplight()
       if (this.currentIndex > this.prizes.length - 1) {
         this.currentIndex = 0
       }
       let target = this.sudokuArrayIndex[this.currentIndex++]
-      let dom = this.prizes[target]
-      dom.setIsSel(true)
+      this.dom = this.prizes[target]
+      this.lamplight(true)
       --number
       this.$time = setTimeout(() => {
-        dom.setIsSel(false)
-        this.underway(number)
+        this.underway(number, this.dom)
       }, this.velocity / number)
     },
     /**
