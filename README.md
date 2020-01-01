@@ -36,7 +36,7 @@ import 'grid-roll/dist/grid-roll.min.css'
 | direction        |    方向，r为顺时针，l为逆时针	    |  String  | r|
 | circle        |    圈数    |  Number  | 6 |
 | velocity        |    速度，相当于定时器	    | Number  | 650 |
-
+| minVelocity        |    滚动最小间隔上限，传0或者false	    | Number/Boolean  | 40 |
 > Event
 
 | 名称        | 说明   |  回调参数  |
