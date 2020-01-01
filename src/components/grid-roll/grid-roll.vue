@@ -37,6 +37,10 @@ export default {
     velocity: {
       type: Number,
       default: 650 // 速度，其实就是定时器
+    },
+    minVelocity: {
+      type: [Number, Boolean],
+      default: 50 // 最小间隔
     }
   },
   data () {
@@ -251,7 +255,12 @@ export default {
       }, this.filterTime(number))
     },
     filterTime (number) {
-      return this.velocity / number
+      let num = this.velocity / number
+      if (this.minVelocity && num < this.minVelocity) {
+        num = this.minVelocity
+      }
+      console.log(num)
+      return num
     },
     /**
      * 获取宫格下标
