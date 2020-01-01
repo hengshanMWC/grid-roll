@@ -188,6 +188,12 @@ export default {
     buttonInside (x, y) {
       return (x > 0 && x <= this.buttonxy.maxX) && (y > 0 && y <= this.buttonxy.maxY)
     },
+    stopRoll () {
+      clearTimeout(this.$time)
+    },
+    continueRoll () {
+      this.underway(this.changeNum, false)
+    },
     /**
      * 开始滚动
      * @param {Number} 滚动到的目标
@@ -199,9 +205,23 @@ export default {
       }
       return new Promise(resolve => {
         this.resolve = resolve
-        let num = this.isPid ? this.currentIndex : 0
-        this.underway(this.changeNum + this.getIndex(index) - num)
+        // let num = this.isPid ? this.currentIndex : 0
+        // const continueNumber = this.getIndex(this.startIndex) - this.currentIndex
+        // console.log(this.getIndex(this.startIndex), this.currentIndex)
+        // this.currentIndex = this.getIndex(this.startIndex)
+        // console.log(this.currentIndex, this.getIndex(this.startIndex))
+        this.underway(this.countStep(index))
       })
+    },
+    countStep (index) {
+      let num = 0
+      let continueNumber = 0
+      if (this.isPid) {
+        num = this.currentIndex
+      } else {
+        continueNumber = this.getIndex(this.startIndex) - this.currentIndex
+      }
+      return this.changeNum + this.getIndex(index) - num + continueNumber
     },
     lamplight (b = false) {
       if (this.dom) this.dom.setIsSel(b)
@@ -210,12 +230,12 @@ export default {
      * 核心内容
      * @param {Number} 次数
     */
-    underway (number) {
+    underway (number, status = true) {
       clearTimeout(this.$time)
       if (number <= 0) {
         this.resolve(true)
         this.resolve = null
-        this.currentIndex = this.getIndex(this.startIndex)
+        // this.currentIndex = this.getIndex(this.startIndex)
         return
       }
       this.lamplight()
@@ -225,10 +245,13 @@ export default {
       let target = this.sudokuArrayIndex[this.currentIndex++]
       this.dom = this.prizes[target]
       this.lamplight(true)
-      --number
+      if (status) --number
       this.$time = setTimeout(() => {
-        this.underway(number, this.dom)
-      }, this.velocity / number)
+        this.underway(number, status)
+      }, this.filterTime(number))
+    },
+    filterTime (number) {
+      return this.velocity / number
     },
     /**
      * 获取宫格下标
