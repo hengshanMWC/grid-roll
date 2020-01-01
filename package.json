@@ -1,6 +1,6 @@
 {
   "name": "grid-roll",
-  "version": "1.2.0",
+  "version": "1.2.2",
   "description": "宫格抽奖",
   "main": "dist/grid-roll.min.js",
   "scripts": {

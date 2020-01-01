@@ -37,6 +37,10 @@ export default {
     velocity: {
       type: Number,
       default: 650 // 速度，其实就是定时器
+    },
+    minVelocity: {
+      type: [Number, Boolean],
+      default: 40 // 最小间隔
     }
   },
   data () {
@@ -192,7 +196,7 @@ export default {
       clearTimeout(this.$time)
     },
     continueRoll () {
-      this.underway(this.changeNum + this.isPid ? this.currentIndex : 0, false)
+      this.underway(this.changeNum, false)
     },
     /**
      * 开始滚动
@@ -251,7 +255,12 @@ export default {
       }, this.filterTime(number))
     },
     filterTime (number) {
-      return this.velocity / number
+      let num = this.velocity / number
+      if (this.minVelocity && num < this.minVelocity) {
+        num = this.minVelocity
+      }
+      console.log(num)
+      return num
     },
     /**
      * 获取宫格下标
