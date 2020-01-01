@@ -40,7 +40,7 @@ export default {
     },
     minVelocity: {
       type: [Number, Boolean],
-      default: 50 // 最小间隔
+      default: 40 // 最小间隔
     }
   },
   data () {
