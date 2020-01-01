@@ -1,5 +1,5 @@
 <template>
-  <div class="prize" :style="style">
+  <div class="gr-prize" :style="style">
     <slot></slot>
   </div>
 </template>
@@ -48,7 +48,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.prize {
+.gr-prize {
   z-index: 1;
   display: inline-block;
   position: absolute;

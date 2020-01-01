@@ -70,6 +70,10 @@ export default {
     }
     this.items2 = arr
   },
+  mounted () {
+    window.a = this.$refs.dial
+    window.b = this.$refs.dial2
+  },
   methods: {
     async handleStart () {
       let b = await this.$refs.dial.startRoll(3)
