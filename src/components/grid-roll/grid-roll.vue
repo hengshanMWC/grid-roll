@@ -192,7 +192,7 @@ export default {
       clearTimeout(this.$time)
     },
     continueRoll () {
-      this.underway(this.changeNum + this.isPid ? this.currentIndex : 0, false)
+      this.underway(this.changeNum, false)
     },
     /**
      * 开始滚动
