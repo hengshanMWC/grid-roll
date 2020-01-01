@@ -48,6 +48,8 @@ import 'grid-roll/dist/grid-roll.min.css'
 | 名称        |  说明   |  参数  |  回调参数  |
 | --------   |  :----:  | :-----:  | :----:  |
 | startRoll     |  抽奖	 | 下标或者pid |true表示完成, false表示进行中  |
+| continueRoll     |  持续滚动	 | - | -  |
+| stopRoll  |  停止滚动	 | - | -  |
 | initDom     |  初始化抽奖格局，内部会自动调用一次，但如果碰到一些意外的情况，例如屏幕尺寸变化，可以再次调用	 | - | - |
 | lamplight |  操作中奖的灯光开关	 | [Boolean = false] | - |
 

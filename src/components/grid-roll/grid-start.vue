@@ -1,5 +1,5 @@
 <template>
-  <div class="start">
+  <div class="gp-start">
     <slot></slot>
   </div>
 </template>
@@ -12,7 +12,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.start {
+.gp-start {
   display: inline-block;
   position: absolute;
   top: 50%;

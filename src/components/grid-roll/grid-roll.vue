@@ -1,6 +1,6 @@
 <template>
-  <div class="dialSudoku">
-    <div class="dialSudoku-container" ref="container"></div>
+  <div class="gr">
+    <div class="gr-container" ref="container"></div>
     <div class="storag">
       <slot name="button"></slot>
       <slot name="prize"></slot>
@@ -192,7 +192,7 @@ export default {
       clearTimeout(this.$time)
     },
     continueRoll () {
-      this.underway(this.changeNum, false)
+      this.underway(this.changeNum + this.isPid ? this.currentIndex : 0, false)
     },
     /**
      * 开始滚动
@@ -276,7 +276,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dialSudoku {
+.gr {
   display: inline-block;
   position: relative;
 }
