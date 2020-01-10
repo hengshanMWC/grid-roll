@@ -163,7 +163,7 @@ var render = function() {
         _c("grid-roll", {
           ref: "dial2",
           staticClass: "box",
-          attrs: { direction: "l", xy: "6*5", startIndex: 1 },
+          attrs: { direction: "l", xy: "6*5", startIndex: 1, interval: "3px" },
           on: { underway: _vm.handleUnderway2 },
           scopedSlots: _vm._u([
             {
@@ -287,7 +287,7 @@ var startIndex = function startIndex() {};
     },
     interval: {
       type: String,
-      default: '8px' // 间隔
+      default: '0px' // 间隔
 
     },
     startIndex: {
