@@ -20,7 +20,7 @@ export default {
     },
     interval: {
       type: String,
-      default: '8px' // 间隔
+      default: '0px' // 间隔
     },
     startIndex: {
       type: Number,

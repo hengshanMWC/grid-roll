@@ -17,7 +17,7 @@
         </template>
       </grid-roll>
       <p>基本九宫格</p>
-      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="6*5" class="box" :startIndex="1">
+      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="6*5" class="box" :startIndex="1" interval="3px">
         <template #button>
           <grid-start>
             <div @click="handleStart2" class="demo-box2 button-box2">按钮</div>
