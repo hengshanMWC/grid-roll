@@ -32,7 +32,7 @@ import 'grid-roll/dist/grid-roll.min.css'
 | --------   | -----:  | :----:  | :----:  |
 | xy     | 宫格 |   String  | 3*3 |
 | interval     | 格子左右上下间隔|   String  | 0px |
-| startIndex   |    开始的奖品下标或者pid。如果启用了pid模式，请务必设置该值	  |  Number  | 0 |
+| startIndex   |    开始的奖品下标(默认为0)或者pid(默认第一个pid)  |  any  | - |
 | direction        |    方向，r为顺时针，l为逆时针	    |  String  | r|
 | circle        |    圈数    |  Number  | 6 |
 | velocity        |    速度，相当于定时器	    | Number  | 650 |

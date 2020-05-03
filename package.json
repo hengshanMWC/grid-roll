@@ -1,6 +1,10 @@
 {
   "name": "grid-roll",
+<<<<<<< HEAD
   "version": "1.2.3",
+=======
+  "version": "1.2.5",
+>>>>>>> mwc_dev
   "description": "宫格抽奖",
   "main": "dist/grid-roll.min.js",
   "scripts": {

@@ -23,8 +23,9 @@ export default {
       default: '0px' // 间隔
     },
     startIndex: {
-      type: Number,
-      default: 0 // 开始的下标或者
+      validator () {
+        return true
+      }
     },
     direction: {
       type: String,
@@ -148,11 +149,20 @@ export default {
         this.setContainerSize()
         startIndex()
         startIndex = this.$watch('startIndex', function (startIndex) {
-          this.currentIndex = this.getIndex(startIndex)
+          this.currentIndex = this.getIndex(this.getStartIndex(startIndex))
         }, {
           immediate: true
         })
       })
+    },
+    // 对于startIndex和isPid多一个默认判断
+    getStartIndex (startIndex) {
+      if (this.isPid && startIndex === undefined) {
+        startIndex = this.prizes[0].pid
+      } else if (startIndex === undefined) {
+        startIndex = 0
+      }
+      return startIndex
     },
     // 筛选好dom
     filterDom () {
@@ -209,11 +219,6 @@ export default {
       }
       return new Promise(resolve => {
         this.resolve = resolve
-        // let num = this.isPid ? this.currentIndex : 0
-        // const continueNumber = this.getIndex(this.startIndex) - this.currentIndex
-        // console.log(this.getIndex(this.startIndex), this.currentIndex)
-        // this.currentIndex = this.getIndex(this.startIndex)
-        // console.log(this.currentIndex, this.getIndex(this.startIndex))
         this.underway(this.countStep(index))
       })
     },
@@ -223,7 +228,7 @@ export default {
       if (this.isPid) {
         num = this.currentIndex
       } else {
-        continueNumber = this.getIndex(this.startIndex) - this.currentIndex
+        continueNumber = this.getIndex(this.getStartIndex(this.startIndex)) - this.currentIndex
       }
       return this.changeNum + this.getIndex(index) - num + continueNumber
     },
@@ -239,7 +244,6 @@ export default {
       if (number <= 0) {
         this.resolve(true)
         this.resolve = null
-        // this.currentIndex = this.getIndex(this.startIndex)
         return
       }
       this.lamplight()
@@ -259,7 +263,6 @@ export default {
       if (this.minVelocity && num < this.minVelocity) {
         num = this.minVelocity
       }
-      console.log(num)
       return num
     },
     /**
