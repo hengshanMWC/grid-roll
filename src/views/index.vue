@@ -17,7 +17,7 @@
         </template>
       </grid-roll>
       <p>基本九宫格</p>
-      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="6*5" class="box" :startIndex="1" interval="3px">
+      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="6*5" class="box" interval="3px" :startIndex="5">
         <template #button>
           <grid-start>
             <div @click="handleStart2" class="demo-box2 button-box2">按钮</div>
@@ -62,7 +62,7 @@ export default {
     }
     this.items = arr
     arr = []
-    for (let i = 0; i < 18; i++) {
+    for (let i = 1; i < 19; i++) {
       arr.push({
         id: i,
         text: i
