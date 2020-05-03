@@ -59,7 +59,7 @@ module.exports = _defineProperty;
 /* 17 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"a\":\"1.2.3\"}");
+module.exports = JSON.parse("{\"a\":\"1.2.5\"}");
 
 /***/ }),
 /* 18 */
@@ -163,7 +163,7 @@ var render = function() {
         _c("grid-roll", {
           ref: "dial2",
           staticClass: "box",
-          attrs: { direction: "l", xy: "6*5", startIndex: 1, interval: "3px" },
+          attrs: { direction: "l", xy: "6*5", interval: "3px", startIndex: 5 },
           on: { underway: _vm.handleUnderway2 },
           scopedSlots: _vm._u([
             {
@@ -291,9 +291,9 @@ var startIndex = function startIndex() {};
 
     },
     startIndex: {
-      type: Number,
-      default: 0 // 开始的下标或者
-
+      validator: function validator() {
+        return true;
+      }
     },
     direction: {
       type: String,
@@ -431,11 +431,21 @@ var startIndex = function startIndex() {};
 
         startIndex();
         startIndex = _this3.$watch('startIndex', function (startIndex) {
-          this.currentIndex = this.getIndex(startIndex);
+          this.currentIndex = this.getIndex(this.getStartIndex(startIndex));
         }, {
           immediate: true
         });
       });
+    },
+    // 对于startIndex和isPid多一个默认判断
+    getStartIndex: function getStartIndex(startIndex) {
+      if (this.isPid && startIndex === undefined) {
+        startIndex = this.prizes[0].pid;
+      } else if (startIndex === undefined) {
+        startIndex = 0;
+      }
+
+      return startIndex;
     },
     // 筛选好dom
     filterDom: function filterDom() {
@@ -503,11 +513,7 @@ var startIndex = function startIndex() {};
       }
 
       return new Promise(function (resolve) {
-        _this5.resolve = resolve; // let num = this.isPid ? this.currentIndex : 0
-        // const continueNumber = this.getIndex(this.startIndex) - this.currentIndex
-        // console.log(this.getIndex(this.startIndex), this.currentIndex)
-        // this.currentIndex = this.getIndex(this.startIndex)
-        // console.log(this.currentIndex, this.getIndex(this.startIndex))
+        _this5.resolve = resolve;
 
         _this5.underway(_this5.countStep(index));
       });
@@ -519,7 +525,7 @@ var startIndex = function startIndex() {};
       if (this.isPid) {
         num = this.currentIndex;
       } else {
-        continueNumber = this.getIndex(this.startIndex) - this.currentIndex;
+        continueNumber = this.getIndex(this.getStartIndex(this.startIndex)) - this.currentIndex;
       }
 
       return this.changeNum + this.getIndex(index) - num + continueNumber;
@@ -541,8 +547,7 @@ var startIndex = function startIndex() {};
 
       if (number <= 0) {
         this.resolve(true);
-        this.resolve = null; // this.currentIndex = this.getIndex(this.startIndex)
-
+        this.resolve = null;
         return;
       }
 
@@ -567,7 +572,6 @@ var startIndex = function startIndex() {};
         num = this.minVelocity;
       }
 
-      console.log(num);
       return num;
     },
 
@@ -876,7 +880,7 @@ var _components;
     this.items = arr;
     arr = [];
 
-    for (var _i = 0; _i < 18; _i++) {
+    for (var _i = 1; _i < 19; _i++) {
       arr.push({
         id: _i,
         text: _i
