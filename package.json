@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hengshanMWC/grid-roll"
+    "url": "git+https://github.com/hengshanMWC/grid-roll.git"
   },
   "author": "mwc",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/guanlinwu/grid-roll.git/issues"
+    "url": "https://github.com/hengshanMWC/grid-roll/issues"
   },
-  "homepage": "https://github.com/guanlinwu/grid-roll.git#readme",
+  "homepage": "https://github.com/hengshanMWC/grid-roll",
   "dependencies": {
     "vue": "^2.6.8",
     "vue-router": "^3.0.6"
