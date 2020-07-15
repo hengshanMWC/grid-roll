@@ -23,7 +23,8 @@ export default {
       default: '0px' // 间隔
     },
     startIndex: {
-      validator () {
+      type: Number,
+           validator () {
         return true
       }
     },
@@ -68,6 +69,7 @@ export default {
         maxY: this.y - 2
       }
     },
+    // 前进方向
     brim () {
       return this.direction === 'r'
         ? [
@@ -99,6 +101,7 @@ export default {
             value: -1
           }]
     },
+    // 步进器顺序和坐标的映射
     advances () {
       let obj = {
         x: 0,
@@ -122,6 +125,7 @@ export default {
         }
       })
     },
+    // 步进器顺序
     sudokuArrayIndex () {
       return this.prizes.map((prize, index) => {
         let advance = this.advances[index]
@@ -263,31 +267,6 @@ export default {
       if (this.minVelocity && num < this.minVelocity) {
         num = this.minVelocity
       }
-      return num
-    },
-    /**
-     * 获取宫格下标
-     * @param {any} index 宫格下标或者标识符
-     * @returns {Number} 宫格下标
-     */
-    getIndex (index) {
-      if (this.isPid) {
-        index = this.prizes.findIndex(prize => prize.pid === index)
-        index = this.sudokuArrayIndex.findIndex(i => i === index)
-      }
-      return index
-    },
-    getId (index) {
-      if (this.isPid) {
-        return this.sudokuArrayIndex[index]
-      }
-      return index
-    }
-  }
-}
-</script>
-
-<style lang="scss" scoped>
 .gr {
   display: inline-block;
   position: relative;
