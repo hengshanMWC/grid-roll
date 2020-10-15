@@ -9,7 +9,6 @@
 </template>
 
 <script>
-let startIndex = () => {}
 export default {
   name: 'grid-roll',
   componentName: 'grid-roll',
@@ -49,7 +48,8 @@ export default {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
       currentIndex: 0, // 当前转动的下标
       $time: null,
-      dom: null
+      dom: null,
+      $startIndex: () => {}
     }
   },
   computed: {
@@ -147,8 +147,8 @@ export default {
         this.filterDom()
         this.setCoordinates()
         this.setContainerSize()
-        startIndex()
-        startIndex = this.$watch('startIndex', function (startIndex) {
+        this.$startIndex()
+        this.$startIndex = this.$watch('startIndex', function (startIndex) {
           this.currentIndex = this.getIndex(this.getStartIndex(startIndex))
         }, {
           immediate: true
