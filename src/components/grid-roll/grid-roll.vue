@@ -136,6 +136,7 @@ export default {
     this.$watch('xy', this.initDom, {
       immediate: true
     })
+    window.a = this
   },
   beforeDestroy () {
     clearTimeout(this.$time)
@@ -252,11 +253,16 @@ export default {
       }
       let target = this.sudokuArrayIndex[this.currentIndex++]
       this.dom = this.prizes[target]
-      this.lamplight(true)
-      if (status) --number
-      this.$time = setTimeout(() => {
+      if (this.dom.disabled) {
+        if (status) --number
         this.underway(number, status)
-      }, this.filterTime(number))
+      } else {
+        this.lamplight(true)
+        if (status) --number
+        this.$time = setTimeout(() => {
+          this.underway(number, status)
+        }, this.filterTime(number))
+      }
     },
     filterTime (number) {
       let num = this.velocity / number

@@ -9,6 +9,7 @@ export default {
   name: 'grid-prize',
   componentName: 'grid-prize',
   props: {
+    disabled: Boolean,
     pid: {
       validator () {
         return true
