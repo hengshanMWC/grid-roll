@@ -49,7 +49,7 @@ export default {
       currentIndex: 0, // 当前转动的下标
       $time: null,
       dom: null,
-      $startIndex: () => {}
+      $startIndex: null
     }
   },
   computed: {
@@ -147,7 +147,7 @@ export default {
         this.filterDom()
         this.setCoordinates()
         this.setContainerSize()
-        this.$startIndex()
+        if (typeof this.$startInde === 'function') this.$startIndex()
         this.$startIndex = this.$watch('startIndex', function (startIndex) {
           this.currentIndex = this.getIndex(this.getStartIndex(startIndex))
         }, {
@@ -233,7 +233,7 @@ export default {
       return this.changeNum + this.getIndex(index) - num + continueNumber
     },
     lamplight (b = false) {
-      if (this.dom) this.dom.setIsSel(b)
+      if (this.dom) this.dom.setIsSelect(b)
     },
     /**
      * 核心内容
