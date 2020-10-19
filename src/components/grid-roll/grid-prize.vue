@@ -1,6 +1,6 @@
 <template>
-  <div class="gr-prize" :style="style">
-    <slot></slot>
+  <div class="gr-prize">
+    <slot :is-select="isSelect"></slot>
   </div>
 </template>
 
@@ -9,14 +9,6 @@ export default {
   name: 'grid-prize',
   componentName: 'grid-prize',
   props: {
-    selStyle: {
-      type: Object,
-      default () {
-        return {
-          boxShadow: 'red 0 0 12px 4px'
-        }
-      }
-    },
     pid: {
       validator () {
         return true
@@ -25,23 +17,12 @@ export default {
   },
   data () {
     return {
-      isSel: false
-    }
-  },
-  computed: {
-    style () {
-      return this.isSel ? {
-        zIndex: this.zIndex,
-        ...this.selStyle
-      } : {}
-    },
-    zIndex () {
-      return this.isSel ? 10 : ''
+      isSelect: false
     }
   },
   methods: {
-    setIsSel (b) {
-      this.isSel = b
+    setIsSelect (b) {
+      this.isSelect = b
     }
   }
 }
