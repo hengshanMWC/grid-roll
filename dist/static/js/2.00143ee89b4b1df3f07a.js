@@ -59,7 +59,7 @@ module.exports = _defineProperty;
 /* 17 */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"a\":\"1.2.5\"}");
+module.exports = JSON.parse("{\"a\":\"1.2.9\"}");
 
 /***/ }),
 /* 18 */
@@ -117,97 +117,125 @@ var render = function() {
     _c(
       "div",
       [
-        _c("grid-roll", {
-          ref: "dial",
-          staticClass: "box",
-          on: { underway: _vm.handleUnderway },
-          scopedSlots: _vm._u([
-            {
-              key: "button",
-              fn: function() {
-                return [
-                  _c("grid-start", [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "demo-box button-box",
-                        on: { click: _vm.handleStart }
-                      },
-                      [_vm._v("按钮")]
-                    )
-                  ])
-                ]
-              },
-              proxy: true
-            },
-            {
-              key: "prize",
-              fn: function() {
-                return _vm._l(_vm.items, function(item, index) {
-                  return _c("grid-prize", { key: index }, [
-                    _c("div", { staticClass: "demo-box" }, [
-                      _c("p", [_vm._v("id：" + _vm._s(item.id))]),
-                      _vm._v(" "),
-                      _c("p", [_vm._v("text：" + _vm._s(item.text))])
-                    ])
-                  ])
-                })
-              },
-              proxy: true
-            }
-          ])
-        }),
+        _c(
+          "grid-roll",
+          {
+            ref: "dial",
+            staticClass: "box",
+            on: { underway: _vm.handleUnderway }
+          },
+          [
+            _c("grid-start", { attrs: { slot: "button" }, slot: "button" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "demo-box button-box",
+                  on: { click: _vm.handleStart }
+                },
+                [_vm._v("按钮")]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.items, function(item, index) {
+              return _c("grid-prize", {
+                key: index,
+                attrs: { slot: "prize" },
+                slot: "prize",
+                scopedSlots: _vm._u(
+                  [
+                    {
+                      key: "default",
+                      fn: function(ref) {
+                        var isSelect = ref.isSelect
+                        return [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "demo-box",
+                              class: isSelect ? "select" : ""
+                            },
+                            [
+                              _c("p", [_vm._v("id：" + _vm._s(item.id))]),
+                              _vm._v(" "),
+                              _c("p", [_vm._v("text：" + _vm._s(item.text))])
+                            ]
+                          )
+                        ]
+                      }
+                    }
+                  ],
+                  null,
+                  true
+                )
+              })
+            })
+          ],
+          2
+        ),
         _vm._v(" "),
         _c("p", [_vm._v("基本九宫格")]),
         _vm._v(" "),
-        _c("grid-roll", {
-          ref: "dial2",
-          staticClass: "box",
-          attrs: { direction: "l", xy: "6*5", interval: "3px", startIndex: 5 },
-          on: { underway: _vm.handleUnderway2 },
-          scopedSlots: _vm._u([
-            {
-              key: "button",
-              fn: function() {
-                return [
-                  _c("grid-start", [
-                    _c(
-                      "div",
-                      {
-                        staticClass: "demo-box2 button-box2",
-                        on: { click: _vm.handleStart2 }
-                      },
-                      [_vm._v("按钮")]
-                    )
-                  ])
-                ]
-              },
-              proxy: true
+        _c(
+          "grid-roll",
+          {
+            ref: "dial2",
+            staticClass: "box",
+            attrs: {
+              direction: "l",
+              xy: "6*5",
+              interval: "3px",
+              startIndex: 5
             },
-            {
-              key: "prize",
-              fn: function() {
-                return _vm._l(_vm.items2, function(item, index) {
-                  return _c(
-                    "grid-prize",
+            on: { underway: _vm.handleUnderway2 }
+          },
+          [
+            _c("grid-start", { attrs: { slot: "button" }, slot: "button" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "demo-box2 button-box2",
+                  on: { click: _vm.handleStart2 }
+                },
+                [_vm._v("按钮")]
+              )
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.items2, function(item, index) {
+              return _c("grid-prize", {
+                key: index,
+                attrs: { slot: "prize", pid: item.id },
+                slot: "prize",
+                scopedSlots: _vm._u(
+                  [
                     {
-                      key: index,
-                      attrs: { selStyle: { opacity: 0.4 }, pid: item.id }
-                    },
-                    [
-                      _c("div", { staticClass: "demo-box2" }, [
-                        _c("p", [_vm._v("id：" + _vm._s(item.id))]),
-                        _vm._v(" "),
-                        _c("p", [_vm._v("text：" + _vm._s(item.text))])
-                      ])
-                    ]
-                  )
-                })
-              },
-              proxy: true
-            }
-          ])
-        }),
+                      key: "default",
+                      fn: function(ref) {
+                        var isSelect = ref.isSelect
+                        return [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "demo-box2",
+                              class: isSelect ? "select" : ""
+                            },
+                            [
+                              _c("p", [_vm._v("id：" + _vm._s(item.id))]),
+                              _vm._v(" "),
+                              _c("p", [_vm._v("text：" + _vm._s(item.text))])
+                            ]
+                          )
+                        ]
+                      }
+                    }
+                  ],
+                  null,
+                  true
+                )
+              })
+            })
+          ],
+          2
+        ),
         _vm._v(" "),
         _c("p", [_vm._v("自定义宫格：6*5")])
       ],
@@ -275,8 +303,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 //
 //
 //
-var startIndex = function startIndex() {};
-
 /* harmony default export */ var grid_rollvue_type_script_lang_js_ = ({
   name: 'grid-roll',
   componentName: 'grid-roll',
@@ -323,7 +349,8 @@ var startIndex = function startIndex() {};
       currentIndex: 0,
       // 当前转动的下标
       $time: null,
-      dom: null
+      dom: null,
+      $startIndex: null
     };
   },
   computed: {
@@ -413,6 +440,7 @@ var startIndex = function startIndex() {};
     this.$watch('xy', this.initDom, {
       immediate: true
     });
+    window.a = this;
   },
   beforeDestroy: function beforeDestroy() {
     clearTimeout(this.$time);
@@ -429,8 +457,8 @@ var startIndex = function startIndex() {};
 
         _this3.setContainerSize();
 
-        startIndex();
-        startIndex = _this3.$watch('startIndex', function (startIndex) {
+        if (typeof _this3.$startInde === 'function') _this3.$startIndex();
+        _this3.$startIndex = _this3.$watch('startIndex', function (startIndex) {
           this.currentIndex = this.getIndex(this.getStartIndex(startIndex));
         }, {
           immediate: true
@@ -532,7 +560,7 @@ var startIndex = function startIndex() {};
     },
     lamplight: function lamplight() {
       var b = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-      if (this.dom) this.dom.setIsSel(b);
+      if (this.dom) this.dom.setIsSelect(b);
     },
 
     /**
@@ -559,11 +587,17 @@ var startIndex = function startIndex() {};
 
       var target = this.sudokuArrayIndex[this.currentIndex++];
       this.dom = this.prizes[target];
-      this.lamplight(true);
-      if (status) --number;
-      this.$time = setTimeout(function () {
-        _this6.underway(number, status);
-      }, this.filterTime(number));
+
+      if (this.dom.disabled) {
+        if (status) --number;
+        this.underway(number, status);
+      } else {
+        this.lamplight(true);
+        if (status) --number;
+        this.$time = setTimeout(function () {
+          _this6.underway(number, status);
+        }, this.filterTime(number));
+      }
     },
     filterTime: function filterTime(number) {
       var num = this.velocity / number;
@@ -693,8 +727,8 @@ var grid_prizevue_type_template_id_07ad7426_scoped_true_render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "gr-prize", style: _vm.style },
-    [_vm._t("default")],
+    { staticClass: "gr-prize" },
+    [_vm._t("default", null, { isSelect: _vm.isSelect })],
     2
   )
 }
@@ -705,12 +739,6 @@ grid_prizevue_type_template_id_07ad7426_scoped_true_render._withStripped = true
 // CONCATENATED MODULE: ./src/components/grid-roll/grid-prize.vue?vue&type=template&id=07ad7426&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/babel-loader/lib??ref--1!./node_modules/vue-loader/lib??vue-loader-options!./src/components/grid-roll/grid-prize.vue?vue&type=script&lang=js&
-
-
-function grid_prizevue_type_script_lang_js_ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function grid_prizevue_type_script_lang_js_objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { grid_prizevue_type_script_lang_js_ownKeys(source, true).forEach(function (key) { defineProperty_default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { grid_prizevue_type_script_lang_js_ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
 //
 //
 //
@@ -721,14 +749,7 @@ function grid_prizevue_type_script_lang_js_objectSpread(target) { for (var i = 1
   name: 'grid-prize',
   componentName: 'grid-prize',
   props: {
-    selStyle: {
-      type: Object,
-      default: function _default() {
-        return {
-          boxShadow: 'red 0 0 12px 4px'
-        };
-      }
-    },
+    disabled: Boolean,
     pid: {
       validator: function validator() {
         return true;
@@ -737,22 +758,12 @@ function grid_prizevue_type_script_lang_js_objectSpread(target) { for (var i = 1
   },
   data: function data() {
     return {
-      isSel: false
+      isSelect: false
     };
   },
-  computed: {
-    style: function style() {
-      return this.isSel ? grid_prizevue_type_script_lang_js_objectSpread({
-        zIndex: this.zIndex
-      }, this.selStyle) : {};
-    },
-    zIndex: function zIndex() {
-      return this.isSel ? 10 : '';
-    }
-  },
   methods: {
-    setIsSel: function setIsSel(b) {
-      this.isSel = b;
+    setIsSelect: function setIsSelect(b) {
+      this.isSelect = b;
     }
   }
 });
@@ -818,10 +829,6 @@ var gridPrize = components_grid_roll.gridPrize;
 
 var _components;
 
-//
-//
-//
-//
 //
 //
 //
