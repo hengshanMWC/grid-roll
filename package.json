@@ -16,7 +16,7 @@
     "url": "git+https://github.com/hengshanMWC/grid-roll.git"
   },
   "author": "mwc",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/hengshanMWC/grid-roll/issues"
   },
