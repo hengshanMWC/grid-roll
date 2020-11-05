@@ -1,6 +1,6 @@
 {
   "name": "grid-roll",
-  "version": "1.2.5",
+  "version": "1.2.9",
   "description": "宫格抽奖",
   "main": "dist/grid-roll.min.js",
   "scripts": {
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hengshanMWC/grid-roll"
+    "url": "git+https://github.com/hengshanMWC/grid-roll.git"
   },
   "author": "mwc",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/guanlinwu/grid-roll.git/issues"
+    "url": "https://github.com/hengshanMWC/grid-roll/issues"
   },
-  "homepage": "https://github.com/guanlinwu/grid-roll.git#readme",
+  "homepage": "https://github.com/hengshanMWC/grid-roll",
   "dependencies": {
     "vue": "^2.6.8",
     "vue-router": "^3.0.6"

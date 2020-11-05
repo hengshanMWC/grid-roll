@@ -2,35 +2,31 @@
   <div class="demo-dialSudoku">
     <div>
       <grid-roll ref="dial" @underway="handleUnderway" class="box">
-        <template #button>
-          <grid-start>
-            <div @click="handleStart" class="demo-box button-box">按钮</div>
-          </grid-start>
-        </template>
-        <template #prize>
-          <grid-prize v-for="(item, index) in items" :key="index">
-            <div class="demo-box">
+        <grid-start slot="button">
+          <div @click="handleStart" class="demo-box button-box">按钮</div>
+        </grid-start>
+        <grid-prize v-for="(item, index) in items" :key="index" slot="prize">
+          <template slot-scope="{ isSelect }">
+            <div class="demo-box"  :class="isSelect ? 'select' : ''">
               <p>id：{{item.id}}</p>
               <p>text：{{item.text}}</p>
             </div>
-          </grid-prize>
-        </template>
+          </template>
+        </grid-prize>
       </grid-roll>
       <p>基本九宫格</p>
       <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="6*5" class="box" interval="3px" :startIndex="5">
-        <template #button>
-          <grid-start>
-            <div @click="handleStart2" class="demo-box2 button-box2">按钮</div>
-          </grid-start>
-        </template>
-        <template #prize>
-          <grid-prize v-for="(item, index) in items2" :key="index" :selStyle="{opacity: 0.4}" :pid="item.id">
-            <div class="demo-box2">
+        <grid-start slot="button">
+          <div @click="handleStart2" class="demo-box2 button-box2">按钮</div>
+        </grid-start>
+        <grid-prize v-for="(item, index) in items2" :key="index" :pid="item.id" slot="prize">
+          <template slot-scope="{ isSelect }">
+            <div class="demo-box2" :class="isSelect ? 'select' : ''">
               <p>id：{{item.id}}</p>
               <p>text：{{item.text}}</p>
             </div>
-          </grid-prize>
-        </template>
+          </template>
+        </grid-prize>
       </grid-roll>
       <p>自定义宫格：6*5</p>
     </div>
@@ -105,6 +101,9 @@ $size: 200px * $zoom;
 * {
   margin: 0;
   padding: 0;
+}
+.select {
+  opacity: .4;
 }
 .demo-dialSudoku {
   p {

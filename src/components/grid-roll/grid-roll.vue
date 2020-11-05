@@ -9,7 +9,6 @@
 </template>
 
 <script>
-let startIndex = () => {}
 export default {
   name: 'grid-roll',
   componentName: 'grid-roll',
@@ -49,7 +48,8 @@ export default {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
       currentIndex: 0, // 当前转动的下标
       $time: null,
-      dom: null
+      dom: null,
+      $startIndex: null
     }
   },
   computed: {
@@ -136,6 +136,7 @@ export default {
     this.$watch('xy', this.initDom, {
       immediate: true
     })
+    window.a = this
   },
   beforeDestroy () {
     clearTimeout(this.$time)
@@ -147,8 +148,8 @@ export default {
         this.filterDom()
         this.setCoordinates()
         this.setContainerSize()
-        startIndex()
-        startIndex = this.$watch('startIndex', function (startIndex) {
+        if (typeof this.$startInde === 'function') this.$startIndex()
+        this.$startIndex = this.$watch('startIndex', function (startIndex) {
           this.currentIndex = this.getIndex(this.getStartIndex(startIndex))
         }, {
           immediate: true
@@ -233,7 +234,7 @@ export default {
       return this.changeNum + this.getIndex(index) - num + continueNumber
     },
     lamplight (b = false) {
-      if (this.dom) this.dom.setIsSel(b)
+      if (this.dom) this.dom.setIsSelect(b)
     },
     /**
      * 核心内容
@@ -252,11 +253,16 @@ export default {
       }
       let target = this.sudokuArrayIndex[this.currentIndex++]
       this.dom = this.prizes[target]
-      this.lamplight(true)
-      if (status) --number
-      this.$time = setTimeout(() => {
+      if (this.dom.disabled) {
+        if (status) --number
         this.underway(number, status)
-      }, this.filterTime(number))
+      } else {
+        this.lamplight(true)
+        if (status) --number
+        this.$time = setTimeout(() => {
+          this.underway(number, status)
+        }, this.filterTime(number))
+      }
     },
     filterTime (number) {
       let num = this.velocity / number
