@@ -49,9 +49,9 @@ export default {
       currentIndex: 0, // 当前转动的下标
       $time: null,
       currentDom: null,
-      $startIndex: null,
-      $prizes: [], // 奖品
-      $start: null // 抽奖按钮
+      $watchStartIndex: null,
+      $prizeComponents: [], // 奖品
+      $startComponent: null // 抽奖按钮
     }
   },
   computed: {
@@ -62,7 +62,7 @@ export default {
       return Number(this.xy.split('*')[1])
     },
     isPid () {
-      return this.$prizes[0] && this.$prizes[0].pid !== undefined
+      return this.$prizeComponents[0] && this.$prizeComponents[0].pid !== undefined
     },
     buttonxy () {
       return {
@@ -109,7 +109,7 @@ export default {
       let i = 0
       let reverse = this.brim[i]
       let value = this[reverse.direction]
-      return this.$prizes.map((prize, index) => {
+      return this.$prizeComponents.map((prize, index) => {
         if (index !== 0) {
           obj[reverse.direction] += reverse.value
         }
@@ -125,13 +125,13 @@ export default {
       })
     },
     sudokuArrayIndex () {
-      return this.$prizes.map((prize, index) => {
+      return this.$prizeComponents.map((prize, index) => {
         let advance = this.advances[index]
-        return this.$prizes.findIndex(prize => prize.$options.x === advance.x && prize.$options.y === advance.y)
+        return this.$prizeComponents.findIndex(prize => prize.$options.x === advance.x && prize.$options.y === advance.y)
       })
     },
     changeNum () {
-      return this.circle * this.$prizes.length + 1
+      return this.circle * this.$prizeComponents.length + 1
     }
   },
   mounted () {
@@ -149,8 +149,8 @@ export default {
         this.filterDom()
         this.setCoordinates()
         this.setContainerSize()
-        if (typeof this.$startInde === 'function') this.$startIndex()
-        this.$startIndex = this.$watch('startIndex', function (startIndex) {
+        if (typeof this.$watchStartIndex === 'function') this.$watchStartIndex()
+        this.$watchStartIndex = this.$watch('startIndex', function (startIndex) {
           this.currentIndex = this.getIndex(this.getStartIndex(startIndex))
         }, {
           immediate: true
@@ -160,7 +160,7 @@ export default {
     // 对于startIndex和isPid多一个默认判断
     getStartIndex (startIndex) {
       if (this.isPid && startIndex === undefined) {
-        startIndex = this.$prizes[0].pid
+        startIndex = this.$prizeComponents[0].pid
       } else if (startIndex === undefined) {
         startIndex = 0
       }
@@ -168,14 +168,14 @@ export default {
     },
     // 筛选好dom
     filterDom () {
-      this.$prizes = this.$children.filter(children => children.$options.componentName === 'grid-prize')
-      this.$start = this.$children.find(children => children.$options.componentName === 'grid-start')
+      this.$prizeComponents = this.$children.filter(children => children.$options.componentName === 'grid-prize')
+      this.$startComponent = this.$children.find(children => children.$options.componentName === 'grid-start')
     },
     // 设置坐标
     setCoordinates () {
       let x = 0
       let y = 0
-      this.$prizes.forEach(prize => {
+      this.$prizeComponents.forEach(prize => {
         if (this.buttonInside(x, y)) {
           x += this.buttonxy.maxX
         }
@@ -199,7 +199,7 @@ export default {
     },
     // 获得size
     getCalc (size, num, intervalNum) {
-      return `calc(${this.$prizes[0].$el[size] * num}px + ${this.interval} * ${intervalNum})`
+      return `calc(${this.$prizeComponents[0].$el[size] * num}px + ${this.interval} * ${intervalNum})`
     },
     buttonInside (x, y) {
       return (x > 0 && x <= this.buttonxy.maxX) && (y > 0 && y <= this.buttonxy.maxY)
@@ -249,11 +249,11 @@ export default {
         return
       }
       this.lamplight()
-      if (this.currentIndex > this.$prizes.length - 1) {
+      if (this.currentIndex > this.$prizeComponents.length - 1) {
         this.currentIndex = 0
       }
       let target = this.sudokuArrayIndex[this.currentIndex++]
-      this.currentDom = this.$prizes[target]
+      this.currentDom = this.$prizeComponents[target]
       if (typeof this.currentDom === 'undefined') {
         throw new TypeError('请确保宫格布局中奖品组件存在')
       } else {
@@ -283,7 +283,7 @@ export default {
      */
     getIndex (index) {
       if (this.isPid) {
-        index = this.$prizes.findIndex(prize => prize.pid === index)
+        index = this.$prizeComponents.findIndex(prize => prize.pid === index)
         index = this.sudokuArrayIndex.findIndex(i => i === index)
       }
       return index
