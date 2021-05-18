@@ -64,6 +64,7 @@ export default {
     isPid () {
       return this.$prizeComponents[0] && this.$prizeComponents[0].pid !== undefined
     },
+    // 按钮占位，除去左右和上下两个
     buttonxy () {
       return {
         maxX: this.x - 2,
@@ -202,7 +203,11 @@ export default {
       return `calc(${this.$prizeComponents[0].$el[size] * num}px + ${this.interval} * ${intervalNum})`
     },
     buttonInside (x, y) {
-      return (x > 0 && x <= this.buttonxy.maxX) && (y > 0 && y <= this.buttonxy.maxY)
+      if (this.$startComponent) {
+        return (x > 0 && x <= this.buttonxy.maxX) && (y > 0 && y <= this.buttonxy.maxY)
+      } else {
+        return false
+      }
     },
     stopRoll () {
       clearTimeout(this.$time)

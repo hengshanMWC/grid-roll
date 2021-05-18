@@ -2,7 +2,7 @@
   <div class="demo-dialSudoku">
     <h3>无按钮宫格</h3>
     <div>
-      <grid-roll ref="dial" xy="4*4" @underway="handleUnderway" class="box">
+      <grid-roll ref="dial" xy="4*2" @underway="handleUnderway" class="box">
         <grid-prize v-for="(item, index) in items" :key="index" slot="prize">
           <template slot-scope="{ isSelect }">
             <div class="demo-box"  :class="isSelect ? 'select' : ''">
