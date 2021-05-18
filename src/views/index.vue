@@ -15,6 +15,7 @@ import selector from './components/selector'
 import classic from './components/classic'
 import practical6x5 from './components/practical6x5'
 import noButton from './components/noButton'
+import disabled from './components/disabled'
 export default {
   name: 'demo',
   data () {
@@ -26,7 +27,8 @@ export default {
     selector,
     classic,
     practical6x5,
-    noButton
+    noButton,
+    disabled
   },
   methods: {
     handleSelects (arr) {
@@ -41,6 +43,6 @@ export default {
   margin-bottom: 40px;
 }
 .item {
-  margin-bottom: 30px;
+  margin-bottom: 60px;
 }
 </style>

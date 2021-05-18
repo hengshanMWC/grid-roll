@@ -48,7 +48,7 @@ export default {
         border: 2px solid #ccc;
         border-radius: 16px;
         font-size: 28px;
-        margin-right: 20px;
+        margin: 0 20px 20px 0;
       }
       input:checked + div {
         background: #409EFF;
