@@ -1,161 +1,48 @@
 <template>
-  <div class="demo-dialSudoku">
-    <div>
-      <grid-roll ref="dial" @underway="handleUnderway" class="box">
-        <grid-start slot="button">
-          <div @click="handleStart" class="demo-box button-box">按钮</div>
-        </grid-start>
-        <grid-prize v-for="(item, index) in items" :key="index" slot="prize">
-          <template slot-scope="{ isSelect }">
-            <div class="demo-box"  :class="isSelect ? 'select' : ''">
-              <p>id：{{item.id}}</p>
-              <p>text：{{item.text}}</p>
-            </div>
-          </template>
-        </grid-prize>
-      </grid-roll>
-      <p>基本九宫格</p>
-      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="6*5" class="box" interval="3px" :startIndex="5">
-        <grid-start slot="button">
-          <div @click="handleStart2" class="demo-box2 button-box2">按钮</div>
-        </grid-start>
-        <grid-prize v-for="(item, index) in items2" :key="index" :pid="item.id" slot="prize">
-          <template slot-scope="{ isSelect }">
-            <div class="demo-box2" :class="isSelect ? 'select' : ''">
-              <p>id：{{item.id}}</p>
-              <p>text：{{item.text}}</p>
-            </div>
-          </template>
-        </grid-prize>
-      </grid-roll>
-      <p>自定义宫格：6*5</p>
-    </div>
+  <div class="demo">
+    <selector @change="handleSelects" class="selector"></selector>
+    <component
+      v-for="item in selects"
+      :key="item"
+      :is="item"
+      class="item"
+    ></component>
   </div>
 </template>
 
 <script>
-import { gridRoll, gridStart, gridPrize } from '@/index'
+import selector from './components/selector'
+import classic from './components/classic'
+import practical6x5 from './components/practical6x5'
+import noButton from './components/noButton'
+import disabled from './components/disabled'
 export default {
-  name: 'demo-dialSudoku',
+  name: 'demo',
   data () {
     return {
-      items: [],
-      items2: []
+      selects: []
     }
   },
   components: {
-    [gridRoll.name]: gridRoll,
-    [gridStart.name]: gridStart,
-    [gridPrize.name]: gridPrize
-  },
-  created () {
-    let arr = []
-    for (let i = 0; i < 8; i++) {
-      arr.push({
-        id: i,
-        text: i
-      })
-    }
-    this.items = arr
-    arr = []
-    for (let i = 1; i < 19; i++) {
-      arr.push({
-        id: i,
-        text: i
-      })
-    }
-    this.items2 = arr
-  },
-  mounted () {
-    window.a = this.$refs.dial
-    window.b = this.$refs.dial2
+    selector,
+    classic,
+    practical6x5,
+    noButton,
+    disabled
   },
   methods: {
-    async handleStart () {
-      let b = await this.$refs.dial.startRoll(3)
-      console.log(b)
-      if (b) {
-        alert('恭喜你抽了个奖')
-      }
-    },
-    handleUnderway (index) {
-      console.log('进行中,index=' + index)
-    },
-    async handleStart2 () {
-      let b = await this.$refs.dial2.startRoll(7)
-      console.log(b)
-      if (b) {
-        alert('恭喜你抽了个奖')
-      }
-    },
-    handleUnderway2 (id) {
-      console.log('进行中,id=' + id)
+    handleSelects (arr) {
+      this.selects = arr
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-$zoom: .5;
-$size: 200px * $zoom;
-* {
-  margin: 0;
-  padding: 0;
+.selector {
+  margin-bottom: 40px;
 }
-.select {
-  opacity: .4;
-}
-.demo-dialSudoku {
-  p {
-    font-size: 24px;
-    text-align: center;
-  }
-  .box {
-    margin-top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .demo-box {
-    width: 150px;
-    height: 150px;
-    font-size: 32px;
-    text-align: center;
-    font-weight: 600;
-    border: 5px solid #ddd;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    background: #fff;
-    p {
-      flex: 1 1 150px;
-    }
-  }
-  .button-box {
-    border-radius: 50%;
-    width: 150px;
-    height: 150px;
-  }
-  .demo-box2 {
-    width: $size;
-    height: $size;
-    font-size: 42px * $zoom;
-    text-align: center;
-    font-weight: 600;
-    border: 5px * $zoom solid #ddd;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    background: #fff;
-    p {
-      flex: 1 1 $size;
-    }
-  }
-  .button-box2 {
-    border-radius: 50%;
-    width: 400px;
-    height: 300px;
-  }
+.item {
+  margin-bottom: 60px;
 }
 </style>
