@@ -9,13 +9,5 @@ export function createRouter () {
     routes
   })
 
-  router.afterEach(async (to, from) => {
-    if (to.meta.needScrollTop) {
-      setTimeout(() => {
-        window.scrollTo(0, 0)
-      }, 300)
-    }
-  })
-
   return router
 }

@@ -14,9 +14,12 @@ export default {
 </script>
 
 <style lang="scss">
-  html {
-    max-width: 750Px;
-    margin: 0 auto;
-    background: #f6f6f6;
-  }
+html {
+  max-width: 750Px;
+  margin: 0 auto;
+  background: #f6f6f6;
+}
+body {
+  margin: 0;
+}
 </style>
