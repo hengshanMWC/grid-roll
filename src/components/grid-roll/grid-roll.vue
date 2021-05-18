@@ -48,7 +48,7 @@ export default {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
       currentIndex: 0, // 当前转动的下标
       $time: null,
-      dom: null,
+      currentDom: null,
       $startIndex: null
     }
   },
@@ -234,7 +234,7 @@ export default {
       return this.changeNum + this.getIndex(index) - num + continueNumber
     },
     lamplight (b = false) {
-      if (this.dom) this.dom.setIsSelect(b)
+      if (this.currentDom) this.currentDom.setIsSelect(b)
     },
     /**
      * 核心内容
@@ -252,8 +252,8 @@ export default {
         this.currentIndex = 0
       }
       let target = this.sudokuArrayIndex[this.currentIndex++]
-      this.dom = this.prizes[target]
-      if (this.dom.disabled) {
+      this.currentDom = this.prizes[target]
+      if (this.currentDom.disabled) {
         if (status) --number
         this.underway(number, status)
       } else {
