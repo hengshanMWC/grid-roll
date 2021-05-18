@@ -48,7 +48,7 @@ export default {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
       currentIndex: 0, // 当前转动的下标
       $time: null,
-      currentom: null,
+      currentDom: null,
       $startIndex: null,
       $prizes: [], // 奖品
       $start: null // 抽奖按钮
@@ -235,7 +235,7 @@ export default {
       return this.changeNum + this.getIndex(index) - num + continueNumber
     },
     lamplight (b = false) {
-      if (this.currentom) this.currentom.setIsSelect(b)
+      if (this.currentDom) this.currentDom.setIsSelect(b)
     },
     /**
      * 核心内容
@@ -253,16 +253,20 @@ export default {
         this.currentIndex = 0
       }
       let target = this.sudokuArrayIndex[this.currentIndex++]
-      this.currentom = this.$prizes[target]
-      if (this.currentom.disabled) {
-        if (status) --number
-        this.underway(number, status)
+      this.currentDom = this.$prizes[target]
+      if (typeof this.currentDom === 'undefined') {
+        throw new TypeError('请确保宫格布局中奖品组件存在')
       } else {
-        this.lamplight(true)
-        if (status) --number
-        this.$time = setTimeout(() => {
+        if (this.currentDom.disabled) {
+          if (status) --number
           this.underway(number, status)
-        }, this.filterTime(number))
+        } else {
+          this.lamplight(true)
+          if (status) --number
+          this.$time = setTimeout(() => {
+            this.underway(number, status)
+          }, this.filterTime(number))
+        }
       }
     },
     filterTime (number) {
