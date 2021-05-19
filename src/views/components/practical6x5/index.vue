@@ -2,9 +2,17 @@
   <div class="demo-dialSudoku">
     <div>
       <h3>自定义宫格：6*5</h3>
-      <grid-roll ref="dial2" @underway="handleUnderway2" direction="l" xy="6*5" class="box" interval="3px" :startIndex="5">
+      <grid-roll
+        ref="dial"
+        @underway="handleUnderway"
+        @select="handleSelect"
+        direction="l"
+        xy="6*5"
+        class="box"
+        interval="3px"
+        :startIndex="5">
         <grid-start slot="button">
-          <div @click="handleStart2" class="demo-box2 button-box2">按钮</div>
+          <div @click="handleStart" class="demo-box2 button-box2">按钮</div>
         </grid-start>
         <grid-prize v-for="(item, index) in items2" :key="index" :pid="item.id" slot="prize">
           <template slot-scope="{ isSelect }">
@@ -44,15 +52,18 @@ export default {
     this.items2 = arr
   },
   methods: {
-    async handleStart2 () {
-      let b = await this.$refs.dial2.startRoll(7)
+    async handleStart () {
+      let b = await this.$refs.dial.startRoll(7)
       console.log(b)
       if (b) {
         alert('恭喜你抽了个奖')
       }
     },
-    handleUnderway2 (id) {
+    handleUnderway (id) {
       console.log('进行中,id=' + id)
+    },
+    handleSelect (id, index) {
+      console.log(`id:${id}和index:${index}`)
     }
   }
 }

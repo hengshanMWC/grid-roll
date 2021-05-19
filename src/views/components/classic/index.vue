@@ -4,7 +4,7 @@
     <div>
       <grid-roll ref="dial" @underway="handleUnderway" class="box">
         <grid-start slot="button">
-          <div @click="handleStart" class="demo-box button-box">按钮</div>
+          <div @click="handleStart" class="demo-box button-box">抽奖</div>
         </grid-start>
         <grid-prize v-for="(item, index) in items" :key="index" slot="prize">
           <template slot-scope="{ isSelect }">

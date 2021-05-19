@@ -40,7 +40,7 @@
 <script>
 import { gridRoll, gridStart, gridPrize } from '@/index'
 export default {
-  name: 'classic',
+  name: 'disabled',
   data () {
     return {
       items: [],

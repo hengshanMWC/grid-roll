@@ -20,7 +20,7 @@
 <script>
 import { gridRoll, gridPrize } from '@/index'
 export default {
-  name: 'classic',
+  name: 'noButton',
   data () {
     return {
       items: []
