@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import Params from './params'
 export default {
   name: 'grid-roll',
   componentName: 'grid-roll',
@@ -47,8 +48,8 @@ export default {
     return {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
       currentIndex: 0, // 当前转动的下标
-      $time: null,
       currentDom: null,
+      $time: null,
       $watchStartIndex: null,
       $prizeComponents: [], // 奖品
       $startComponent: null // 抽奖按钮
@@ -144,6 +145,21 @@ export default {
     clearTimeout(this.$time)
   },
   methods: {
+    /**
+     * 开始滚动
+     * @param {Number | Array} 滚动到的目标
+     */
+    startRoll (indexs) {
+      if (this.resolve) {
+        this.$emit('underway', this.getId(this.currentIndex))
+        return false
+      }
+      return new Promise(resolve => {
+        this.$params = new Params(indexs)
+        this.resolve = resolve
+        this.dischargeCargo()
+      })
+    },
     // 初始化布局
     initDom () {
       this.$nextTick(() => {
@@ -215,20 +231,16 @@ export default {
     continueRoll () {
       this.underway(this.changeNum, false)
     },
-    /**
-     * 开始滚动
-     * @param {Number} 滚动到的目标
-     */
-    startRoll (index) {
-      if (this.resolve) {
-        this.$emit('underway', this.getId(this.currentIndex))
-        return false
+    dischargeCargo () {
+      if (!isNaN(Number(this.$params.indexValue))) {
+        this.underway(this.countStep(this.$params.indexValue))
       }
-      return new Promise(resolve => {
-        this.resolve = resolve
-        this.underway(this.countStep(index))
-      })
     },
+    /**
+     * 计算步数
+     * @param {Number} 奖品位置
+     * @returns {Number} 返回步数
+     */
     countStep (index) {
       let num = 0
       let continueNumber = 0
@@ -245,19 +257,23 @@ export default {
     /**
      * 核心内容
      * @param {Number} 次数
+     * @param {Boolean} 是否真转
     */
     underway (number, status = true) {
       clearTimeout(this.$time)
+      // 没有步数
       if (number <= 0) {
-        this.resolve(true)
-        this.resolve = null
+        this.$emit('select', this.$params.indexValue, this.$params.index)
+        this.reincarnation()
         return
       }
-      this.lamplight()
+      if (!this.indexsCompletion(this.currentIndex)) {
+        this.lamplight()
+      }
       if (this.currentIndex > this.$prizeComponents.length - 1) {
         this.currentIndex = 0
       }
-      let target = this.sudokuArrayIndex[this.currentIndex++]
+      const target = this.sudokuArrayIndex[this.currentIndex++]
       this.currentDom = this.$prizeComponents[target]
       if (typeof this.currentDom === 'undefined') {
         throw new TypeError('请确保宫格布局中奖品组件存在')
@@ -272,6 +288,26 @@ export default {
             this.underway(number, status)
           }, this.filterTime(number))
         }
+      }
+    },
+    reincarnation () {
+      // 看看是否还有
+      if (this.$params.next()) {
+        this.dischargeCargo()
+      } else {
+        // 抽奖全部完成
+        this.resolve(true)
+        this.resolve = null
+        this.$params = null
+      }
+    },
+    indexsCompletion () {
+      const index = this.index
+      if (index > 0) {
+        const target = this.getIndex(this.currentIndex)
+        return this.$params.indexs
+          .slice(0, index)
+          .some(i => i === target)
       }
     },
     filterTime (number) {
