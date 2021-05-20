@@ -72,6 +72,7 @@ export default {
         maxY: this.y - 2
       }
     },
+    // 方向
     brim () {
       return this.direction === 'r'
         ? [
@@ -103,6 +104,7 @@ export default {
             value: -1
           }]
     },
+    // 走位
     advances () {
       let obj = {
         x: 0,
@@ -126,6 +128,7 @@ export default {
         }
       })
     },
+    // 宫格顺序和奖品映射，宫格顺序是数组下标，奖品$prizeComponents的下标是数组的元素
     sudokuArrayIndex () {
       return this.$prizeComponents.map((prize, index) => {
         let advance = this.advances[index]
@@ -267,14 +270,7 @@ export default {
         this.reincarnation()
         return
       }
-      if (!this.indexsCompletion(this.currentIndex)) {
-        this.lamplight()
-      }
-      if (this.currentIndex > this.$prizeComponents.length - 1) {
-        this.currentIndex = 0
-      }
-      const target = this.sudokuArrayIndex[this.currentIndex++]
-      this.currentDom = this.$prizeComponents[target]
+      this.handyman()
       if (typeof this.currentDom === 'undefined') {
         throw new TypeError('请确保宫格布局中奖品组件存在')
       } else {
@@ -300,6 +296,19 @@ export default {
         this.resolve = null
         this.$params = null
       }
+    },
+    handyman () {
+      // 被选中不关灯
+      if (!this.indexsCompletion(this.currentIndex)) {
+        this.lamplight()
+      }
+      // 绕完一圈从头来过
+      if (this.currentIndex > this.$prizeComponents.length - 1) {
+        this.currentIndex = 0
+      }
+      // 赋值currentDom
+      const target = this.sudokuArrayIndex[this.currentIndex++]
+      this.currentDom = this.$prizeComponents[target]
     },
     indexsCompletion () {
       const index = this.index

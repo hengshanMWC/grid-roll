@@ -29,7 +29,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .gr-prize {
   z-index: 1;
   display: inline-block;
