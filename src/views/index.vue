@@ -2,7 +2,7 @@
   <div class="demo">
     <selector
       @change="handleSelects"
-      :grids="$refs.grids"
+      :grids="grids"
       class="selector"
     ></selector>
     <component
@@ -25,7 +25,8 @@ export default {
   name: 'demo',
   data () {
     return {
-      selects: []
+      selects: [],
+      grids: []
     }
   },
   components: {
@@ -35,9 +36,18 @@ export default {
     noButton,
     disabled
   },
+  mounted () {
+    this.setGrids()
+  },
   methods: {
     handleSelects (arr) {
       this.selects = arr
+      this.setGrids()
+    },
+    setGrids () {
+      this.$nextTick(() => {
+        this.grids = this.$refs.grids
+      })
     }
   }
 }
