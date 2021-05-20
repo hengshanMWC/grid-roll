@@ -34,6 +34,7 @@ export default {
   data () {
     return {
       items2: [],
+      startArr: [],
       title: '自定义宫格：6*5'
     }
   },
@@ -54,14 +55,13 @@ export default {
   },
   methods: {
     async handleStart () {
-      const param = 7
+      const param = [7, 3, 10]
       let b = await this.$refs.dial.startRoll(param)
       console.log(b)
       if (b) {
-        const pid = this.$refs.dial.currentDom.pid
         alert(`
-          ${this.title}：${pid === param}
-          恭喜你抽了个奖：期望获取id为${param}，得到id为${pid}
+          ${this.title}：${this.startArr.toString() === param.toString()}
+          恭喜你抽了个奖：期望获取id为${param}，得到id为${this.startArr}
         `)
       }
     },
@@ -69,6 +69,11 @@ export default {
       console.log('进行中,id=' + id)
     },
     handleSelect (id, index) {
+      if (!index) {
+        this.startArr = [id]
+      } else {
+        this.startArr.push(id)
+      }
       console.log(`id:${id}和index:${index}`)
     }
   }

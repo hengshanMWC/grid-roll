@@ -48,7 +48,6 @@ export default {
     return {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
       currentIndex: 0, // 当前转动的下标
-      currentDom: null,
       $time: null,
       $watchStartIndex: null,
       $prizeComponents: [], // 奖品
@@ -137,6 +136,9 @@ export default {
     },
     changeNum () {
       return this.circle * this.$prizeComponents.length + 1
+    },
+    currentDom () {
+      return this.$prizeComponents[this.sudokuArrayIndex[this.currentIndex]]
     }
   },
   mounted () {
@@ -160,6 +162,7 @@ export default {
       return new Promise(resolve => {
         this.$params = new Params(indexs)
         this.resolve = resolve
+        this.lamplight()
         this.dischargeCargo()
       })
     },
@@ -236,7 +239,7 @@ export default {
     },
     dischargeCargo () {
       if (!isNaN(Number(this.$params.indexValue))) {
-        this.underway(this.countStep(this.$params.indexValue))
+        this.underway(this.countStep(this.$params.indexValue) - 1)
       }
     },
     /**
@@ -269,17 +272,24 @@ export default {
         this.$emit('select', this.$params.indexValue, this.$params.index)
         this.reincarnation()
         return
+      } else if (status) {
+        --number
       }
-      this.handyman()
+      // 被选中不关灯
+      if (!this.indexsCompletion(this.currentIndex)) {
+        this.lamplight()
+      }
+      // 绕完一圈从头来过
+      if (++this.currentIndex > this.$prizeComponents.length - 1) {
+        this.currentIndex = 0
+      }
       if (typeof this.currentDom === 'undefined') {
         throw new TypeError('请确保宫格布局中奖品组件存在')
       } else {
         if (this.currentDom.disabled) {
-          if (status) --number
           this.underway(number, status)
         } else {
           this.lamplight(true)
-          if (status) --number
           this.$time = setTimeout(() => {
             this.underway(number, status)
           }, this.filterTime(number))
@@ -297,26 +307,13 @@ export default {
         this.$params = null
       }
     },
-    handyman () {
-      // 被选中不关灯
-      if (!this.indexsCompletion(this.currentIndex)) {
-        this.lamplight()
-      }
-      // 绕完一圈从头来过
-      if (this.currentIndex > this.$prizeComponents.length - 1) {
-        this.currentIndex = 0
-      }
-      // 赋值currentDom
-      const target = this.sudokuArrayIndex[this.currentIndex++]
-      this.currentDom = this.$prizeComponents[target]
-    },
     indexsCompletion () {
-      const index = this.index
+      const index = this.$params.index
       if (index > 0) {
-        const target = this.getIndex(this.currentIndex)
+        const target = this.indexExchangePrizeComponentPosition(this.currentIndex)
         return this.$params.indexs
           .slice(0, index)
-          .some(i => i === target)
+          .includes(target)
       }
     },
     filterTime (number) {
@@ -343,6 +340,15 @@ export default {
         return this.sudokuArrayIndex[index]
       }
       return index
+    },
+    // 宫格下标换取奖品位置
+    indexExchangePrizeComponentPosition (index) {
+      const sudokuIndex = this.sudokuArrayIndex[index]
+      if (this.isPid) {
+        return this.$prizeComponents[sudokuIndex].pid
+      } else {
+        return sudokuIndex
+      }
     }
   }
 }

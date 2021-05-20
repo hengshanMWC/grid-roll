@@ -46,13 +46,13 @@ export default {
   },
   methods: {
     async handleStart () {
-      let b = await this.$refs.dial.startRoll(3)
-      console.log(b)
+      const param = 4
+      let b = await this.$refs.dial.startRoll(param)
       if (b) {
         const currentIndex = this.$refs.dial.currentIndex
         alert(`
-        ${this.title}：${currentIndex === 4}
-        恭喜你抽了个奖：期望获取第4个，得到第${currentIndex}
+        ${this.title}：${currentIndex === param}
+        恭喜你抽了个奖：期望获取第${param}个，得到第${currentIndex}
       `)
       }
     },

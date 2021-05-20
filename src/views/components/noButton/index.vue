@@ -3,7 +3,7 @@
     <h3>{{title}}</h3>
     <div>
       <grid-roll ref="dial" xy="4*2" @underway="handleUnderway" class="box">
-        <grid-prize v-for="(item, index) in items" :pid="item.id" :key="index" slot="prize">
+        <grid-prize v-for="(item, index) in items" :key="index" slot="prize">
           <template slot-scope="{ isSelect }">
             <div class="demo-box"  :class="isSelect ? 'select' : ''">
               <p>id：{{item.id}}</p>
@@ -43,15 +43,15 @@ export default {
   },
   methods: {
     async handleStart () {
-      const param = 3
+      const param = 4
       let b = await this.$refs.dial.startRoll(param)
       console.log(b)
       if (b) {
-        const pid = this.$refs.dial.currentDom.pid
+        const currentIndex = this.$refs.dial.currentIndex
         alert(`
-          ${this.title}：${pid === param}
-          恭喜你抽了个奖：期望获取id为${param}，得到id为${pid}
-        `)
+        ${this.title}：${currentIndex === param}
+        恭喜你抽了个奖：期望获取第${param}个，得到第${currentIndex}
+      `)
       }
     },
     handleUnderway (index) {
