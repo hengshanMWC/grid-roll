@@ -1,10 +1,15 @@
 <template>
   <div class="demo">
-    <selector @change="handleSelects" class="selector"></selector>
+    <selector
+      @change="handleSelects"
+      :grids="$refs.grids"
+      class="selector"
+    ></selector>
     <component
       v-for="item in selects"
       :key="item"
       :is="item"
+      ref="grids"
       class="item"
     ></component>
   </div>

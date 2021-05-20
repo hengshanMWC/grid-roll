@@ -1,6 +1,6 @@
 <template>
   <div class="demo-dialSudoku">
-    <h3>disabled宫格</h3>
+    <h3>{{ title }}</h3>
     <div>
       <grid-roll
         ref="dial"
@@ -44,7 +44,8 @@ export default {
   data () {
     return {
       items: [],
-      selectId: 0
+      selectId: 0,
+      title: 'disabled宫格'
     }
   },
   components: {
@@ -71,7 +72,11 @@ export default {
       let b = await this.$refs.dial.startRoll(this.selectId)
       console.log(b)
       if (b) {
-        alert('恭喜你抽了个奖')
+        const pid = this.$refs.dial.currentDom.pid
+        alert(`
+          ${this.title}：${pid === this.selectId}
+          恭喜你抽了个奖：期望获取id为${this.selectId}，得到id为${pid}
+        `)
       }
     },
     handleUnderway (index) {

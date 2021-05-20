@@ -1,7 +1,7 @@
 <template>
   <div class="demo-dialSudoku">
     <div>
-      <h3>自定义宫格：6*5</h3>
+      <h3>{{title}}</h3>
       <grid-roll
         ref="dial"
         @underway="handleUnderway"
@@ -33,7 +33,8 @@ export default {
   name: 'practical6x5',
   data () {
     return {
-      items2: []
+      items2: [],
+      title: '自定义宫格：6*5'
     }
   },
   components: {
@@ -53,10 +54,15 @@ export default {
   },
   methods: {
     async handleStart () {
-      let b = await this.$refs.dial.startRoll(7)
+      const param = 7
+      let b = await this.$refs.dial.startRoll(param)
       console.log(b)
       if (b) {
-        alert('恭喜你抽了个奖')
+        const pid = this.$refs.dial.currentDom.pid
+        alert(`
+          ${this.title}：${pid === param}
+          恭喜你抽了个奖：期望获取id为${param}，得到id为${pid}
+        `)
       }
     },
     handleUnderway (id) {

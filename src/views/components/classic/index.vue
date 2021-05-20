@@ -1,6 +1,6 @@
 <template>
   <div class="demo-dialSudoku">
-    <h3>经典九宫格</h3>
+    <h3>{{ title }}</h3>
     <div>
       <grid-roll ref="dial" @underway="handleUnderway" class="box">
         <grid-start slot="button">
@@ -25,7 +25,8 @@ export default {
   name: 'classic',
   data () {
     return {
-      items: []
+      items: [],
+      title: '经典九宫格'
     }
   },
   components: {
@@ -48,7 +49,11 @@ export default {
       let b = await this.$refs.dial.startRoll(3)
       console.log(b)
       if (b) {
-        alert('恭喜你抽了个奖')
+        const currentIndex = this.$refs.dial.currentIndex
+        alert(`
+        ${this.title}：${currentIndex === 4}
+        恭喜你抽了个奖：期望获取第4个，得到第${currentIndex}
+      `)
       }
     },
     handleUnderway (index) {

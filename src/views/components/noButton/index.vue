@@ -1,9 +1,9 @@
 <template>
   <div class="demo-dialSudoku">
-    <h3>无按钮宫格</h3>
+    <h3>{{title}}</h3>
     <div>
       <grid-roll ref="dial" xy="4*2" @underway="handleUnderway" class="box">
-        <grid-prize v-for="(item, index) in items" :key="index" slot="prize">
+        <grid-prize v-for="(item, index) in items" :pid="item.id" :key="index" slot="prize">
           <template slot-scope="{ isSelect }">
             <div class="demo-box"  :class="isSelect ? 'select' : ''">
               <p>id：{{item.id}}</p>
@@ -23,7 +23,8 @@ export default {
   name: 'noButton',
   data () {
     return {
-      items: []
+      items: [],
+      title: '无按钮宫格'
     }
   },
   components: {
@@ -42,10 +43,15 @@ export default {
   },
   methods: {
     async handleStart () {
-      let b = await this.$refs.dial.startRoll(3)
+      const param = 3
+      let b = await this.$refs.dial.startRoll(param)
       console.log(b)
       if (b) {
-        alert('恭喜你抽了个奖')
+        const pid = this.$refs.dial.currentDom.pid
+        alert(`
+          ${this.title}：${pid === param}
+          恭喜你抽了个奖：期望获取id为${param}，得到id为${pid}
+        `)
       }
     },
     handleUnderway (index) {
