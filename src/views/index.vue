@@ -38,6 +38,13 @@ export default {
   },
   mounted () {
     this.setGrids()
+    window.addEventListener('resize', () => {
+      setTimeout(() => {
+        this.grids.forEach(grid => {
+          grid.$refs.dial.initDom()
+        })
+      }, 500)
+    })
   },
   methods: {
     handleSelects (arr) {
