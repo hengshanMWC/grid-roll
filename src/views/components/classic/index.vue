@@ -1,6 +1,6 @@
 <template>
   <div class="demo-dialSudoku">
-    <h3>{{ title }}</h3>
+    <h3>{{ title }}-默认模式</h3>
     <div>
       <grid-roll ref="dial" @underway="handleUnderway" class="box">
         <grid-start slot="button">

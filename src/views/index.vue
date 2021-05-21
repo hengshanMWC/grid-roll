@@ -18,7 +18,7 @@
 <script>
 import selector from './components/selector'
 import classic from './components/classic'
-import practical6x5 from './components/practical6x5'
+import more6x5 from './components/more6x5'
 import noButton from './components/noButton'
 import disabled from './components/disabled'
 export default {
@@ -32,7 +32,7 @@ export default {
   components: {
     selector,
     classic,
-    practical6x5,
+    more6x5,
     noButton,
     disabled
   },

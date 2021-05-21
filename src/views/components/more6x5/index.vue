@@ -1,7 +1,7 @@
 <template>
   <div class="demo-dialSudoku">
     <div>
-      <h3>{{title}}</h3>
+      <h3>{{title}}-pid模式</h3>
       <grid-roll
         ref="dial"
         @underway="handleUnderway"
@@ -10,6 +10,7 @@
         xy="6*5"
         class="box"
         interval="3px"
+        :circle="3"
         :startIndex="5">
         <grid-start slot="button">
           <div @click="handleStart" class="demo-box2 button-box2">按钮</div>
@@ -30,12 +31,12 @@
 <script>
 import { gridRoll, gridStart, gridPrize } from '@/index'
 export default {
-  name: 'practical6x5',
+  name: 'more6x5',
   data () {
     return {
       items2: [],
       startArr: [],
-      title: '自定义宫格：6*5'
+      title: '6x5多抽宫格'
     }
   },
   components: {
@@ -65,7 +66,6 @@ export default {
           期望获取id为${param}，得到id为${this.startArr}
           期望id为${param}亮
           ${param.reduceRight((p, c) => {
-    console.log(`${c}：${this.$refs.prizes[c].isSelect}、${p}`)
     return `${c}：${this.$refs.prizes[c].isSelect}、${p}`
   }, '')}
         `)

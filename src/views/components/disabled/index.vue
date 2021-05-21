@@ -1,6 +1,6 @@
 <template>
   <div class="demo-dialSudoku">
-    <h3>{{ title }}</h3>
+    <h3>{{ title }}-pid模式</h3>
     <div>
       <grid-roll
         ref="dial"
@@ -20,7 +20,8 @@
           :key="index"
           :pid="item.id"
           :disabled="item.disabled"
-          slot="prize">
+          slot="prize"
+          ref="prizes">
           <template slot-scope="{ isSelect }">
             <div
               class="demo-box"
