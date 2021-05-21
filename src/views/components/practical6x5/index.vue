@@ -14,7 +14,7 @@
         <grid-start slot="button">
           <div @click="handleStart" class="demo-box2 button-box2">按钮</div>
         </grid-start>
-        <grid-prize v-for="(item, index) in items2" :key="index" :pid="item.id" slot="prize">
+        <grid-prize v-for="(item, index) in items2" :key="index" :pid="item.id" slot="prize" ref="prizes">
           <template slot-scope="{ isSelect }">
             <div class="demo-box2" :class="isSelect ? 'select' : ''">
               <p>id：{{item.id}}</p>
@@ -45,7 +45,7 @@ export default {
   },
   created () {
     const arr = []
-    for (let i = 1; i < 19; i++) {
+    for (let i = 0; i < 18; i++) {
       arr.push({
         id: i,
         text: i
@@ -61,7 +61,13 @@ export default {
       if (b) {
         alert(`
           ${this.title}：${this.startArr.toString() === param.toString()}
-          恭喜你抽了个奖：期望获取id为${param}，得到id为${this.startArr}
+          恭喜你抽了个奖：
+          期望获取id为${param}，得到id为${this.startArr}
+          期望id为${param}亮
+          ${param.reduceRight((p, c) => {
+    console.log(`${c}：${this.$refs.prizes[c].isSelect}、${p}`)
+    return `${c}：${this.$refs.prizes[c].isSelect}、${p}`
+  }, '')}
         `)
       }
     },

@@ -75,7 +75,9 @@ export default {
         const pid = this.$refs.dial.currentDom.pid
         alert(`
           ${this.title}：${pid === this.selectId}
-          恭喜你抽了个奖：期望获取id为${this.selectId}，得到id为${pid}
+          恭喜你抽了个奖：
+          期望获取id为${this.selectId}，得到id为${pid}
+          期望id为${this.selectId}的亮,${this.$refs.prizes[this.selectId].isSelect}
         `)
       }
     },

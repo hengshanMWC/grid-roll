@@ -3,7 +3,7 @@
     <h3>{{title}}</h3>
     <div>
       <grid-roll ref="dial" xy="4*2" @underway="handleUnderway" class="box">
-        <grid-prize v-for="(item, index) in items" :key="index" slot="prize">
+        <grid-prize v-for="(item, index) in items" :key="index" slot="prize" ref="prizes">
           <template slot-scope="{ isSelect }">
             <div class="demo-box"  :class="isSelect ? 'select' : ''">
               <p>id：{{item.id}}</p>
@@ -50,7 +50,9 @@ export default {
         const currentIndex = this.$refs.dial.currentIndex
         alert(`
         ${this.title}：${currentIndex === param}
-        恭喜你抽了个奖：期望获取第${param}个，得到第${currentIndex}
+        恭喜你抽了个奖：
+        期望获取第${param}个，得到第${currentIndex}
+        期望id为${7}的亮,${this.$refs.prizes[7].isSelect}
       `)
       }
     },
