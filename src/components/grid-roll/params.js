@@ -11,6 +11,10 @@ export default class Params {
       return this.indexs[this.index]
     }
   }
+  // 多个选择
+  get multi () {
+    return this.indexs.length > 1 && this.index
+  }
   setIndex (indexs) {
     if (Array.isArray(indexs)) {
       return JSON.parse(JSON.stringify(indexs))

@@ -42,6 +42,10 @@ export default {
     minVelocity: {
       type: [Number, Boolean],
       default: 40 // 最小间隔
+    },
+    nextTimeInterval: {
+      type: [Number],
+      default: 1000 // 多选宫格时间间隔
     }
   },
   data () {
@@ -160,9 +164,10 @@ export default {
         return false
       }
       return new Promise(resolve => {
+        this.forEachLamplight()
         this.$params = new Params(indexs)
         this.resolve = resolve
-        this.lamplight()
+        this.lamplight(true)
         this.dischargeCargo()
       })
     },
@@ -239,8 +244,18 @@ export default {
     },
     dischargeCargo () {
       if (!isNaN(Number(this.$params.indexValue))) {
-        this.underway(this.countStep(this.$params.indexValue) - 1)
+        if (this.$params.multi) {
+          this.$time = setTimeout(() => {
+            this.round()
+          }, this.nextTimeInterval)
+        } else {
+          this.round()
+        }
+        // 算上开始奖品，所以-1
       }
+    },
+    round () {
+      this.underway(this.countStep(this.$params.indexValue) - 1)
     },
     /**
      * 计算步数
@@ -256,6 +271,11 @@ export default {
         continueNumber = this.getIndex(this.getStartIndex(this.startIndex)) - this.currentIndex
       }
       return this.changeNum + this.getIndex(index) - num + continueNumber
+    },
+    forEachLamplight (b = false) {
+      this.$prizeComponents.forEach(item => {
+        item.setIsSelect(b)
+      })
     },
     lamplight (b = false) {
       if (this.currentDom) this.currentDom.setIsSelect(b)
