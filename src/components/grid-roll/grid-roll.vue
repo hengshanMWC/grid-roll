@@ -107,7 +107,7 @@ export default {
             value: -1
           }]
     },
-    // 走位
+    // 制定滚动路线
     advances () {
       let obj = {
         x: 0,
@@ -115,12 +115,15 @@ export default {
       }
       let i = 0
       let reverse = this.brim[i]
-      let value = this[reverse.direction]
+      let value = this[reverse.direction] // 获取坐标轴方向的最大值
       return this.$prizeComponents.map((prize, index) => {
+        // 第一个的坐标是0,0，所以不用设置
         if (index !== 0) {
+          // 为每个奖品设置坐标
           obj[reverse.direction] += reverse.value
         }
         value--
+        // 到达坐标轴某个方向尽头时，切换方向
         if (value === 0) {
           i++
           reverse = this.brim[i]
@@ -131,10 +134,10 @@ export default {
         }
       })
     },
-    // 宫格顺序和奖品映射，宫格顺序是数组下标，奖品$prizeComponents的下标是数组的元素
+    // 宫格顺序,元素是奖品的下标
     sudokuArrayIndex () {
       return this.$prizeComponents.map((prize, index) => {
-        let advance = this.advances[index]
+        const advance = this.advances[index]
         return this.$prizeComponents.findIndex(prize => prize.$options.x === advance.x && prize.$options.y === advance.y)
       })
     },
@@ -199,12 +202,12 @@ export default {
       this.$prizeComponents = this.$children.filter(children => children.$options.componentName === 'grid-prize')
       this.$startComponent = this.$children.find(children => children.$options.componentName === 'grid-start')
     },
-    // 设置坐标
+    // 设置奖品坐标
     setCoordinates () {
       let x = 0
       let y = 0
       this.$prizeComponents.forEach(prize => {
-        if (this.buttonInside(x, y)) {
+        if (this.isButtonInside(x, y)) {
           x += this.buttonxy.maxX
         }
         prize.$options.x = x
@@ -229,8 +232,10 @@ export default {
     getCalc (size, num, intervalNum) {
       return `calc(${this.$prizeComponents[0].$el[size] * num}px + ${this.interval} * ${intervalNum})`
     },
-    buttonInside (x, y) {
+    // 关于按钮对布局的影响
+    isButtonInside (x, y) {
       if (this.$startComponent) {
+        // 4条边的顶点不会受按钮占位影响
         return (x > 0 && x <= this.buttonxy.maxX) && (y > 0 && y <= this.buttonxy.maxY)
       } else {
         return false
