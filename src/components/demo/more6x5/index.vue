@@ -15,7 +15,7 @@
         <grid-start slot="button">
           <div @click="handleStart" class="demo-box2 button-box2">按钮</div>
         </grid-start>
-        <grid-prize v-for="(item, index) in items2" :key="index" :pid="item.id" slot="prize" ref="prizes">
+        <grid-prize v-for="(item, index) in items" :key="index" :pid="item.id" slot="prize" ref="prizes">
           <template slot-scope="{ isSelect }">
             <div class="demo-box2" :class="isSelect ? 'select' : ''">
               <p>id：{{item.id}}</p>
@@ -35,7 +35,7 @@ export default {
   props: ['param'],
   data () {
     return {
-      items2: [],
+      items: [],
       startArr: [],
       title: '6x5多抽宫格'
     }
@@ -47,13 +47,13 @@ export default {
   },
   created () {
     const arr = []
-    for (let i = 0; i < 18; i++) {
+    for (let i = 2; i < 20; i++) {
       arr.push({
         id: i,
         text: i
       })
     }
-    this.items2 = arr
+    this.items = arr
   },
   methods: {
     async handleStart () {

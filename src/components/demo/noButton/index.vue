@@ -34,7 +34,7 @@ export default {
   },
   created () {
     const arr = []
-    for (let i = 0; i < 8; i++) {
+    for (let i = 10; i < 18; i++) {
       arr.push({
         id: i,
         text: i

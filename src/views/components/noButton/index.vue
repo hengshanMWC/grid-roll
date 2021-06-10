@@ -17,13 +17,15 @@ export default {
   methods: {
     toast (b) {
       if (b) {
+        const id = 17
         const demo = this.$refs.demo
         const currentIndex = demo.$refs.dial.currentIndex
+        const index = demo.items.findIndex(item => item.id === id)
         alert(`
         ${demo.title}：${currentIndex === this.param}
         恭喜你抽了个奖：
         期望获取第${this.param}个，得到第${currentIndex}
-        期望id为${7}的亮,${demo.$refs.prizes[7].isSelect}
+        期望id为${id}的亮,${demo.$refs.prizes[index].isSelect}
       `)
       }
     },
