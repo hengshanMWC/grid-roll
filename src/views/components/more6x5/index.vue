@@ -24,13 +24,12 @@ export default {
           期望获取id为${this.param}，得到id为${demo.startArr}
           期望id为${this.param}亮
           ${this.param.reduceRight((p, c) => {
-    return `${c}：${this.getPrize(c, demo).isSelec}、${p}`
+    return `${c}：${this.getPrize(c, demo).isSelect}、${p}`
   }, '')}
         `)
       }
     },
     getPrize (id, demo) {
-      console.log(demo, demo.items)
       const index = demo.items.findIndex(item => item.id === id)
       return demo.$refs.prizes[index]
     },
