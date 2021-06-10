@@ -324,7 +324,6 @@ export default {
         // 抽奖全部完成
         this.resolve(true)
         this.resolve = null
-        this.$params = null
       }
     },
     indexsCompletion () {
