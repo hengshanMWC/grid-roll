@@ -19,7 +19,7 @@ export default {
           ${demo.title}：${pid === selectId}
           恭喜你抽了个奖：
           期望获取id为${selectId}，得到id为${pid}
-          期望id为${selectId}的亮,${demo.$refs.prizes[selectId].isSelect}
+          期望id为${selectId}的亮,${demo.$refs.prizes.find(prize => prize.pid === selectId).isSelect}
         `)
       }
     },

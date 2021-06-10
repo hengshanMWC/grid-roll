@@ -25,7 +25,8 @@ export default {
     startIndex: {
       validator () {
         return true
-      }
+      },
+      default: 0
     },
     direction: {
       type: String,
@@ -180,20 +181,11 @@ export default {
         this.setContainerSize()
         if (typeof this.$watchStartIndex === 'function') this.$watchStartIndex()
         this.$watchStartIndex = this.$watch('startIndex', function (startIndex) {
-          this.currentIndex = this.getIndex(this.getStartIndex(startIndex))
+          this.currentIndex = startIndex
         }, {
           immediate: true
         })
       })
-    },
-    // 对于startIndex和isPid多一个默认判断
-    getStartIndex (startIndex) {
-      if (this.getIsPid() && startIndex === undefined) {
-        startIndex = this.$prizeComponents[0].pid
-      } else if (startIndex === undefined) {
-        startIndex = 0
-      }
-      return startIndex
     },
     // 筛选好dom
     filterDom () {
@@ -269,14 +261,8 @@ export default {
      * @returns {Number} 返回步数
      */
     countStep (index) {
-      let num = 0
-      let continueNumber = 0
-      if (this.getIsPid()) {
-        num = this.currentIndex
-      } else {
-        continueNumber = this.getIndex(this.getStartIndex(this.startIndex)) - this.currentIndex
-      }
-      return this.changeNum + this.getIndex(index) - num + continueNumber
+      const i = this.getIsPid() ? this.pIdToIndex(index) : index
+      return this.changeNum + i - this.currentIndex
     },
     forEachLamplight (b = false) {
       this.$prizeComponents.forEach(item => {
@@ -348,22 +334,19 @@ export default {
       }
       return num
     },
-    /**
-     * 获取宫格下标
-     * @param {any} index 宫格下标或者标识符
-     * @returns {Number} 宫格下标
-     */
-    getIndex (index) {
-      if (this.getIsPid()) {
-        return this.sudokuArrayIndex.findIndex(i => i === index)
-      }
-      return index
-    },
     getId (index) {
       if (this.getIsPid()) {
         return this.sudokuArrayIndex[index]
       }
       return index
+    },
+    /**
+     * 奖品id换下标
+     * @param {any} pid
+    */
+    pIdToIndex (pid) {
+      const prizeIndex = this.$prizeComponents.findIndex(prize => prize.pid === pid)
+      return this.sudokuArrayIndex.findIndex(i => i === prizeIndex)
     },
     // 宫格下标换取奖品位置
     indexExchangePrizeComponentPosition (index) {

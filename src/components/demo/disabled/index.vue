@@ -6,13 +6,12 @@
         ref="dial"
         @underway="handleUnderway"
         :minVelocity="100"
-        :startIndex="4"
         class="box">
         <grid-start slot="button">
           <input
             :value="selectId"
             @input="handleInput"
-            maxlength="1"
+            maxlength="2"
             type="type"
             class="demo-box button-box" />
         </grid-start>
@@ -41,12 +40,14 @@
 
 <script>
 import { gridRoll, gridStart, gridPrize } from '@/index'
+const min = 10
+const max = 16
 export default {
   name: 'disabledDemo',
   data () {
     return {
       items: [],
-      selectId: 0,
+      selectId: min,
       title: 'disabled宫格'
     }
   },
@@ -57,13 +58,13 @@ export default {
   },
   created () {
     const arr = []
-    for (let i = 0; i <= 6; i++) {
+    for (let i = min; i <= max; i++) {
       arr.push({
         id: i,
         text: i
       })
     }
-    arr.splice(6, 0, {
+    arr.splice(max, 0, {
       text: '抽奖',
       disabled: true
     })
@@ -81,9 +82,9 @@ export default {
       const number = Number(e.target.value)
       let num
       if (isNaN(number)) {
-        num = 0
-      } else if (number > 6) {
-        num = 6
+        num = min
+      } else if (number > max) {
+        num = max
       } else {
         num = number
       }
