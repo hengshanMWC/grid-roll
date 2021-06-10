@@ -52,6 +52,7 @@ export default {
     return {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
       currentIndex: 0, // 当前转动的下标
+      isPid: false, // 是否开启pid模式
       $time: null,
       $watchStartIndex: null,
       $prizeComponents: [], // 奖品
@@ -64,9 +65,6 @@ export default {
     },
     y () {
       return Number(this.xy.split('*')[1])
-    },
-    isPid () {
-      return this.$prizeComponents[0] && this.$prizeComponents[0].pid !== undefined
     },
     // 按钮占位，除去左右和上下两个
     buttonxy () {
@@ -200,6 +198,7 @@ export default {
     // 筛选好dom
     filterDom () {
       this.$prizeComponents = this.$children.filter(children => children.$options.componentName === 'grid-prize')
+      this.isPid = this.getPid()
       this.$startComponent = this.$children.find(children => children.$options.componentName === 'grid-start')
     },
     // 设置奖品坐标
@@ -240,6 +239,9 @@ export default {
       } else {
         return false
       }
+    },
+    getPid () {
+      return this.$prizeComponents[0] && this.$prizeComponents[0].pid !== undefined
     },
     stopRoll () {
       clearTimeout(this.$time)
