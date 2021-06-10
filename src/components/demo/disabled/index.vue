@@ -6,6 +6,7 @@
         ref="dial"
         @underway="handleUnderway"
         :minVelocity="100"
+        :startIndex="4"
         class="box">
         <grid-start slot="button">
           <input

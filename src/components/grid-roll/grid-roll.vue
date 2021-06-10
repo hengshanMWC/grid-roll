@@ -51,7 +51,7 @@ export default {
   data () {
     return {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
-      currentIndex: 0, // 当前转动的下标
+      currentIndex: 0, // 当前的宫格下标
       isPid: false, // 是否开启pid模式
       $time: null,
       $watchStartIndex: null,
@@ -132,7 +132,7 @@ export default {
         }
       })
     },
-    // 宫格顺序,元素是奖品的下标
+    // 宫格顺序数组,元素是奖品的下标
     sudokuArrayIndex () {
       return this.$prizeComponents.map((prize, index) => {
         const advance = this.advances[index]
@@ -188,7 +188,7 @@ export default {
     },
     // 对于startIndex和isPid多一个默认判断
     getStartIndex (startIndex) {
-      if (this.isPid && startIndex === undefined) {
+      if (this.getIsPid() && startIndex === undefined) {
         startIndex = this.$prizeComponents[0].pid
       } else if (startIndex === undefined) {
         startIndex = 0
@@ -198,7 +198,6 @@ export default {
     // 筛选好dom
     filterDom () {
       this.$prizeComponents = this.$children.filter(children => children.$options.componentName === 'grid-prize')
-      this.isPid = this.getPid()
       this.$startComponent = this.$children.find(children => children.$options.componentName === 'grid-start')
     },
     // 设置奖品坐标
@@ -240,7 +239,7 @@ export default {
         return false
       }
     },
-    getPid () {
+    getIsPid () {
       return this.$prizeComponents[0] && this.$prizeComponents[0].pid !== undefined
     },
     stopRoll () {
@@ -258,10 +257,10 @@ export default {
         } else {
           this.round()
         }
-        // 算上开始奖品，所以-1
       }
     },
     round () {
+      // 算上开始奖品，所以-1
       this.underway(this.countStep(this.$params.indexValue) - 1)
     },
     /**
@@ -272,7 +271,7 @@ export default {
     countStep (index) {
       let num = 0
       let continueNumber = 0
-      if (this.isPid) {
+      if (this.getIsPid()) {
         num = this.currentIndex
       } else {
         continueNumber = this.getIndex(this.getStartIndex(this.startIndex)) - this.currentIndex
@@ -355,14 +354,13 @@ export default {
      * @returns {Number} 宫格下标
      */
     getIndex (index) {
-      if (this.isPid) {
-        index = this.$prizeComponents.findIndex(prize => prize.pid === index)
-        index = this.sudokuArrayIndex.findIndex(i => i === index)
+      if (this.getIsPid()) {
+        return this.sudokuArrayIndex.findIndex(i => i === index)
       }
       return index
     },
     getId (index) {
-      if (this.isPid) {
+      if (this.getIsPid()) {
         return this.sudokuArrayIndex[index]
       }
       return index
@@ -370,7 +368,7 @@ export default {
     // 宫格下标换取奖品位置
     indexExchangePrizeComponentPosition (index) {
       const sudokuIndex = this.sudokuArrayIndex[index]
-      if (this.isPid) {
+      if (this.getIsPid()) {
         return this.$prizeComponents[sudokuIndex].pid
       } else {
         return sudokuIndex
