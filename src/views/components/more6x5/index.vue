@@ -1,86 +1,37 @@
 <template>
-  <div class="demo-dialSudoku">
-    <div>
-      <h3>{{title}}-pid模式</h3>
-      <grid-roll
-        ref="dial"
-        @underway="handleUnderway"
-        @select="handleSelect"
-        direction="l"
-        xy="6*5"
-        class="box"
-        interval="3px"
-        :circle="3"
-        :startIndex="5">
-        <grid-start slot="button">
-          <div @click="handleStart" class="demo-box2 button-box2">按钮</div>
-        </grid-start>
-        <grid-prize v-for="(item, index) in items2" :key="index" :pid="item.id" slot="prize" ref="prizes">
-          <template slot-scope="{ isSelect }">
-            <div class="demo-box2" :class="isSelect ? 'select' : ''">
-              <p>id：{{item.id}}</p>
-              <p>text：{{item.text}}</p>
-            </div>
-          </template>
-        </grid-prize>
-      </grid-roll>
-    </div>
-  </div>
+  <more6x5Demo ref="demo" :param="param" @ing="toast"></more6x5Demo>
 </template>
 
 <script>
-import { gridRoll, gridStart, gridPrize } from '@/index'
+import more6x5 from '@/components/demo/more6x5'
 export default {
   name: 'more6x5',
   data () {
     return {
-      items2: [],
-      startArr: [],
-      title: '6x5多抽宫格'
+      param: [7, 3, 10]
     }
   },
   components: {
-    [gridRoll.name]: gridRoll,
-    [gridStart.name]: gridStart,
-    [gridPrize.name]: gridPrize
-  },
-  created () {
-    const arr = []
-    for (let i = 0; i < 18; i++) {
-      arr.push({
-        id: i,
-        text: i
-      })
-    }
-    this.items2 = arr
+    [more6x5.name]: more6x5
   },
   methods: {
-    async handleStart () {
-      const param = [7, 3, 10]
-      let b = await this.$refs.dial.startRoll(param)
-      console.log(b)
+    toast (b) {
       if (b) {
+        const demo = this.$refs.demo
         alert(`
-          ${this.title}：${this.startArr.toString() === param.toString()}
+          ${demo.title}：${demo.startArr.toString() === this.param.toString()}
           恭喜你抽了个奖：
-          期望获取id为${param}，得到id为${this.startArr}
-          期望id为${param}亮
-          ${param.reduceRight((p, c) => {
-    return `${c}：${this.$refs.prizes[c].isSelect}、${p}`
+          期望获取id为${this.param}，得到id为${demo.startArr}
+          期望id为${this.param}亮
+          ${this.param.reduceRight((p, c) => {
+    return `${c}：${demo.$refs.prizes[c].isSelect}、${p}`
   }, '')}
         `)
       }
     },
-    handleUnderway (id) {
-      console.log('进行中,id=' + id)
-    },
-    handleSelect (id, index) {
-      if (!index) {
-        this.startArr = [id]
-      } else {
-        this.startArr.push(id)
-      }
-      console.log(`id:${id}和index:${index}`)
+    async handleStart () {
+      const b = await this.$refs.demo.handleStart()
+      this.toast(b)
     }
   }
 }

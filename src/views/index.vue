@@ -41,7 +41,7 @@ export default {
     window.addEventListener('resize', () => {
       setTimeout(() => {
         this.grids.forEach(grid => {
-          grid.$refs.dial.initDom()
+          grid.$refs.demo.$refs.dial.initDom()
         })
       }, 500)
     })

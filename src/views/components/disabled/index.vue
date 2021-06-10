@@ -1,101 +1,31 @@
 <template>
-  <div class="demo-dialSudoku">
-    <h3>{{ title }}-pid模式</h3>
-    <div>
-      <grid-roll
-        ref="dial"
-        @underway="handleUnderway"
-        :minVelocity="100"
-        class="box">
-        <grid-start slot="button">
-          <input
-            :value="selectId"
-            @input="handleInput"
-            maxlength="1"
-            type="type"
-            class="demo-box button-box" />
-        </grid-start>
-        <grid-prize
-          v-for="(item, index) in items"
-          :key="index"
-          :pid="item.id"
-          :disabled="item.disabled"
-          slot="prize"
-          ref="prizes">
-          <template slot-scope="{ isSelect }">
-            <div
-              class="demo-box"
-              :class="isSelect ? 'select' : ''"
-              @click="item.disabled && handleStart()"
-            >
-              <p v-if="!isNaN(Number(item.id))">id：{{item.id}}</p>
-              <p>text：{{item.text}}</p>
-            </div>
-          </template>
-        </grid-prize>
-      </grid-roll>
-    </div>
-  </div>
+  <disabledDemo ref="demo" @ing="toast"></disabledDemo>
 </template>
 
 <script>
-import { gridRoll, gridStart, gridPrize } from '@/index'
+import disabled from '@/components/demo/disabled'
 export default {
   name: 'disabled',
-  data () {
-    return {
-      items: [],
-      selectId: 0,
-      title: 'disabled宫格'
-    }
-  },
   components: {
-    [gridRoll.name]: gridRoll,
-    [gridStart.name]: gridStart,
-    [gridPrize.name]: gridPrize
-  },
-  created () {
-    const arr = []
-    for (let i = 0; i <= 6; i++) {
-      arr.push({
-        id: i,
-        text: i
-      })
-    }
-    arr.splice(6, 0, {
-      text: '抽奖',
-      disabled: true
-    })
-    this.items = arr
+    [disabled.name]: disabled
   },
   methods: {
-    async handleStart () {
-      let b = await this.$refs.dial.startRoll(this.selectId)
-      console.log(b)
+    toast (b) {
       if (b) {
-        const pid = this.$refs.dial.currentDom.pid
+        const demo = this.$refs.demo
+        const pid = demo.$refs.dial.currentDom.pid
+        const selectId = demo.selectId
         alert(`
-          ${this.title}：${pid === this.selectId}
+          ${demo.title}：${pid === selectId}
           恭喜你抽了个奖：
-          期望获取id为${this.selectId}，得到id为${pid}
-          期望id为${this.selectId}的亮,${this.$refs.prizes[this.selectId].isSelect}
+          期望获取id为${selectId}，得到id为${pid}
+          期望id为${selectId}的亮,${demo.$refs.prizes[selectId].isSelect}
         `)
       }
     },
-    handleUnderway (index) {
-      console.log('进行中,index=' + index)
-    },
-    handleInput (e) {
-      const number = Number(e.target.value)
-      let num
-      if (isNaN(number)) {
-        num = 0
-      } else if (number > 6) {
-        num = 6
-      } else {
-        num = number
-      }
-      this.selectId = num
+    async handleStart () {
+      const b = await this.$refs.demo.handleStart()
+      this.toast(b)
     }
   }
 }

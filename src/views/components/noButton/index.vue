@@ -1,63 +1,35 @@
 <template>
-  <div class="demo-dialSudoku">
-    <h3>{{title}}-默认模式</h3>
-    <div>
-      <grid-roll ref="dial" xy="4*2" @underway="handleUnderway" class="box">
-        <grid-prize v-for="(item, index) in items" :key="index" slot="prize" ref="prizes">
-          <template slot-scope="{ isSelect }">
-            <div class="demo-box"  :class="isSelect ? 'select' : ''">
-              <p>id：{{item.id}}</p>
-              <p>text：{{item.text}}</p>
-            </div>
-          </template>
-        </grid-prize>
-      </grid-roll>
-    </div>
-    <div class="btn" @click="handleStart">抽奖</div>
-  </div>
+  <noButtonDemo ref="demo" :param="param" @ing="toast"></noButtonDemo>
 </template>
 
 <script>
-import { gridRoll, gridPrize } from '@/index'
+import noButton from '@/components/demo/noButton'
 export default {
   name: 'noButton',
   data () {
     return {
-      items: [],
-      title: '无按钮宫格'
+      param: 4
     }
   },
   components: {
-    [gridRoll.name]: gridRoll,
-    [gridPrize.name]: gridPrize
-  },
-  created () {
-    const arr = []
-    for (let i = 0; i < 8; i++) {
-      arr.push({
-        id: i,
-        text: i
-      })
-    }
-    this.items = arr
+    [noButton.name]: noButton
   },
   methods: {
-    async handleStart () {
-      const param = 4
-      let b = await this.$refs.dial.startRoll(param)
-      console.log(b)
+    toast (b) {
       if (b) {
-        const currentIndex = this.$refs.dial.currentIndex
+        const demo = this.$refs.demo
+        const currentIndex = demo.$refs.dial.currentIndex
         alert(`
-        ${this.title}：${currentIndex === param}
+        ${demo.title}：${currentIndex === this.param}
         恭喜你抽了个奖：
-        期望获取第${param}个，得到第${currentIndex}
-        期望id为${7}的亮,${this.$refs.prizes[7].isSelect}
+        期望获取第${this.param}个，得到第${currentIndex}
+        期望id为${7}的亮,${demo.$refs.prizes[7].isSelect}
       `)
       }
     },
-    handleUnderway (index) {
-      console.log('进行中,index=' + index)
+    async handleStart () {
+      const b = await this.$refs.demo.handleStart()
+      this.toast(b)
     }
   }
 }
