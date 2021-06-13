@@ -1,4 +1,5 @@
 export default class Params {
+  // 抽奖目标
   constructor (indexs) {
     this.indexs = this.setIndex(indexs)
     this.index = 0

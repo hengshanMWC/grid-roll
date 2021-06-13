@@ -64,7 +64,7 @@ export default {
         text: i
       })
     }
-    arr.splice(max, 0, {
+    arr.splice(arr.length - 1, 0, {
       text: '抽奖',
       disabled: true
     })
