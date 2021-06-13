@@ -1,7 +1,7 @@
 <template>
   <div class="demo-dialSudoku">
     <div>
-      <h3>{{title}}-pid模式</h3>
+      <h3>{{title}}</h3>
       <grid-roll
         ref="dial"
         @underway="handleUnderway"
@@ -15,7 +15,7 @@
         <grid-start slot="button">
           <div @click="handleStart" class="demo-box2 button-box2">按钮</div>
         </grid-start>
-        <grid-prize v-for="(item, index) in items" :key="index" :pid="item.id" slot="prize" ref="prizes">
+        <grid-prize v-for="(item, index) in items" :key="index" :pid="isIndex ? undefined : item.id" slot="prize" ref="prizes">
           <template slot-scope="{ isSelect }">
             <div class="demo-box2" :class="isSelect ? 'select' : ''">
               <p>id：{{item.id}}</p>
@@ -32,12 +32,12 @@
 import { gridRoll, gridStart, gridPrize } from '@/index'
 export default {
   name: 'more6x5Demo',
-  props: ['param'],
+  props: ['param', 'isIndex'],
   data () {
     return {
       items: [],
       startArr: [],
-      title: '6x5多抽宫格'
+      title: `6x5多抽宫格-${this.isIndex ? '默认' : 'pid'}模式`
     }
   },
   components: {

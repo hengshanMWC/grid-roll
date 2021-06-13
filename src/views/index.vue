@@ -19,6 +19,7 @@
 import selector from './components/selector'
 import classic from './components/classic'
 import more6x5 from './components/more6x5'
+import more6x5Index from './components/more6x5Index'
 import noButton from './components/noButton'
 import disabled from './components/disabled'
 export default {
@@ -33,6 +34,7 @@ export default {
     selector,
     classic,
     more6x5,
+    more6x5Index,
     noButton,
     disabled
   },
