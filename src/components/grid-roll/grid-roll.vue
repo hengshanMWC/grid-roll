@@ -334,11 +334,16 @@ export default {
       }
       return num
     },
-    getId (index) {
+    /**
+     * index或者pid
+     * @param {Number} currentIndex
+     * @returns index或者pid
+     */
+    getId (currentIndex) {
       if (this.getIsPid()) {
-        return this.sudokuArrayIndex[index]
+        return this.sudokuArrayIndex[currentIndex]
       }
-      return index
+      return currentIndex
     },
     /**
      * 奖品id换下标
@@ -349,12 +354,11 @@ export default {
       return this.sudokuArrayIndex.findIndex(i => i === prizeIndex)
     },
     // 宫格下标换取奖品位置
-    indexExchangePrizeComponentPosition (index) {
-      const sudokuIndex = this.sudokuArrayIndex[index]
+    indexExchangePrizeComponentPosition (currentIndex) {
       if (this.getIsPid()) {
-        return this.$prizeComponents[sudokuIndex].pid
+        return this.$prizeComponents[this.sudokuArrayIndex[currentIndex]].pid
       } else {
-        return sudokuIndex
+        return currentIndex
       }
     }
   }
