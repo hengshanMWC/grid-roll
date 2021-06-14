@@ -30,7 +30,6 @@
   ],
   "plugins": [
     "@babel/plugin-syntax-dynamic-import",
-    "transform-vue-jsx",
     [
       "@babel/plugin-transform-runtime",
       {}
