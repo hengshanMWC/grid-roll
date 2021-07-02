@@ -1,55 +1,37 @@
 <template>
-  <div class="demo-dialSudoku">
-    <h3>无按钮宫格</h3>
-    <div>
-      <grid-roll ref="dial" xy="4*2" @underway="handleUnderway" class="box">
-        <grid-prize v-for="(item, index) in items" :key="index" slot="prize">
-          <template slot-scope="{ isSelect }">
-            <div class="demo-box"  :class="isSelect ? 'select' : ''">
-              <p>id：{{item.id}}</p>
-              <p>text：{{item.text}}</p>
-            </div>
-          </template>
-        </grid-prize>
-      </grid-roll>
-    </div>
-    <div class="btn" @click="handleStart">抽奖</div>
-  </div>
+  <noButtonDemo ref="demo" :param="param" @ing="toast"></noButtonDemo>
 </template>
 
 <script>
-import { gridRoll, gridPrize } from '@/index'
+import noButton from '@/components/demo/noButton'
 export default {
-  name: 'classic',
+  name: 'noButton',
   data () {
     return {
-      items: []
+      param: 4
     }
   },
   components: {
-    [gridRoll.name]: gridRoll,
-    [gridPrize.name]: gridPrize
-  },
-  created () {
-    const arr = []
-    for (let i = 0; i < 8; i++) {
-      arr.push({
-        id: i,
-        text: i
-      })
-    }
-    this.items = arr
+    [noButton.name]: noButton
   },
   methods: {
-    async handleStart () {
-      let b = await this.$refs.dial.startRoll(3)
-      console.log(b)
+    toast (b) {
       if (b) {
-        alert('恭喜你抽了个奖')
+        const id = 17
+        const demo = this.$refs.demo
+        const currentIndex = demo.$refs.dial.currentIndex
+        const index = demo.items.findIndex(item => item.id === id)
+        alert(`
+        ${demo.title}：${currentIndex === this.param}
+        恭喜你抽了个奖：
+        期望获取第${this.param}个，得到第${currentIndex}
+        期望id为${id}的亮,${demo.$refs.prizes[index].isSelect}
+      `)
       }
     },
-    handleUnderway (index) {
-      console.log('进行中,index=' + index)
+    async handleStart () {
+      const b = await this.$refs.demo.handleStart()
+      this.toast(b)
     }
   }
 }

@@ -11,7 +11,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .gp-start {
   display: inline-block;
   position: absolute;

@@ -5,6 +5,7 @@
 ui和逻辑分离，组件封装了逻辑和宫格布局，让开发者只关注奖品和按钮的ui部分。grid-roll有两种抽奖模式。
 1. 默认模式为**下标**，startRoll方法和startIndex属性会按下标进行索引和输出
 2. 还有一种是**pid**模式，在grid-prize传入pid,startRoll方法和startIndex属性会根据pid进行索引和输出
+3. 1.4.0开始支持多抽宫格
 
 # 安装
 ```bash
@@ -37,17 +38,19 @@ import 'grid-roll/dist/grid-roll.min.css'
 | circle        |    圈数    |  Number  | 6 |
 | velocity        |    速度，相当于定时器	    | Number  | 650 |
 | minVelocity        |    滚动最小间隔上限，传0或者false	    | Number/Boolean  | 40 |
+| nextTimeInterval        |    多选宫格时间间隔	    | Number  | 1000 |
 > Event
 
 | 名称        | 说明   |  回调参数  |
 | --------   | -----:  | :----:  |
 | underway     | 抽奖进行中	 |  index或者pid  |
+| select     | 每轮抽奖完成	 |  当前轮次的抽奖值和下标  |
 
 > function
 
 | 名称        |  说明   |  参数  |  回调参数  |
 | --------   |  :----:  | :-----:  | :----:  |
-| startRoll     |  抽奖	 | 下标或者pid |true表示完成, false表示进行中  |
+| startRoll     |  抽奖	 | 下标或者pid(可以传数组,即为多抽) |true表示完成, false表示进行中  |
 | continueRoll     |  持续滚动	 | - | -  |
 | stopRoll  |  停止滚动	 | - | -  |
 | initDom     |  初始化抽奖格局，内部会自动调用一次，但如果碰到一些意外的情况，例如屏幕尺寸变化，可以再次调用	 | - | - |

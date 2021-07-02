@@ -12,7 +12,11 @@ export const list = [
     name: '无按钮宫格'
   },
   {
-    id: 'practical6x5',
-    name: '6x5宫格'
+    id: 'more6x5',
+    name: '6x5多抽宫格-pid'
+  },
+  {
+    id: 'more6x5Index',
+    name: '6x5多抽宫格-index'
   }
 ]
