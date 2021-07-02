@@ -1,104 +1,38 @@
 <template>
-  <div class="demo-dialSudoku">
-    <h3>经典九宫格</h3>
-    <div>
-      <grid-roll ref="dial" @underway="handleUnderway" class="box">
-        <grid-start slot="button">
-          <div @click="handleStart" class="demo-box button-box">按钮</div>
-        </grid-start>
-        <grid-prize v-for="(item, index) in items" :key="index" slot="prize">
-          <template slot-scope="{ isSelect }">
-            <div class="demo-box"  :class="isSelect ? 'select' : ''">
-              <p>id：{{item.id}}</p>
-              <p>text：{{item.text}}</p>
-            </div>
-          </template>
-        </grid-prize>
-      </grid-roll>
-    </div>
-  </div>
+  <classicDemo ref="demo" :param="param" @ing="toast"></classicDemo>
 </template>
 
 <script>
-import { gridRoll, gridStart, gridPrize } from '@/index'
+import classic from '@/components/demo/classic'
 export default {
   name: 'classic',
   data () {
     return {
-      items: []
+      param: 4
     }
   },
   components: {
-    [gridRoll.name]: gridRoll,
-    [gridStart.name]: gridStart,
-    [gridPrize.name]: gridPrize
-  },
-  created () {
-    const arr = []
-    for (let i = 0; i < 8; i++) {
-      arr.push({
-        id: i,
-        text: i
-      })
-    }
-    this.items = arr
+    [classic.name]: classic
   },
   methods: {
-    async handleStart () {
-      let b = await this.$refs.dial.startRoll(3)
-      console.log(b)
+    toast (b) {
       if (b) {
-        alert('恭喜你抽了个奖')
+        const id = 17
+        const demo = this.$refs.demo
+        const currentIndex = demo.$refs.dial.currentIndex
+        const index = demo.items.findIndex(item => item.id === id)
+        alert(`
+        ${demo.title}：${currentIndex === this.param}
+        恭喜你抽了个奖：
+        期望获取第${this.param}个，得到第${currentIndex}。
+        期望id为${id}的亮,${demo.$refs.prizes[index].isSelect}
+      `)
       }
     },
-    handleUnderway (index) {
-      console.log('进行中,index=' + index)
+    async handleStart () {
+      const b = await this.$refs.demo.handleStart()
+      this.toast(b)
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-$zoom: .5;
-$size: 200px * $zoom;
-* {
-  margin: 0;
-  padding: 0;
-}
-.select {
-  opacity: .4;
-}
-.demo-dialSudoku {
-  h3 {
-    font-size: 32px;
-    text-align: center;
-    font-weight: 600;
-  }
-  .box {
-    margin-top: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  .demo-box {
-    width: 150px;
-    height: 150px;
-    font-size: 32px;
-    text-align: center;
-    font-weight: 600;
-    border: 5px solid #ddd;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    background: #fff;
-    p {
-      flex: 1 1 150px;
-    }
-  }
-  .button-box {
-    border-radius: 50%;
-    width: 150px;
-    height: 150px;
-  }
-}
-</style>

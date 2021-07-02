@@ -6,6 +6,7 @@
         <div>{{ item.name }}</div>
       </label>
     </div>
+    <div class="btn" @click="handleStart">抽奖</div>
   </div>
 </template>
 
@@ -13,13 +14,14 @@
 import { list } from '../../config'
 export default {
   name: 'selector',
+  props: {
+    grids: Array
+  },
   data () {
     return {
       list,
       selects: list.map(item => item.id)
     }
-  },
-  computed: {
   },
   watch: {
     selects: {
@@ -27,6 +29,11 @@ export default {
         this.$emit('change', arr.join().split(','))
       },
       immediate: true
+    }
+  },
+  methods: {
+    handleStart () {
+      this.grids.forEach(grid => grid.handleStart())
     }
   }
 }
@@ -39,6 +46,7 @@ export default {
   .ul {
     display: flex;
     flex-wrap: wrap;
+    margin-bottom: 20px;
     label {
       input {
         display: none;
@@ -56,6 +64,18 @@ export default {
         color: #fff;
       }
     }
+  }
+  .btn {
+    margin: auto;
+    width: 80%;
+    height: 80px;
+    border-radius: 30px;
+    background: #67C23A;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
   }
 }
 </style>

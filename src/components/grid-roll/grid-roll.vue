@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import Params from './params'
 export default {
   name: 'grid-roll',
   componentName: 'grid-roll',
@@ -24,7 +25,8 @@ export default {
     startIndex: {
       validator () {
         return true
-      }
+      },
+      default: 0
     },
     direction: {
       type: String,
@@ -41,14 +43,18 @@ export default {
     minVelocity: {
       type: [Number, Boolean],
       default: 40 // 最小间隔
+    },
+    nextTimeInterval: {
+      type: [Number],
+      default: 1000 // 多选宫格时间间隔
     }
   },
   data () {
     return {
       resolve: null, // 用来储存Promise的resolve，并进行判断是否进行中
-      currentIndex: 0, // 当前转动的下标
+      currentIndex: 0, // 当前的宫格下标
+      isPid: false, // 是否开启pid模式
       $time: null,
-      currentDom: null,
       $watchStartIndex: null,
       $prizeComponents: [], // 奖品
       $startComponent: null // 抽奖按钮
@@ -61,9 +67,6 @@ export default {
     y () {
       return Number(this.xy.split('*')[1])
     },
-    isPid () {
-      return this.$prizeComponents[0] && this.$prizeComponents[0].pid !== undefined
-    },
     // 按钮占位，除去左右和上下两个
     buttonxy () {
       return {
@@ -71,6 +74,7 @@ export default {
         maxY: this.y - 2
       }
     },
+    // 方向
     brim () {
       return this.direction === 'r'
         ? [
@@ -102,6 +106,7 @@ export default {
             value: -1
           }]
     },
+    // 制定滚动路线
     advances () {
       let obj = {
         x: 0,
@@ -109,12 +114,15 @@ export default {
       }
       let i = 0
       let reverse = this.brim[i]
-      let value = this[reverse.direction]
+      let value = this[reverse.direction] // 获取坐标轴方向的最大值
       return this.$prizeComponents.map((prize, index) => {
+        // 第一个的坐标是0,0，所以不用设置
         if (index !== 0) {
+          // 为每个奖品设置坐标
           obj[reverse.direction] += reverse.value
         }
         value--
+        // 到达坐标轴某个方向尽头时，切换方向
         if (value === 0) {
           i++
           reverse = this.brim[i]
@@ -125,14 +133,18 @@ export default {
         }
       })
     },
+    // 宫格顺序数组,元素是奖品的下标
     sudokuArrayIndex () {
       return this.$prizeComponents.map((prize, index) => {
-        let advance = this.advances[index]
+        const advance = this.advances[index]
         return this.$prizeComponents.findIndex(prize => prize.$options.x === advance.x && prize.$options.y === advance.y)
       })
     },
     changeNum () {
       return this.circle * this.$prizeComponents.length + 1
+    },
+    currentDom () {
+      return this.$prizeComponents[this.sudokuArrayIndex[this.currentIndex]]
     }
   },
   mounted () {
@@ -144,6 +156,23 @@ export default {
     clearTimeout(this.$time)
   },
   methods: {
+    /**
+     * 开始滚动
+     * @param {Number | Array} 滚动到的目标
+     */
+    startRoll (indexs) {
+      if (this.resolve) {
+        this.$emit('underway', this.getId(this.currentIndex))
+        return false
+      }
+      return new Promise(resolve => {
+        this.forEachLamplight()
+        this.$params = new Params(indexs)
+        this.resolve = resolve
+        this.lamplight(true)
+        this.dischargeCargo()
+      })
+    },
     // 初始化布局
     initDom () {
       this.$nextTick(() => {
@@ -152,32 +181,23 @@ export default {
         this.setContainerSize()
         if (typeof this.$watchStartIndex === 'function') this.$watchStartIndex()
         this.$watchStartIndex = this.$watch('startIndex', function (startIndex) {
-          this.currentIndex = this.getIndex(this.getStartIndex(startIndex))
+          this.currentIndex = startIndex
         }, {
           immediate: true
         })
       })
-    },
-    // 对于startIndex和isPid多一个默认判断
-    getStartIndex (startIndex) {
-      if (this.isPid && startIndex === undefined) {
-        startIndex = this.$prizeComponents[0].pid
-      } else if (startIndex === undefined) {
-        startIndex = 0
-      }
-      return startIndex
     },
     // 筛选好dom
     filterDom () {
       this.$prizeComponents = this.$children.filter(children => children.$options.componentName === 'grid-prize')
       this.$startComponent = this.$children.find(children => children.$options.componentName === 'grid-start')
     },
-    // 设置坐标
+    // 设置奖品坐标
     setCoordinates () {
       let x = 0
       let y = 0
       this.$prizeComponents.forEach(prize => {
-        if (this.buttonInside(x, y)) {
+        if (this.isButtonInside(x, y)) {
           x += this.buttonxy.maxX
         }
         prize.$options.x = x
@@ -202,12 +222,17 @@ export default {
     getCalc (size, num, intervalNum) {
       return `calc(${this.$prizeComponents[0].$el[size] * num}px + ${this.interval} * ${intervalNum})`
     },
-    buttonInside (x, y) {
+    // 关于按钮对布局的影响
+    isButtonInside (x, y) {
       if (this.$startComponent) {
+        // 4条边的顶点不会受按钮占位影响
         return (x > 0 && x <= this.buttonxy.maxX) && (y > 0 && y <= this.buttonxy.maxY)
       } else {
         return false
       }
+    },
+    getIsPid () {
+      return this.$prizeComponents[0] && this.$prizeComponents[0].pid !== undefined
     },
     stopRoll () {
       clearTimeout(this.$time)
@@ -215,29 +240,34 @@ export default {
     continueRoll () {
       this.underway(this.changeNum, false)
     },
-    /**
-     * 开始滚动
-     * @param {Number} 滚动到的目标
-     */
-    startRoll (index) {
-      if (this.resolve) {
-        this.$emit('underway', this.getId(this.currentIndex))
-        return false
+    dischargeCargo () {
+      if (!isNaN(Number(this.$params.indexValue))) {
+        if (this.$params.multi) {
+          this.$time = setTimeout(() => {
+            this.round()
+          }, this.nextTimeInterval)
+        } else {
+          this.round()
+        }
       }
-      return new Promise(resolve => {
-        this.resolve = resolve
-        this.underway(this.countStep(index))
-      })
     },
+    round () {
+      // 算上开始奖品，所以-1
+      this.underway(this.countStep(this.$params.indexValue) - 1)
+    },
+    /**
+     * 计算步数
+     * @param {Number} 奖品位置
+     * @returns {Number} 返回步数
+     */
     countStep (index) {
-      let num = 0
-      let continueNumber = 0
-      if (this.isPid) {
-        num = this.currentIndex
-      } else {
-        continueNumber = this.getIndex(this.getStartIndex(this.startIndex)) - this.currentIndex
-      }
-      return this.changeNum + this.getIndex(index) - num + continueNumber
+      const i = this.getIsPid() ? this.pIdToIndex(index) : index
+      return this.changeNum + i - this.currentIndex
+    },
+    forEachLamplight (b = false) {
+      this.$prizeComponents.forEach(item => {
+        item.setIsSelect(b)
+      })
     },
     lamplight (b = false) {
       if (this.currentDom) this.currentDom.setIsSelect(b)
@@ -245,33 +275,56 @@ export default {
     /**
      * 核心内容
      * @param {Number} 次数
+     * @param {Boolean} 是否真转
     */
     underway (number, status = true) {
       clearTimeout(this.$time)
+      // 没有步数
       if (number <= 0) {
-        this.resolve(true)
-        this.resolve = null
+        this.$emit('select', this.$params.indexValue, this.$params.index)
+        this.reincarnation()
         return
+      } else if (status) {
+        --number
       }
-      this.lamplight()
-      if (this.currentIndex > this.$prizeComponents.length - 1) {
+      // 被选中不关灯
+      if (!this.indexsCompletion(this.currentIndex)) {
+        this.lamplight()
+      }
+      // 绕完一圈从头来过
+      if (++this.currentIndex > this.$prizeComponents.length - 1) {
         this.currentIndex = 0
       }
-      let target = this.sudokuArrayIndex[this.currentIndex++]
-      this.currentDom = this.$prizeComponents[target]
       if (typeof this.currentDom === 'undefined') {
         throw new TypeError('请确保宫格布局中奖品组件存在')
       } else {
         if (this.currentDom.disabled) {
-          if (status) --number
           this.underway(number, status)
         } else {
           this.lamplight(true)
-          if (status) --number
           this.$time = setTimeout(() => {
             this.underway(number, status)
           }, this.filterTime(number))
         }
+      }
+    },
+    reincarnation () {
+      // 看看是否还有
+      if (this.$params.next()) {
+        this.dischargeCargo()
+      } else {
+        // 抽奖全部完成
+        this.resolve(true)
+        this.resolve = null
+      }
+    },
+    indexsCompletion () {
+      const index = this.$params.index
+      if (index > 0) {
+        const target = this.indexExchangePrizeComponentPosition(this.currentIndex)
+        return this.$params.indexs
+          .slice(0, index)
+          .includes(target)
       }
     },
     filterTime (number) {
@@ -282,22 +335,31 @@ export default {
       return num
     },
     /**
-     * 获取宫格下标
-     * @param {any} index 宫格下标或者标识符
-     * @returns {Number} 宫格下标
+     * index或者pid
+     * @param {Number} currentIndex
+     * @returns index或者pid
      */
-    getIndex (index) {
-      if (this.isPid) {
-        index = this.$prizeComponents.findIndex(prize => prize.pid === index)
-        index = this.sudokuArrayIndex.findIndex(i => i === index)
+    getId (currentIndex) {
+      if (this.getIsPid()) {
+        return this.sudokuArrayIndex[currentIndex]
       }
-      return index
+      return currentIndex
     },
-    getId (index) {
-      if (this.isPid) {
-        return this.sudokuArrayIndex[index]
+    /**
+     * 奖品id换下标
+     * @param {any} pid
+    */
+    pIdToIndex (pid) {
+      const prizeIndex = this.$prizeComponents.findIndex(prize => prize.pid === pid)
+      return this.sudokuArrayIndex.findIndex(i => i === prizeIndex)
+    },
+    // 宫格下标换取奖品位置
+    indexExchangePrizeComponentPosition (currentIndex) {
+      if (this.getIsPid()) {
+        return this.$prizeComponents[this.sudokuArrayIndex[currentIndex]].pid
+      } else {
+        return currentIndex
       }
-      return index
     }
   }
 }
