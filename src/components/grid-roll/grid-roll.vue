@@ -163,7 +163,7 @@ export default {
     startRoll (indexs) {
       if (this.resolve) {
         this.$emit('underway', this.getId(this.currentIndex))
-        return false
+        return Promise.resolve(false)
       }
       return new Promise(resolve => {
         this.forEachLamplight()
